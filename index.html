@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yuri Quality Clean - Professional FMCG E-commerce</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Feather Icons -->
+    <script src="https://unpkg.com/feather-icons"></script>
+
+    <style>
+        /* Custom styles for the Inter font and smooth transitions */
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Styles for the quick add modal transition */
+        #quickAddModal {
+            transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+        }
+
+        #modalBackdrop {
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        /* Custom scrollbar for a more polished look */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        /* Style for active variant button */
+        .variant-btn.selected {
+            border-color: #2563eb; /* blue-600 */
+            background-color: #eff6ff; /* blue-50 */
+            color: #2563eb; /* blue-600 */
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <!-- App Container -->
+    <div id="app" class="relative">
+
+        <!-- Header -->
+        <header class="bg-white/80 backdrop-blur-lg sticky top-0 z-40 shadow-sm">
+            <!-- Top announcement bar -->
+            <div class="bg-emerald-700 text-white text-center py-2 px-4 text-sm font-medium">
+                Free shipping across all orders above $45!
+            </div>
+            
+            <!-- Main navigation -->
+            <nav class="container mx-auto px-4 lg:px-6">
+                <div class="flex items-center justify-between h-20">
+                    <!-- Logo -->
+                    <a href="#" class="flex items-center">
+                        <img src="https://static.wixstatic.com/media/366e5f_0f4ae76a4fb8426e839fb66c27eb33c8~mv2.png/v1/fill/w_180,h_110,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/LOGO%20YURI%20%2B%20border%20putih%20smaller.png" alt="Yuri Logo" class="h-10 w-auto">
+                    </a>
+
+                    <!-- Desktop Navigation Links -->
+                    <div class="hidden lg:flex items-center space-x-8">
+                        <a href="#" class="text-gray-600 hover:text-emerald-700 transition duration-300">Home</a>
+                        <a href="#" class="text-gray-600 hover:text-emerald-700 transition duration-300">Shop All</a>
+                        <a href="#" class="text-gray-600 hover:text-emerald-700 transition duration-300">About Us</a>
+                        <a href="#" class="text-gray-600 hover:text-emerald-700 transition duration-300">Contact</a>
+                    </div>
+
+                    <!-- Header Icons -->
+                    <div class="flex items-center space-x-5">
+                        <a href="#" class="text-gray-500 hover:text-emerald-700 transition duration-300"><i data-feather="search" class="w-5 h-5"></i></a>
+                        <a href="#" class="text-gray-500 hover:text-emerald-700 transition duration-300"><i data-feather="user" class="w-5 h-5"></i></a>
+                        <a href="#" class="relative text-gray-500 hover:text-emerald-700 transition duration-300">
+                            <i data-feather="shopping-bag" class="w-5 h-5"></i>
+                            <span id="cart-count" class="absolute -top-2 -right-2 bg-emerald-600 text-white text-xs w-4 h-4 rounded-full flex items-center justify-center">0</span>
+                        </a>
+                        <button id="mobile-menu-btn" class="lg:hidden text-gray-500 hover:text-emerald-700 transition duration-300">
+                            <i data-feather="menu" class="w-6 h-6"></i>
+                        </button>
+                    </div>
+                </div>
+            </nav>
+        </header>
+        
+        <!-- Mobile Menu (hidden by default) -->
+        <div id="mobile-menu" class="hidden lg:hidden bg-white fixed top-0 left-0 w-full h-full z-50">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-8">
+                     <a href="#" class="flex items-center">
+                        <img src="https://static.wixstatic.com/media/366e5f_0f4ae76a4fb8426e839fb66c27eb33c8~mv2.png/v1/fill/w_180,h_110,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/LOGO%20YURI%20%2B%20border%20putih%20smaller.png" alt="Yuri Logo" class="h-10 w-auto">
+                    </a>
+                    <button id="mobile-menu-close-btn"><i data-feather="x" class="w-8 h-8"></i></button>
+                </div>
+                <div class="flex flex-col space-y-6 text-xl">
+                    <a href="#" class="text-gray-700 hover:text-emerald-700">Home</a>
+                    <a href="#" class="text-gray-700 hover:text-emerald-700">Shop All</a>
+                    <a href="#" class="text-gray-700 hover:text-emerald-700">About Us</a>
+                    <a href="#" class="text-gray-700 hover:text-emerald-700">Contact</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <main>
+            <!-- Hero Section -->
+            <section class="relative h-[70vh] md:h-[90vh] bg-cover bg-center" style="background-image: url('https://static.wixstatic.com/media/2b2768_6a4439c66fe74a31b75ef4e60e874f6e~mv2.jpg/v1/fill/w_1400,h_1000,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/2b2768_6a4439c66fe74a31b75ef4e60e874f6e~mv2.jpg');">
+                <div class="absolute inset-0 bg-black/40"></div>
+                <div class="relative container mx-auto px-4 lg:px-6 h-full flex flex-col justify-center items-start text-white">
+                    <h1 class="text-4xl md:text-6xl font-extrabold max-w-2xl leading-tight">Effortless Clean, Purely Brilliant.</h1>
+                    <p class="mt-4 text-lg md:text-xl max-w-lg text-gray-200">Trusted by families for over three decades, delivering quality, value, and sustainability in every drop.</p>
+                    <a href="#featured-products" class="mt-8 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-8 rounded-full text-lg transition duration-300 transform hover:scale-105 shadow-lg">
+                        Shop Collection
+                    </a>
+                </div>
+            </section>
+
+            <!-- Featured Products Section -->
+            <section id="featured-products" class="py-20 lg:py-28">
+                <div class="container mx-auto px-4 lg:px-6">
+                    <div class="text-center mb-12">
+                        <h2 class="text-3xl lg:text-4xl font-bold text-gray-900">Our Best Sellers</h2>
+                        <p class="mt-2 text-gray-500 max-w-xl mx-auto">Discover the products our customers love the most. Formulated for a superior clean every time.</p>
+                    </div>
+                    <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                        <!-- Product cards will be injected here by JavaScript -->
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Core Values Section -->
+            <section class="bg-white py-20 lg:py-28">
+                <div class="container mx-auto px-4 lg:px-6">
+                     <div class="text-center mb-12">
+                        <h2 class="text-3xl lg:text-4xl font-bold text-gray-900">The Yuri Promise</h2>
+                        <p class="mt-2 text-gray-500 max-w-xl mx-auto">Three core values that go into every product we create.</p>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
+                        <div class="flex flex-col items-center">
+                            <div class="bg-emerald-100 p-5 rounded-full mb-4">
+                                <i data-feather="award" class="w-8 h-8 text-emerald-700"></i>
+                            </div>
+                            <h3 class="text-xl font-semibold mb-2">Unmatched Quality</h3>
+                            <p class="text-gray-500">We use premium ingredients to ensure a powerful and effective clean, every single time.</p>
+                        </div>
+                        <div class="flex flex-col items-center">
+                            <div class="bg-emerald-100 p-5 rounded-full mb-4">
+                                <i data-feather="dollar-sign" class="w-8 h-8 text-emerald-700"></i>
+                            </div>
+                            <h3 class="text-xl font-semibold mb-2">Incredible Value</h3>
+                            <p class="text-gray-500">Our efficient formulas mean a little goes a long way, giving you the best bang for your buck.</p>
+                        </div>
+                        <div class="flex flex-col items-center">
+                            <div class="bg-emerald-100 p-5 rounded-full mb-4">
+                                <i data-feather="leaf" class="w-8 h-8 text-emerald-700"></i>
+                            </div>
+                            <h3 class="text-xl font-semibold mb-2">Sustainable Future</h3>
+                            <p class="text-gray-500">With eco-friendly packaging and biodegradable ingredients, we're committed to protecting our planet.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="bg-gray-900 text-white">
+            <div class="container mx-auto px-4 lg:px-6 py-16">
+                <div class="grid grid-cols-1 lg:grid-cols-4 gap-12">
+                    <!-- About -->
+                    <div class="lg:col-span-1">
+                        <img src="https://static.wixstatic.com/media/366e5f_0f4ae76a4fb8426e839fb66c27eb33c8~mv2.png/v1/fill/w_180,h_110,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/LOGO%20YURI%20%2B%20border%20putih%20smaller.png" alt="Yuri Logo" class="h-10 w-auto mb-4">
+                        <p class="text-gray-400">Quality, value, and sustainability are the three core values that go into every Yuri product.</p>
+                        <div class="flex space-x-4 mt-6">
+                            <a href="#" class="text-gray-400 hover:text-white"><i data-feather="facebook"></i></a>
+                            <a href="#" class="text-gray-400 hover:text-white"><i data-feather="instagram"></i></a>
+                            <a href="#" class="text-gray-400 hover:text-white"><i data-feather="twitter"></i></a>
+                        </div>
+                    </div>
+                    <!-- Links -->
+                    <div>
+                        <h4 class="font-bold text-lg mb-4">Shop</h4>
+                        <ul class="space-y-3">
+                            <li><a href="#" class="text-gray-400 hover:text-white">All Products</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white">Best Sellers</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white">Bundles</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white">Refills</a></li>
+                        </ul>
+                    </div>
+                    <!-- Support -->
+                    <div>
+                        <h4 class="font-bold text-lg mb-4">Support</h4>
+                        <ul class="space-y-3">
+                            <li><a href="#" class="text-gray-400 hover:text-white">Contact Us</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white">FAQ</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white">Shipping & Returns</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white">Track Order</a></li>
+                        </ul>
+                    </div>
+                    <!-- Newsletter -->
+                    <div>
+                        <h4 class="font-bold text-lg mb-4">Join our newsletter</h4>
+                        <p class="text-gray-400 mb-4">Get 10% off your first order and stay up to date on new products.</p>
+                        <form class="flex">
+                            <input type="email" placeholder="Enter your email" class="w-full bg-gray-800 text-white px-4 py-2 rounded-l-md focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                            <button class="bg-emerald-600 hover:bg-emerald-700 px-4 py-2 rounded-r-md font-semibold">Subscribe</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="mt-12 border-t border-gray-800 pt-8 text-center text-gray-500 text-sm">
+                    <p>&copy; 2024 Yuri Quality Clean. All Rights Reserved.</p>
+                </div>
+            </div>
+        </footer>
+
+        <!-- Quick Add Modal -->
+        <div id="modalBackdrop" class="fixed inset-0 bg-black/50 z-50 opacity-0 pointer-events-none"></div>
+        <div id="quickAddModal" class="fixed bottom-0 left-0 right-0 bg-white z-50 transform translate-y-full pointer-events-none rounded-t-2xl max-w-2xl mx-auto shadow-2xl">
+            <!-- Modal content will be injected here by JavaScript -->
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Feather Icons ---
+            feather.replace();
+
+            // --- Product Data ---
+            const products = [
+                {
+                    id: 1,
+                    name: 'Yuri Disinfectant 3700ml',
+                    price: 40.75,
+                    image: 'https://static.wixstatic.com/media/366e5f_e0c8d0fce0ae4861aa5ccabf144f1cc6~mv2.png/v1/fill/w_625,h_834,al_c,q_90,usm_0.66_1.00_0.01,enc_avif,quality_auto/366e5f_e0c8d0fce0ae4861aa5ccabf144f1cc6~mv2.png',
+                    variations: {
+                        title: 'Scent',
+                        options: ['Original Fresh', 'Lavender Bliss']
+                    }
+                },
+                {
+                    id: 2,
+                    name: 'Yuri Taf Kitchen Cleaner',
+                    price: 3.42,
+                    image: 'https://static.wixstatic.com/media/366e5f_82eb67aa12d84eceba2cabe329f47acd~mv2.jpg/v1/fill/w_625,h_938,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/366e5f_82eb67aa12d84eceba2cabe329f47acd~mv2.jpg',
+                    variations: {
+                        title: 'Size',
+                        options: ['375ml Refill', '500ml Spray']
+                    }
+                },
+                {
+                    id: 3,
+                    name: 'Yuri Ligent Dishwashing Liquid',
+                    price: 3.51,
+                    image: 'https://static.wixstatic.com/media/366e5f_00c78aa4338f4ad1a41833ac274755ed~mv2.jpg/v1/fill/w_625,h_625,al_c,lg_1,q_85,enc_avif,quality_auto/366e5f_00c78aa4338f4ad1a41833ac274755ed~mv2.jpg',
+                    variations: {
+                        title: 'Scent',
+                        options: ['Lime', 'Lemon', 'Grapefruit']
+                    }
+                },
+                {
+                    id: 4,
+                    name: 'Yuri Ligent Liquid Refill 600ml',
+                    price: 1.63,
+                    image: 'https://static.wixstatic.com/media/366e5f_501c3037158c49bc8cd623777625cca8~mv2.jpg/v1/fill/w_625,h_469,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/366e5f_501c3037158c49bc8cd623777625cca8~mv2.jpg',
+                    variations: {
+                        title: 'Pack Size',
+                        options: ['1 Pack', '3 Pack Bundle']
+                    }
+                }
+            ];
+
+            const productGrid = document.getElementById('product-grid');
+            const quickAddModal = document.getElementById('quickAddModal');
+            const modalBackdrop = document.getElementById('modalBackdrop');
+            let cartItems = 0;
+
+            // --- Populate Product Grid ---
+            function renderProducts() {
+                productGrid.innerHTML = products.map(product => `
+                    <div class="group relative bg-white rounded-lg shadow-md overflow-hidden transition-shadow duration-300 hover:shadow-xl">
+                        <div class="h-80 flex items-center justify-center p-4 bg-gray-100">
+                             <img src="${product.image}" alt="${product.name}" class="max-h-full max-w-full object-contain group-hover:scale-105 transition-transform duration-300">
+                        </div>
+                        <div class="p-5 text-center">
+                            <h3 class="font-semibold text-gray-800 truncate">${product.name}</h3>
+                            <p class="text-gray-500 mt-1">$${product.price.toFixed(2)}</p>
+                        </div>
+                        <div class="absolute inset-0 bg-black/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <button data-product-id="${product.id}" class="quick-add-btn bg-white text-gray-900 font-bold py-3 px-6 rounded-full transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 hover:bg-gray-200">
+                                Quick Add
+                            </button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+            
+            // --- Quick Add Modal Logic ---
+            function openModal(productId) {
+                const product = products.find(p => p.id == productId);
+                if (!product) return;
+
+                quickAddModal.innerHTML = `
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="flex items-start space-x-4">
+                                <img src="${product.image}" alt="${product.name}" class="w-24 h-24 object-contain rounded-md border">
+                                <div>
+                                    <p class="font-bold text-lg">${product.name}</p>
+                                    <p class="text-gray-600 text-md">$${product.price.toFixed(2)}</p>
+                                </div>
+                            </div>
+                            <button id="closeModalBtn" class="text-gray-400 hover:text-gray-800">&times;</button>
+                        </div>
+                        
+                        <div>
+                            <p class="font-semibold mb-3 text-sm text-gray-700">Select ${product.variations.title}</p>
+                            <div class="flex flex-wrap gap-2">
+                                ${product.variations.options.map((opt, index) => `
+                                    <button class="variant-btn border-2 border-gray-300 rounded-full px-4 py-1.5 text-sm font-medium transition ${index === 0 ? 'selected' : ''}" data-variant="${opt}">${opt}</button>
+                                `).join('')}
+                            </div>
+                        </div>
+
+                        <div class="mt-6">
+                            <button id="addToCartBtn" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300">
+                                Add to Bag
+                            </button>
+                        </div>
+                    </div>
+                `;
+                
+                modalBackdrop.classList.remove('opacity-0', 'pointer-events-none');
+                quickAddModal.classList.remove('translate-y-full', 'pointer-events-none');
+                document.body.style.overflow = 'hidden'; // Prevent background scroll
+
+                // Add event listeners for the new modal content
+                document.getElementById('closeModalBtn').addEventListener('click', closeModal);
+                document.getElementById('addToCartBtn').addEventListener('click', handleAddToCart);
+                document.querySelectorAll('.variant-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        document.querySelectorAll('.variant-btn').forEach(b => b.classList.remove('selected'));
+                        e.currentTarget.classList.add('selected');
+                    });
+                });
+            }
+
+            function closeModal() {
+                modalBackdrop.classList.add('opacity-0', 'pointer-events-none');
+                quickAddModal.classList.add('translate-y-full', 'pointer-events-none');
+                document.body.style.overflow = 'auto';
+            }
+            
+            function handleAddToCart() {
+                const btn = document.getElementById('addToCartBtn');
+                btn.textContent = 'Added!';
+                btn.classList.remove('bg-emerald-600', 'hover:bg-emerald-700');
+                btn.classList.add('bg-green-500');
+
+                cartItems++;
+                document.getElementById('cart-count').textContent = cartItems;
+
+                setTimeout(() => {
+                    closeModal();
+                     // Reset button after modal is closed
+                    setTimeout(() => {
+                        btn.textContent = 'Add to Bag';
+                        btn.classList.add('bg-emerald-600', 'hover:bg-emerald-700');
+                        btn.classList.remove('bg-green-500');
+                    }, 300);
+                }, 1000);
+            }
+            
+            // --- Event Listeners ---
+            productGrid.addEventListener('click', (e) => {
+                if (e.target.classList.contains('quick-add-btn')) {
+                    const productId = e.target.dataset.productId;
+                    openModal(productId);
+                }
+            });
+            
+            modalBackdrop.addEventListener('click', closeModal);
+            
+            // --- Mobile Menu Toggle ---
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenuCloseBtn = document.getElementById('mobile-menu-close-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.remove('hidden');
+            });
+
+            mobileMenuCloseBtn.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+            
+            // --- Initial Render ---
+            renderProducts();
+        });
+    </script>
+</body>
+</html>
