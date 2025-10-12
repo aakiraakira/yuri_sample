@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EinnaLab - Deer Placenta Product Page</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Feather Icons -->
+    <script src="https://unpkg.com/feather-icons"></script>
+
+    <style>
+        /* Custom styles for the Poppins font and smooth transitions */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        /* Custom red color from the client's screenshot */
+        .brand-red {
+            color: #D01717;
+        }
+        .bg-brand-red {
+            background-color: #D01717;
+        }
+        .border-brand-red {
+            border-color: #D01717;
+        }
+        .ring-brand-red {
+            --tw-ring-color: #D01717;
+        }
+
+        /* Style for selected variant */
+        .variant-option.selected {
+           border-color: #D01717;
+           background-color: rgba(208, 23, 23, 0.05);
+           box-shadow: 0 0 0 2px #D01717;
+        }
+
+        /* Style for image thumbnails */
+        .thumbnail {
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            border: 2px solid transparent;
+        }
+        .thumbnail:hover {
+            transform: scale(1.05);
+        }
+        .thumbnail.active {
+            border-color: #D01717;
+            box-shadow: 0 0 10px rgba(208, 23, 23, 0.3);
+        }
+
+        /* Accordion styles */
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-in-out;
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen p-4">
+
+    <!-- App Container -->
+    <div id="app" class="relative w-full max-w-6xl mx-auto">
+        
+        <!-- Optimized Product Section -->
+        <section id="product-section" class="bg-white rounded-2xl shadow-xl overflow-hidden">
+            <div class="grid grid-cols-1 lg:grid-cols-2">
+                <!-- Left Column: Image Gallery -->
+                <div class="p-8">
+                    <div class="aspect-square bg-gray-100 rounded-lg flex items-center justify-center p-4">
+                        <img id="main-product-image" src="https://einnalab.com/wp-content/uploads/2023/11/EiNNALAB-Deer-Placenta-30000mg-DarkRed-Front-768x614.png" alt="Deer Placenta Bottle" class="max-w-full max-h-full object-contain transition-opacity duration-300">
+                    </div>
+                    <div id="thumbnail-container" class="grid grid-cols-4 gap-4 mt-4">
+                        <!-- Thumbnails injected by JS -->
+                    </div>
+                </div>
+
+                <!-- Right Column: Product Details & Options -->
+                <div class="p-8 flex flex-col">
+                    <h1 class="text-3xl md:text-4xl font-extrabold text-gray-900 leading-tight">Deer Placenta 30,000mg</h1>
+                    <div class="flex items-center mt-3">
+                        <div class="flex text-yellow-400">
+                            <i data-feather="star" class="w-5 h-5 fill-current"></i>
+                            <i data-feather="star" class="w-5 h-5 fill-current"></i>
+                            <i data-feather="star" class="w-5 h-5 fill-current"></i>
+                            <i data-feather="star" class="w-5 h-5 fill-current"></i>
+                            <i data-feather="star" class="w-5 h-5 fill-current"></i>
+                        </div>
+                        <span class="ml-2 text-gray-500 text-sm">(Based on 984 reviews)</span>
+                    </div>
+
+                    <p id="product-price" class="text-4xl font-bold text-gray-800 my-5">$140.00</p>
+                    
+                    <div class="space-y-3 flex-grow">
+                        <p class="font-semibold text-gray-600">Choose your package:</p>
+                        <div id="variant-options-container" class="space-y-3">
+                            <!-- Variants will be injected here -->
+                        </div>
+                    </div>
+
+                    <div class="mt-8">
+                         <button id="addToCartBtn" class="w-full bg-brand-red hover:opacity-90 text-white font-bold py-4 px-6 rounded-lg transition duration-300 text-lg shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-offset-2 ring-brand-red">
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Accordion for more details -->
+            <div class="border-t border-gray-200">
+                <div class="accordion-item">
+                    <button class="accordion-header w-full flex justify-between items-center p-6 text-left">
+                        <span class="text-lg font-semibold text-gray-800">Key Ingredients</span>
+                        <i data-feather="chevron-down" class="transition-transform"></i>
+                    </button>
+                    <div class="accordion-content px-6 pb-6">
+                        <p class="text-gray-600 mb-4">Our formula is backed by science, combining premium ingredients for maximum efficacy. Each component is carefully selected to support your vitality and well-being.</p>
+                        <img src="https://einnalab.com/wp-content/uploads/2023/11/EiNNALAB-Deer-Placenta-30000mg-Lab-Ingredients-ONLY-768x743.png" alt="Product Ingredients" class="rounded-lg w-full max-w-md mx-auto">
+                    </div>
+                </div>
+                 <div class="accordion-item border-t border-gray-200">
+                    <button class="accordion-header w-full flex justify-between items-center p-6 text-left">
+                        <span class="text-lg font-semibold text-gray-800">Lab Certified & Safe</span>
+                        <i data-feather="chevron-down" class="transition-transform"></i>
+                    </button>
+                    <div class="accordion-content px-6 pb-6">
+                        <p class="text-gray-600 mb-4">Rigorously tested for purity and safety. Our product is certified free from heavy metals and contaminants, ensuring you receive only the highest quality supplement.</p>
+                        <img src="https://einnalab.com/wp-content/uploads/2023/11/EiNNALAB-Deer-Placenta-30000mg-Lab-Metal-Bac-ONLY-768x743.png" alt="Lab Certification" class="rounded-lg w-full max-w-md mx-auto">
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            feather.replace();
+
+            const productData = {
+                name: "Deer Placenta",
+                variants: [
+                    {
+                        id: 1,
+                        name: "1 Bottle",
+                        price: 140,
+                        totalBottles: 1,
+                        image: "https://einnalab.com/wp-content/uploads/2023/11/EiNNALAB-Deer-Placenta-30000mg-DarkRed-Front-768x614.png",
+                        tag: null,
+                    },
+                    {
+                        id: 2,
+                        name: "2 Bottles + 1 FREE",
+                        price: 280,
+                        totalBottles: 3,
+                        image: "https://einnalab.com/wp-content/uploads/2023/11/EiNNALAB-Deer-Placenta-30000mg-DarkRed-Front-768x614.png",
+                        tag: "Most Popular",
+                    },
+                    {
+                        id: 3,
+                        name: "10 Bottles + 4 FREE",
+                        price: 900,
+                        totalBottles: 14,
+                        image: "https://einnalab.com/wp-content/uploads/2023/11/EiNNALAB-Deer-Placenta-30000mg-Front-10-Bot-768x480.jpg",
+                        tag: "Best Value",
+                    }
+                ],
+                galleryImages: [
+                    { id: 'bottle_1', src: 'https://einnalab.com/wp-content/uploads/2023/11/EiNNALAB-Deer-Placenta-30000mg-DarkRed-Front-768x614.png', alt: 'Single Bottle' },
+                    { id: 'bottle_10', src: 'https://einnalab.com/wp-content/uploads/2023/11/EiNNALAB-Deer-Placenta-30000mg-Front-10-Bot-768x480.jpg', alt: '10 Bottles Pack' },
+                    { id: 'ingredients', src: 'https://einnalab.com/wp-content/uploads/2023/11/EiNNALAB-Deer-Placenta-30000mg-Lab-Ingredients-ONLY-768x743.png', alt: 'Ingredients List' },
+                    { id: 'lab_cert', src: 'https://einnalab.com/wp-content/uploads/2023/11/EiNNALAB-Deer-Placenta-30000mg-Lab-Metal-Bac-ONLY-768x743.png', alt: 'Lab Certification' },
+                ]
+            };
+            
+            let selectedVariantId = 1;
+
+            const mainImage = document.getElementById('main-product-image');
+            const productPrice = document.getElementById('product-price');
+            const variantContainer = document.getElementById('variant-options-container');
+            const thumbnailContainer = document.getElementById('thumbnail-container');
+            const addToCartBtn = document.getElementById('addToCartBtn');
+
+            function calculateValue(variant) {
+                const pricePerBottle = (variant.price / variant.totalBottles).toFixed(2);
+                let valueText = `<span class="brand-red font-semibold">($${pricePerBottle}/bottle)</span>`;
+                if (variant.totalBottles > 1) {
+                     valueText = `You get ${variant.totalBottles} bottles total. ${valueText}`;
+                }
+                return valueText;
+            }
+
+            function renderVariants() {
+                variantContainer.innerHTML = productData.variants.map(variant => `
+                    <div class="variant-option border-2 border-gray-200 rounded-lg p-4 cursor-pointer transition-all duration-300 ${variant.id === selectedVariantId ? 'selected' : ''}" data-variant-id="${variant.id}">
+                        <div class="flex items-center justify-between">
+                            <div class="flex-grow">
+                                <div class="flex items-center space-x-3 mb-1">
+                                    <span class="font-bold text-lg text-gray-800">${variant.name}</span>
+                                    ${variant.tag ? `<span class="bg-brand-red text-white text-xs font-bold px-2.5 py-1 rounded-full">${variant.tag}</span>` : ''}
+                                </div>
+                                <p class="text-sm text-gray-500">${calculateValue(variant)}</p>
+                            </div>
+                            <p class="font-bold text-xl text-gray-800">$${variant.price.toFixed(2)}</p>
+                        </div>
+                    </div>
+                `).join('');
+
+                document.querySelectorAll('.variant-option').forEach(el => {
+                    el.addEventListener('click', () => {
+                        selectedVariantId = parseInt(el.dataset.variantId);
+                        updateProductDisplay();
+                    });
+                });
+            }
+
+            function renderThumbnails() {
+                thumbnailContainer.innerHTML = productData.galleryImages.map(img => `
+                    <div class="aspect-square bg-gray-100 rounded-lg p-1">
+                        <img src="${img.src}" alt="${img.alt}" data-img-id="${img.id}" class="thumbnail w-full h-full object-contain rounded-md">
+                    </div>
+                `).join('');
+
+                thumbnailContainer.querySelectorAll('.thumbnail').forEach(thumb => {
+                    thumb.addEventListener('click', () => {
+                        setActiveThumbnail(thumb.dataset.imgId);
+                        mainImage.src = thumb.src;
+                    });
+                });
+            }
+            
+            function setActiveThumbnail(imgId) {
+                thumbnailContainer.querySelectorAll('.thumbnail').forEach(thumb => {
+                    thumb.classList.toggle('active', thumb.dataset.imgId === imgId);
+                });
+            }
+
+            function updateProductDisplay() {
+                const variant = productData.variants.find(v => v.id === selectedVariantId);
+                if (!variant) return;
+
+                mainImage.style.opacity = '0';
+                setTimeout(() => {
+                    mainImage.src = variant.image;
+                    mainImage.style.opacity = '1';
+                }, 150);
+                
+                productPrice.textContent = `$${variant.price.toFixed(2)}`;
+                
+                const activeThumbId = variant.id === 3 ? 'bottle_10' : 'bottle_1';
+                setActiveThumbnail(activeThumbId);
+
+                renderVariants();
+            }
+            
+            // Accordion Logic
+            document.querySelectorAll('.accordion-header').forEach(header => {
+                header.addEventListener('click', () => {
+                    const content = header.nextElementSibling;
+                    const icon = header.querySelector('i');
+                    
+                    if (content.style.maxHeight) {
+                        content.style.maxHeight = null;
+                        icon.style.transform = 'rotate(0deg)';
+                    } else {
+                        // Close other accordions
+                        document.querySelectorAll('.accordion-content').forEach(c => c.style.maxHeight = null);
+                         document.querySelectorAll('.accordion-header i').forEach(i => i.style.transform = 'rotate(0deg)');
+                        // Open this one
+                        content.style.maxHeight = content.scrollHeight + "px";
+                        icon.style.transform = 'rotate(180deg)';
+                    }
+                });
+            });
+
+            addToCartBtn.addEventListener('click', () => {
+                const originalText = addToCartBtn.innerHTML;
+                addToCartBtn.innerHTML = `
+                    <span class="flex items-center justify-center">
+                        <i data-feather="check" class="w-5 h-5 mr-2"></i> Added!
+                    </span>
+                `;
+                feather.replace(); // Re-run feather to render the new icon
+                addToCartBtn.classList.remove('bg-brand-red');
+                addToCartBtn.classList.add('bg-green-600', 'cursor-not-allowed');
+
+                setTimeout(() => {
+                    addToCartBtn.innerHTML = originalText;
+                    addToCartBtn.classList.add('bg-brand-red');
+                    addToCartBtn.classList.remove('bg-green-600', 'cursor-not-allowed');
+                }, 2000);
+            });
+
+            // Initial Render
+            renderThumbnails();
+            updateProductDisplay();
+        });
+    </script>
+</body>
+</html>
+
