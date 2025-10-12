@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>EinnaLab - Deer Placenta Product Page</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Feather Icons -->
+    <script src="https://unpkg.com/feather-icons"></script>
+
+    <style>
+        /* Custom styles for the Poppins font and smooth transitions */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        /* Custom red color from the client's screenshot */
+        .brand-red { color: #D01717; }
+        .bg-brand-red { background-color: #D01717; }
+        .border-brand-red { border-color: #D01717; }
+        .ring-brand-red { --tw-ring-color: #D01717; }
+        .outline-brand-red { outline-color: #D01717; }
+
+        /* Style for image thumbnails */
+        .thumbnail {
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            border: 2px solid transparent;
+        }
+        .thumbnail:hover { transform: scale(1.05); }
+        .thumbnail.active {
+            border-color: #D01717;
+            box-shadow: 0 0 10px rgba(208, 23, 23, 0.3);
+        }
+
+        /* Accordion styles */
+        .accordion-header.open i { transform: rotate(180deg); }
+        .accordion-header.open { background-color: #f9fafb; }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1), padding 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        /* Modal Styles */
+        #quickAddModal { transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease; }
+        #modalBackdrop { transition: opacity 0.4s ease; }
+        .modal-variant-option.selected {
+           border-color: #D01717;
+           background-color: rgba(208, 23, 23, 0.05);
+        }
+        .modal-variant-option.selected .radio-circle { border-color: #D01717; }
+        .modal-variant-option.selected .radio-circle::after {
+            transform: scale(1);
+            background-color: #D01717;
+        }
+        .radio-circle { transition: all 0.2s ease; }
+        .radio-circle::after {
+            content: '';
+            display: block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            transform: scale(0);
+            transition: transform 0.2s ease;
+        }
+        
+        /* Package card styles for CRO */
+        .package-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .package-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .best-value-card {
+            transform: scale(1.02);
+            box-shadow: 0 0 0 3px #D01717, 0 10px 20px rgba(208, 23, 23, 0.2);
+        }
+        .best-value-card:hover {
+             transform: scale(1.02) translateY(-5px);
+        }
+
+        /* Hide scrollbar for horizontal package selector */
+        #package-cards-container::-webkit-scrollbar { display: none; }
+        #package-cards-container { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* Button Polish */
+        .cta-button {
+            background-image: linear-gradient(to top, #c01010, #e02020);
+            transition: all 0.3s ease;
+        }
+        .cta-button:hover {
+             box-shadow: 0 10px 20px -5px rgba(208, 23, 23, 0.4);
+             transform: translateY(-2px);
+        }
+        .cta-button:active {
+            transform: translateY(0px) scale(0.98);
+            box-shadow: 0 4px 10px -3px rgba(208, 23, 23, 0.3);
+        }
+        
+        /* Sticky CTA Styles */
+        #sticky-cta-container {
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            background: linear-gradient(to top, white, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0));
+        }
+
+        /* Stock Indicator Pulse */
+        @keyframes pulse {
+            50% { opacity: 0.6; }
+        }
+        #stock-indicator.low-stock {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen p-0 sm:p-4">
+
+    <!-- App Container -->
+    <div id="app" class="relative w-full max-w-6xl mx-auto">
+        
+        <!-- Optimized Product Section -->
+        <section id="product-section" class="bg-white sm:rounded-2xl shadow-xl overflow-hidden">
+            <div class="grid grid-cols-1 lg:grid-cols-2">
+                <!-- Left Column: Image Gallery -->
+                <div class="p-8">
+                    <div class="relative">
+                        <div class="absolute top-0 left-0 bg-brand-red text-white text-sm font-bold px-3 py-1.5 rounded-full z-10 -translate-x-2 -translate-y-2">
+                            <span>SAVE UP TO 65%</span>
+                        </div>
+                        <div class="aspect-square bg-gray-100 rounded-lg flex items-center justify-center p-4">
+                            <img id="main-product-image" src="https://einnalab.com/wp-content/uploads/2023/11/EiNNALAB-Deer-Placenta-30000mg-DarkRed-Front-768x614.png" alt="Deer Placenta Bottle" class="max-w-full max-h-full object-contain transition-opacity duration-300">
+                        </div>
+                    </div>
+                    <div id="thumbnail-container" class="grid grid-cols-4 gap-4 mt-4">
+                        <!-- Thumbnails injected by JS -->
+                    </div>
+                </div>
+
+                <!-- Right Column: Product Details & Options -->
+                <div class="p-8 flex flex-col overflow-hidden">
+                    <!-- CRO: Urgency Timer -->
+                    <div class="bg-red-50 text-brand-red p-3 rounded-lg text-center mb-4">
+                        <p id="timer-text" class="font-bold text-sm"></p>
+                        <p id="countdown-timer" class="text-2xl font-extrabold tracking-widest"></p>
+                    </div>
+
+                    <h1 class="text-3xl md:text-4xl font-extrabold text-gray-900 leading-tight">Deer Placenta 30,000mg</h1>
+                    <div class="flex items-center mt-3">
+                        <div class="flex text-yellow-400">
+                            <!-- Star icons -->
+                            <i data-feather="star" class="w-5 h-5 fill-current"></i><i data-feather="star" class="w-5 h-5 fill-current"></i><i data-feather="star" class="w-5 h-5 fill-current"></i><i data-feather="star" class="w-5 h-5 fill-current"></i><i data-feather="star" class="w-5 h-5 fill-current"></i>
+                        </div>
+                        <span class="ml-2 text-gray-500 text-sm">(Based on 984 reviews)</span>
+                    </div>
+                    
+                    <p class="text-gray-600 my-5">A premium supplement for rejuvenation and vitality. Our formula supports cellular repair for overall wellness.</p>
+
+                     <!-- CRO: Scarcity -->
+                    <div id="stock-indicator" class="bg-orange-100 text-orange-700 p-2 rounded-md text-center text-sm font-semibold my-2">
+                        Hurry! Only <span id="stock-count">17</span> left in stock!
+                    </div>
+
+                    <div class="my-4">
+                        <h2 class="text-lg font-bold text-gray-800 mb-3">Select Your Package & Save</h2>
+                        <div id="package-cards-container" class="flex overflow-x-auto space-x-4 pb-4 pt-5 -mt-5 -mx-8 px-8">
+                            <!-- Package cards injected by JS -->
+                        </div>
+                    </div>
+
+                    <div class="mt-6">
+                         <button id="mainChoosePackageBtn" class="w-full cta-button text-white font-bold py-4 px-6 rounded-lg text-lg">
+                            Choose Package
+                        </button>
+                    </div>
+                    
+                    <!-- Trust Badges -->
+                    <div class="mt-auto pt-6">
+                        <div class="flex justify-around items-center text-center text-gray-500">
+                            <div class="flex flex-col items-center space-y-1">
+                                <i data-feather="award" class="w-8 h-8 text-gray-400"></i>
+                                <span class="text-xs font-medium">Lab Certified</span>
+                            </div>
+                            <div class="flex flex-col items-center space-y-1">
+                                <i data-feather="shield" class="w-8 h-8 text-gray-400"></i>
+                                <span class="text-xs font-medium">100% Secure<br>Checkout</span>
+                            </div>
+                             <div class="flex flex-col items-center space-y-1">
+                                <i data-feather="truck" class="w-8 h-8 text-gray-400"></i>
+                                <span class="text-xs font-medium">Free Express<br>Shipping</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Accordion for more details -->
+            <div class="border-t border-gray-200">
+                <!-- Accordion items -->
+                <div class="accordion-item">
+                    <button class="accordion-header w-full flex justify-between items-center p-6 text-left transition-colors duration-300"><span class="text-lg font-semibold text-gray-800">Key Ingredients</span><i data-feather="chevron-down" class="transition-transform duration-300"></i></button>
+                    <div class="accordion-content px-6"><div class="py-6 grid grid-cols-1 md:grid-cols-2 gap-8 items-center"><p class="text-gray-600">Our formula is backed by science, combining premium ingredients for maximum efficacy. Each component is carefully selected to support your vitality and well-being.</p><img src="https://einnalab.com/wp-content/uploads/2023/11/EiNNALAB-Deer-Placenta-30000mg-Lab-Ingredients-ONLY-768x743.png" alt="Product Ingredients" class="rounded-lg w-full max-w-md mx-auto"></div></div>
+                </div>
+                <div class="accordion-item border-t border-gray-200">
+                    <button class="accordion-header w-full flex justify-between items-center p-6 text-left transition-colors duration-300"><span class="text-lg font-semibold text-gray-800">Lab Certified & Safe</span><i data-feather="chevron-down" class="transition-transform duration-300"></i></button>
+                    <div class="accordion-content px-6"><div class="py-6 grid grid-cols-1 md:grid-cols-2 gap-8 items-center"><p class="text-gray-600">Rigorously tested for purity and safety. Our product is certified free from heavy metals and contaminants, ensuring you receive only the highest quality supplement.</p><img src="https://einnalab.com/wp-content/uploads/2023/11/EiNNALAB-Deer-Placenta-30000mg-Lab-Metal-Bac-ONLY-768x743.png" alt="Lab Certification" class="rounded-lg w-full max-w-md mx-auto"></div></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quick Add Modal -->
+        <div id="modalBackdrop" class="fixed inset-0 bg-black/60 z-40 opacity-0 pointer-events-none"></div>
+        <div id="quickAddModal" class="fixed bottom-0 left-0 right-0 bg-[#1C1C1E] text-white z-50 transform translate-y-full pointer-events-none rounded-t-2xl max-w-xl mx-auto shadow-2xl">
+            <div class="p-5 md:p-6" style="padding-bottom: calc(1.25rem + env(safe-area-inset-bottom));">
+                <!-- Modal Header -->
+                <div class="flex justify-between items-center pb-4 border-b border-gray-700"><img src="https://einnalab.com/wp-content/uploads/2021/10/einna-logo-300x56.png" alt="EinnaLab Logo" class="h-8 w-auto"><button id="closeModalBtn" class="text-gray-400 hover:text-white transition"><i data-feather="x" class="w-7 h-7"></i></button></div>
+                <!-- Product Info -->
+                <div class="flex items-center space-x-4 py-5"><img id="modalProductImage" src="" alt="Deer Placenta" class="w-24 h-24 object-contain rounded-md bg-white p-1"><div><p id="modalProductTitle" class="font-bold text-xl"></p><p id="modalProductPrice" class="text-lg text-gray-300"></p></div></div>
+                <!-- Variant Selection -->
+                <div class="space-y-3"><p class="font-semibold text-gray-400 text-sm">SELECT PACKAGE</p><div id="modal-variant-options-container" class="space-y-3"></div></div>
+                <!-- Add to Bag Button -->
+                <div class="mt-6"><button id="modalAddToCartBtn" class="w-full cta-button text-white font-bold py-4 px-6 rounded-lg text-lg"></button></div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Smart Sticky CTA -->
+    <div id="sticky-cta-container" class="fixed bottom-0 left-0 right-0 z-30 p-4 transform translate-y-full" style="padding-bottom: calc(1rem + env(safe-area-inset-bottom));">
+         <button id="stickyChoosePackageBtn" class="w-full max-w-3xl mx-auto cta-button text-white font-bold py-4 px-6 rounded-lg text-lg flex items-center justify-center shadow-2xl">
+         </button>
+    </div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            feather.replace();
+
+            const productData = {
+                name: "Deer Placenta",
+                variants: [
+                    { id: 1, name: "1 Bottle", price: 140, totalBottles: 1, image: "https://einnalab.com/wp-content/uploads/2023/11/EiNNALAB-Deer-Placenta-30000mg-DarkRed-Front-768x614.png", tag: null, savings: 0 },
+                    { id: 2, name: "2 Bottles", price: 280, totalBottles: 3, bonus: "+ 1 FREE", image: "https://einnalab.com/wp-content/uploads/2023/11/EiNNALAB-Deer-Placenta-30000mg-DarkRed-Front-768x614.png", tag: "Most Popular", savings: 140 },
+                    { id: 3, name: "10 Bottles", price: 900, totalBottles: 14, bonus: "+ 4 FREE", image: "https://einnalab.com/wp-content/uploads/2023/11/EiNNALAB-Deer-Placenta-30000mg-Front-10-Bot-768x480.jpg", tag: "Best Value", savings: 1060 }
+                ],
+                galleryImages: [
+                    { id: 'bottle_1', src: 'https://einnalab.com/wp-content/uploads/2023/11/EiNNALAB-Deer-Placenta-30000mg-DarkRed-Front-768x614.png', alt: 'Single Bottle' },
+                    { id: 'bottle_10', src: 'https://einnalab.com/wp-content/uploads/2023/11/EiNNALAB-Deer-Placenta-30000mg-Front-10-Bot-768x480.jpg', alt: '10 Bottles Pack' },
+                    { id: 'ingredients', src: 'https://einnalab.com/wp-content/uploads/2023/11/EiNNALAB-Deer-Placenta-30000mg-Lab-Ingredients-ONLY-768x743.png', alt: 'Ingredients List' },
+                    { id: 'lab_cert', src: 'https://einnalab.com/wp-content/uploads/2023/11/EiNNALAB-Deer-Placenta-30000mg-Lab-Metal-Bac-ONLY-768x743.png', alt: 'Lab Certification' },
+                ]
+            };
+            
+            let selectedVariantIdInModal = 1;
+            let smartSelectedVariantId = 2; // Default to 'Most Popular'
+
+            // DOM Elements
+            const mainImage = document.getElementById('main-product-image');
+            const thumbnailContainer = document.getElementById('thumbnail-container');
+            const packageCardsContainer = document.getElementById('package-cards-container');
+            const mainChoosePackageBtn = document.getElementById('mainChoosePackageBtn');
+            const closeModalBtn = document.getElementById('closeModalBtn');
+            const quickAddModal = document.getElementById('quickAddModal');
+            const modalBackdrop = document.getElementById('modalBackdrop');
+            const modalVariantContainer = document.getElementById('modal-variant-options-container');
+            const modalProductImage = document.getElementById('modalProductImage');
+            const modalProductTitle = document.getElementById('modalProductTitle');
+            const modalProductPrice = document.getElementById('modalProductPrice');
+            const modalAddToCartBtn = document.getElementById('modalAddToCartBtn');
+            const countdownTimerEl = document.getElementById('countdown-timer');
+            const timerTextEl = document.getElementById('timer-text');
+            const stockCountEl = document.getElementById('stock-count');
+            const stockIndicatorEl = document.getElementById('stock-indicator');
+            const stickyCtaContainer = document.getElementById('sticky-cta-container');
+            const stickyChoosePackageBtn = document.getElementById('stickyChoosePackageBtn');
+
+
+            function calculateValue(variant, type = 'modal') {
+                const pricePerBottle = (variant.price / variant.totalBottles).toFixed(2);
+                if (type === 'card') {
+                    return `Just <span class="font-bold text-gray-800">$${pricePerBottle}</span>/bottle`;
+                }
+                // For modal
+                if (variant.totalBottles > 1) {
+                    return `You get <span class="font-bold brand-red">${variant.totalBottles} bottles total</span>. ($${pricePerBottle}/bottle)`;
+                }
+                return `($${pricePerBottle}/bottle)`;
+            }
+
+            function updateCtaButtons(variantId) {
+                const variant = productData.variants.find(v => v.id === variantId);
+                if (!variant) return;
+
+                let buttonText = `Choose ${variant.name}`;
+                if (variant.savings > 0) {
+                    buttonText += ` & Save $${variant.savings}`;
+                }
+                
+                mainChoosePackageBtn.textContent = buttonText;
+                stickyChoosePackageBtn.textContent = buttonText;
+            }
+
+
+            function renderPackageCards() {
+                packageCardsContainer.innerHTML = productData.variants.map(variant => {
+                    const isBestValue = variant.tag === 'Best Value';
+                    return `
+                    <div class="package-card flex-shrink-0 w-10/12 sm:w-7/12 md:w-6/12 lg:w-[calc(33.33%-1rem)] border-2 rounded-xl p-4 cursor-pointer relative ${isBestValue ? 'best-value-card border-transparent' : 'border-gray-300'}" data-variant-id="${variant.id}">
+                        ${variant.tag ? `<div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-brand-red text-white text-xs font-bold px-3 py-1 rounded-full">${variant.tag}</div>` : ''}
+                        <div class="text-center">
+                            <p class="text-xl font-bold text-gray-900">${variant.name}</p>
+                            ${variant.bonus ? `<p class="font-semibold brand-red">${variant.bonus}</p>` : '<p class="font-semibold brand-red invisible">.</p>'}
+                            <p class="text-2xl font-extrabold text-gray-800 my-2">$${variant.price.toFixed(2)}</p>
+                            <p class="text-sm text-gray-500">${calculateValue(variant, 'card')}</p>
+                        </div>
+                    </div>
+                `}).join('');
+
+                document.querySelectorAll('.package-card').forEach(card => {
+                    card.addEventListener('click', () => {
+                        const variantId = parseInt(card.dataset.variantId, 10);
+                        openModal(variantId);
+                    });
+                     card.addEventListener('mouseenter', () => {
+                        smartSelectedVariantId = parseInt(card.dataset.variantId, 10);
+                        updateCtaButtons(smartSelectedVariantId);
+                    });
+                });
+            }
+
+            function renderModalVariants() {
+                modalVariantContainer.innerHTML = productData.variants.map(variant => `
+                    <div class="modal-variant-option border-2 border-gray-700 rounded-lg p-4 cursor-pointer transition ${variant.id === selectedVariantIdInModal ? 'selected' : ''}" data-variant-id="${variant.id}">
+                        <div class="flex items-center justify-between">
+                            <div class="flex-grow pr-2">
+                                <div class="flex items-center flex-wrap gap-x-3 gap-y-1">
+                                    <span class="font-semibold text-lg">${variant.name}</span>
+                                    ${variant.bonus ? `<span class="font-bold brand-red text-lg">${variant.bonus}</span>` : ''}
+                                    ${variant.tag ? `<span class="bg-brand-red text-white text-xs font-bold px-2 py-1 rounded-md">${variant.tag}</span>` : ''}
+                                </div>
+                                <p class="text-sm text-gray-400 mt-1">${calculateValue(variant)}</p>
+                            </div>
+                            <div class="flex items-center space-x-4">
+                                <p class="font-bold text-lg">$${variant.price.toFixed(2)}</p>
+                                <div class="radio-circle w-6 h-6 border-2 border-gray-500 rounded-full flex items-center justify-center"></div>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+
+                document.querySelectorAll('.modal-variant-option').forEach(el => {
+                    el.addEventListener('click', () => {
+                        selectedVariantIdInModal = parseInt(el.dataset.variantId);
+                        updateModalContent();
+                    });
+                });
+            }
+
+            function updateModalContent() {
+                const selectedVariant = productData.variants.find(v => v.id === selectedVariantIdInModal);
+                if (selectedVariant) {
+                    modalProductImage.src = selectedVariant.image;
+                    modalProductTitle.innerHTML = `${productData.name} - <span class="brand-red">${selectedVariant.name}</span>`;
+                    modalProductPrice.textContent = `$${selectedVariant.price.toFixed(2)}`;
+                    
+                    if (selectedVariant.savings > 0) {
+                        modalAddToCartBtn.textContent = `Add to Bag & Save $${selectedVariant.savings}`;
+                    } else {
+                        modalAddToCartBtn.textContent = 'Add to Bag';
+                    }
+                }
+                renderModalVariants();
+            }
+            
+            function openModal(variantId = 1) {
+                selectedVariantIdInModal = variantId; // Set pre-selected variant
+                updateModalContent();
+                modalBackdrop.classList.remove('opacity-0', 'pointer-events-none');
+                quickAddModal.classList.remove('translate-y-full', 'pointer-events-none');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeModal() {
+                modalBackdrop.classList.add('opacity-0', 'pointer-events-none');
+                quickAddModal.classList.add('translate-y-full', 'pointer-events-none');
+                document.body.style.overflow = 'auto';
+            }
+
+            function renderThumbnails() {
+                thumbnailContainer.innerHTML = productData.galleryImages.map(img => `<div class="aspect-square bg-gray-100 rounded-lg p-1"><img src="${img.src}" alt="${img.alt}" data-img-id="${img.id}" class="thumbnail w-full h-full object-contain rounded-md"></div>`).join('');
+                thumbnailContainer.querySelectorAll('.thumbnail').forEach(thumb => {
+                    thumb.addEventListener('click', () => {
+                        setActiveThumbnail(thumb.dataset.imgId);
+                        mainImage.src = thumb.src;
+                    });
+                });
+            }
+            
+            function setActiveThumbnail(imgId) {
+                thumbnailContainer.querySelectorAll('.thumbnail').forEach(thumb => {
+                    thumb.classList.toggle('active', thumb.dataset.imgId === imgId);
+                });
+            }
+            
+            // Accordion Logic
+            document.querySelectorAll('.accordion-header').forEach(header => {
+                 header.addEventListener('click', () => {
+                    const content = header.nextElementSibling;
+                    const isOpen = header.classList.contains('open');
+
+                    document.querySelectorAll('.accordion-content').forEach(c => c.style.maxHeight = null);
+                    document.querySelectorAll('.accordion-header').forEach(h => h.classList.remove('open'));
+
+                    if (!isOpen) {
+                        header.classList.add('open');
+                        content.style.maxHeight = content.scrollHeight + "px";
+                    }
+                });
+            });
+
+            // CRO Timer Logic
+            function startShippingCountdown() {
+                const now = new Date();
+                const SGT_OFFSET = 8 * 60; // Singapore is UTC+8
+                const localOffset = now.getTimezoneOffset();
+                const sgtTime = new Date(now.getTime() + (SGT_OFFSET + localOffset) * 60 * 1000);
+                
+                const cutoff = new Date(sgtTime);
+                cutoff.setHours(18, 0, 0, 0); // 6:00 PM SGT
+
+                const timerInterval = setInterval(() => {
+                    const currentSgtTime = new Date(new Date().getTime() + (SGT_OFFSET + localOffset) * 60 * 1000);
+                    const distance = cutoff - currentSgtTime;
+                    
+                    if (distance > 0) {
+                        timerTextEl.innerHTML = `🔥 Order in the next <span class="font-extrabold">2 hours</span> for <span class="font-extrabold">Same-Day Shipping!</span>`;
+                        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                        countdownTimerEl.textContent = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                    } else {
+                         timerTextEl.innerHTML = `🚀 <span class="font-extrabold">Free Next-Day Shipping</span> Unlocked!`;
+                         countdownTimerEl.textContent = "Order Today!";
+                         clearInterval(timerInterval);
+                    }
+                }, 1000);
+            }
+
+            // CRO Scarcity Logic
+            function simulateStock() {
+                let stock = parseInt(stockCountEl.textContent);
+                const updateStock = () => {
+                    if (stock > 5) {
+                        stock--;
+                        stockCountEl.textContent = stock;
+                         if (stock < 10) {
+                             stockIndicatorEl.classList.add('low-stock');
+                         }
+                    }
+                    const randomInterval = Math.random() * (45000 - 15000) + 15000;
+                    setTimeout(updateStock, randomInterval);
+                };
+                setTimeout(updateStock, 10000); // Start after 10 seconds
+            }
+
+            // Sticky CTA Logic
+            const observer = new IntersectionObserver((entries) => {
+                const entry = entries[0];
+                if (!entry.isIntersecting && window.scrollY > 0) {
+                    stickyCtaContainer.classList.remove('translate-y-full');
+                } else {
+                    stickyCtaContainer.classList.add('translate-y-full');
+                }
+            }, { threshold: 0.1 });
+
+            observer.observe(mainChoosePackageBtn);
+
+            
+            // Event Listeners
+            mainChoosePackageBtn.addEventListener('click', () => { openModal(smartSelectedVariantId); });
+            stickyChoosePackageBtn.addEventListener('click', () => { openModal(smartSelectedVariantId); });
+            closeModalBtn.addEventListener('click', closeModal);
+            modalBackdrop.addEventListener('click', closeModal);
+            modalAddToCartBtn.addEventListener('click', () => { 
+                const originalText = modalAddToCartBtn.textContent;
+                modalAddToCartBtn.textContent = 'Added!';
+                modalAddToCartBtn.classList.remove('bg-brand-red');
+                modalAddToCartBtn.classList.add('bg-green-600');
+                setTimeout(() => {
+                    closeModal();
+                    setTimeout(() => {
+                        modalAddToCartBtn.textContent = originalText;
+                        modalAddToCartBtn.classList.remove('bg-green-600');
+                        modalAddToCartBtn.classList.add('bg-brand-red');
+                    }, 400);
+                }, 1200);
+            });
+
+            // Initial Render
+            renderThumbnails();
+            setActiveThumbnail('bottle_1');
+            renderPackageCards();
+            updateCtaButtons(smartSelectedVariantId);
+            startShippingCountdown();
+            simulateStock();
+        });
+    </script>
+</body>
+</html>
+
