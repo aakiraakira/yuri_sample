@@ -515,22 +515,18 @@
             // Sticky CTA Logic
             const observer = new IntersectionObserver((entries) => {
                 const entry = entries[0];
-                if (!entry.isIntersecting) {
+                if (!entry.isIntersecting && entry.boundingClientRect.top > 0) {
                     stickyCtaContainer.classList.remove('translate-y-full');
                 } else {
                     stickyCtaContainer.classList.add('translate-y-full');
                 }
-            }, { threshold: 0.1 });
-            observer.observe(mainChoosePackageBtn);
+            }, { threshold: 0 });
             
-            // On mobile, if the main button is already off-screen, show the sticky one.
-             if (window.innerWidth < 768) {
-                setTimeout(() => {
-                    const mainBtnRect = mainChoosePackageBtn.getBoundingClientRect();
-                    if (mainBtnRect.top > window.innerHeight) {
-                        stickyCtaContainer.classList.remove('translate-y-full');
-                    }
-                }, 100);
+            // We observe the element that is just ABOVE the main button.
+            // This makes the logic more reliable.
+            const elementToObserve = document.querySelector('#package-cards-container');
+            if (elementToObserve) {
+                observer.observe(elementToObserve);
             }
 
 
