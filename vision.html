@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>An:Vision Space - Bespoke Interior Design</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8F9FA;
+            color: #333;
+        }
+
+        /* --- Glassmorphism Effect --- */
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* --- Marquee Styling --- */
+        .marquee {
+            overflow: hidden;
+            position: relative;
+            white-space: nowrap;
+            --gap: 1rem;
+            --duration: 60s;
+        }
+
+        .marquee-content {
+            display: flex;
+            gap: var(--gap);
+            animation: scroll var(--duration) linear infinite;
+        }
+        
+        .marquee:hover .marquee-content {
+            animation-play-state: paused;
+        }
+
+        @keyframes scroll {
+            from {
+                transform: translateX(0);
+            }
+            to {
+                transform: translateX(calc(-100% - var(--gap)));
+            }
+        }
+        
+        .marquee-content > * {
+            flex-shrink: 0;
+            width: 100%;
+            max-width: 400px;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 1rem;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .marquee-content > *:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+
+        /* --- Hero Background --- */
+        .hero-bg {
+            background-image: url('https://anvisionspace.com/wp-content/uploads/brizy/imgs/Living-706x542x0x6x706x530x1690959423.jpeg');
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* --- Form Styling --- */
+        .form-input {
+            background-color: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        .form-input:focus {
+            background-color: #fff;
+            border-color: #8E7AB5;
+            box-shadow: 0 0 0 3px rgba(142, 122, 181, 0.2);
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header -->
+    <header class="absolute top-0 left-0 right-0 z-10 py-6 px-4 sm:px-6 lg:px-8">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="#">
+                <img src="https://anvisionspace.com/wp-content/uploads/brizy/imgs/AnVision-Space-310x32x0x0x310x32x1666078344.png" alt="An:Vision Space Logo" class="h-8 w-auto">
+            </a>
+            <nav class="hidden md:flex space-x-8 text-white">
+                <a href="#about" class="hover:text-gray-200 transition">About</a>
+                <a href="#portfolio" class="hover:text-gray-200 transition">Portfolio</a>
+                <a href="#contact" class="hover:text-gray-200 transition">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative hero-bg h-screen min-h-[700px] flex items-center justify-center text-white">
+        <div class="absolute inset-0 bg-black bg-opacity-50"></div>
+        <div class="relative container mx-auto px-4 grid md:grid-cols-2 gap-12 items-center">
+            <!-- Hero Text -->
+            <div class="text-center md:text-left">
+                <h1 class="text-4xl md:text-6xl font-bold leading-tight drop-shadow-lg">Crafting Spaces, <br>Creating Visions.</h1>
+                <p class="mt-4 text-lg md:text-xl text-gray-200 max-w-lg mx-auto md:mx-0 drop-shadow-md">Bespoke interiors for residential & commercial spaces that harmonize humanity and nature.</p>
+            </div>
+            <!-- Hero Form -->
+            <div class="w-full max-w-lg mx-auto">
+                <div class="glass-effect rounded-2xl p-8 shadow-2xl">
+                    <h2 class="text-2xl font-bold text-gray-800 text-center mb-1">Let's Create Your Dream Space</h2>
+                    <p class="text-center text-gray-600 mb-6">Get a complimentary consultation.</p>
+                    <form action="#" method="POST" class="space-y-4">
+                        <div>
+                            <label for="name" class="sr-only">Name</label>
+                            <input type="text" name="name" id="name" class="form-input w-full px-4 py-3 rounded-lg text-gray-800" placeholder="Your Name" required>
+                        </div>
+                        <div>
+                            <label for="email" class="sr-only">Email</label>
+                            <input type="email" name="email" id="email" class="form-input w-full px-4 py-3 rounded-lg text-gray-800" placeholder="Email Address" required>
+                        </div>
+                         <div>
+                            <label for="phone" class="sr-only">Phone</label>
+                            <input type="tel" name="phone" id="phone" class="form-input w-full px-4 py-3 rounded-lg text-gray-800" placeholder="Phone Number" required>
+                        </div>
+                        <div>
+                            <label for="project-type" class="sr-only">Project Type</label>
+                            <select id="project-type" name="project-type" class="form-input w-full px-4 py-3 rounded-lg text-gray-500" required>
+                                <option>Type of Project</option>
+                                <option>Residential</option>
+                                <option>Commercial</option>
+                                <option>Exterior</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="w-full bg-[#8E7AB5] hover:bg-[#7a65a0] text-white font-bold py-3 px-4 rounded-lg transition duration-300 shadow-lg">Begin Your Project</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 lg:py-28">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-3xl lg:text-4xl font-bold text-[#8E7AB5]">A New Vision; A Natural Vision</h2>
+            <div class="max-w-3xl mx-auto mt-6 text-lg text-gray-600 leading-relaxed space-y-4">
+               <p>We are a design collective moving towards the building and creation of bespoke interiors and exteriors for commercial and residential spaces.</p>
+               <p>Embracing the co-existence of humanity and nature, we are doing our part by taking small steps to incorporate sustainable materials into our creations. Every page of this portfolio is specially curated to challenge the new heights and limits of the mainstream, presenting to you a brand new vision.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Marquee Section -->
+    <section id="portfolio" class="py-12 bg-white">
+        <div class="container mx-auto px-4 mb-10 text-center">
+             <h2 class="text-3xl lg:text-4xl font-bold text-gray-800">Our Works</h2>
+             <p class="mt-2 text-lg text-gray-500">A glimpse into the spaces we've transformed.</p>
+        </div>
+        <div class="marquee" style="--duration: 80s;">
+            <div class="marquee-content">
+                <img src="https://anvisionspace.com/wp-content/uploads/brizy/imgs/Living-706x542x0x6x706x530x1690959423.jpeg" alt="Elegant Living Room Design">
+                <img src="https://anvisionspace.com/wp-content/uploads/brizy/imgs/WhatsApp-Image-2023-07-10-at-15.10.01-748x530x22x0x706x530x1690959594.jpeg" alt="Modern Interior Space">
+                <img src="https://anvisionspace.com/wp-content/uploads/brizy/imgs/Kitchen-1-752x532x22x0x708x532x1690959624.jpeg" alt="Sleek Kitchen Interior">
+                <img src="https://anvisionspace.com/wp-content/uploads/brizy/imgs/WhatsApp-Image-2023-07-10-at-15.11.54-1-748x530x22x0x706x530x1690959733.jpeg" alt="Cozy Bedroom Design">
+                <img src="https://anvisionspace.com/wp-content/uploads/brizy/imgs/Living-2-748x530x22x0x706x530x1690960403.jpeg" alt="Spacious Living Area">
+                <img src="https://anvisionspace.com/wp-content/uploads/brizy/imgs/WhatsApp-Image-2023-07-10-at-15.11.51-752x532x22x0x708x532x1690960539.jpeg" alt="Luxury Interior Detail">
+                <!-- Duplicate for seamless loop -->
+                <img src="https://anvisionspace.com/wp-content/uploads/brizy/imgs/Living-706x542x0x6x706x530x1690959423.jpeg" alt="Elegant Living Room Design">
+                <img src="https://anvisionspace.com/wp-content/uploads/brizy/imgs/WhatsApp-Image-2023-07-10-at-15.10.01-748x530x22x0x706x530x1690959594.jpeg" alt="Modern Interior Space">
+                <img src="https://anvisionspace.com/wp-content/uploads/brizy/imgs/Kitchen-1-752x532x22x0x708x532x1690959624.jpeg" alt="Sleek Kitchen Interior">
+                <img src="https://anvisionspace.com/wp-content/uploads/brizy/imgs/WhatsApp-Image-2023-07-10-at-15.11.54-1-748x530x22x0x706x530x1690959733.jpeg" alt="Cozy Bedroom Design">
+                <img src="https://anvisionspace.com/wp-content/uploads/brizy/imgs/Living-2-748x530x22x0x706x530x1690960403.jpeg" alt="Spacious Living Area">
+                <img src="https://anvisionspace.com/wp-content/uploads/brizy/imgs/WhatsApp-Image-2023-07-10-at-15.11.51-752x532x22x0x708x532x1690960539.jpeg" alt="Luxury Interior Detail">
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Projects Section -->
+    <section class="py-20 lg:py-28">
+        <div class="container mx-auto px-4">
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="text-center md:text-left lg:col-span-3 mb-4">
+                    <h3 class="text-2xl font-semibold text-gray-700">Featured Projects</h3>
+                </div>
+                <!-- Project 1 -->
+                <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300">
+                    <h4 class="text-xl font-bold text-gray-800">20B Kallang Breeze</h4>
+                    <a href="#" class="inline-block mt-4 text-[#8E7AB5] font-semibold hover:underline">View Project &rarr;</a>
+                </div>
+                <!-- Project 2 -->
+                <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300">
+                    <h4 class="text-xl font-bold text-gray-800">23 Bendemeer Ville</h4>
+                    <a href="#" class="inline-block mt-4 text-[#8E7AB5] font-semibold hover:underline">View Project &rarr;</a>
+                </div>
+                <!-- Project 3 -->
+                <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300">
+                    <h4 class="text-xl font-bold text-gray-800">164C Rivervale Crescent</h4>
+                    <a href="#" class="inline-block mt-4 text-[#8E7AB5] font-semibold hover:underline">View Project &rarr;</a>
+                </div>
+            </div>
+            <div class="text-center mt-12">
+                <a href="#" class="bg-gray-800 text-white font-bold py-3 px-8 rounded-lg hover:bg-gray-700 transition-colors duration-300">View All Projects</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="py-20 lg:py-28 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl lg:text-4xl font-bold text-center text-gray-800 mb-12">Glimpses of Gratitude</h2>
+            <div class="grid md:grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Testimonial 1 -->
+                <div class="border border-gray-200 rounded-xl p-8">
+                    <p class="text-gray-600 mb-6 italic">“An:Vision Space exceeded my expectations in every way... They turned my ordinary living room into a haven of comfort and elegance. I couldn’t be happier with the results!”</p>
+                    <p class="font-bold text-gray-800">- Winnie Ang</p>
+                </div>
+                <!-- Testimonial 2 -->
+                <div class="border border-gray-200 rounded-xl p-8 bg-[#f5f3f9]">
+                    <p class="text-gray-600 mb-6 italic">“Working with Tiffany was a delightful experience... I’m incredibly happy with my new home; it feels like a true masterpiece.”</p>
+                    <p class="font-bold text-gray-800">- Adrian Tan</p>
+                </div>
+                <!-- Testimonial 3 -->
+                <div class="border border-gray-200 rounded-xl p-8">
+                    <p class="text-gray-600 mb-6 italic">“My bedroom now feels like a luxurious retreat where I can unwind after a long day. It’s a masterpiece of comfort and tranquility.”</p>
+                    <p class="font-bold text-gray-800">- Rachel Ooi</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact" class="bg-gray-800 text-white py-16">
+        <div class="container mx-auto px-4 grid md:grid-cols-3 gap-12 text-center md:text-left">
+            <div>
+                <h3 class="text-2xl font-bold mb-4">Let's Create Together.</h3>
+                <p class="text-gray-400">We look forward to creating more amazing spaces with you. Watch this space.</p>
+                 <a href="#">
+                    <img src="https://anvisionspace.com/wp-content/uploads/brizy/imgs/AnVision-Space-310x32x0x0x310x32x1666078344.png" alt="An:Vision Space Logo" class="h-8 w-auto mt-6 mx-auto md:mx-0 opacity-70">
+                </a>
+            </div>
+             <div>
+                <h4 class="text-lg font-semibold mb-4">Get In Touch</h4>
+                <ul class="space-y-3 text-gray-300">
+                    <li><a href="mailto:hello@anvisionspace.com" class="hover:text-white transition">hello@anvisionspace.com</a></li>
+                    <li><a href="https://wa.me/6596333814" target="_blank" class="hover:text-white transition">+65 9633 3814</a></li>
+                    <li>
+                        <p>24 New Industrial Road<br>#07-04 InSpace<br>Singapore 536210</p>
+                    </li>
+                </ul>
+            </div>
+             <div>
+                <h4 class="text-lg font-semibold mb-4">Follow Us</h4>
+                <div class="flex justify-center md:justify-start space-x-4">
+                    <a href="#" class="text-gray-400 hover:text-white transition">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd" /></svg>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition">
+                       <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.85s-.011 3.585-.069 4.85c-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07s-3.585-.012-4.85-.07c-3.252-.148-4.771-1.691-4.919-4.919-.058-1.265-.069-1.645-.069-4.85s.011-3.585.069-4.85c.149-3.225 1.664-4.771 4.919-4.919 1.266-.057 1.644-.069 4.85-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948s.014 3.667.072 4.947c.2 4.358 2.618 6.78 6.98 6.98 1.281.059 1.689.073 4.948.073s3.667-.014 4.947-.072c4.358-.2 6.78-2.618 6.98-6.98.059-1.281.073-1.689.073-4.948s-.014-3.667-.072-4.947c-.2-4.358-2.618-6.78-6.98-6.98-1.281-.059-1.689-.073-4.948-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.162 6.162 6.162 6.162-2.759 6.162-6.162-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4s1.791-4 4-4 4 1.79 4 4-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44 1.441-.645 1.441-1.44-.645-1.44-1.441-1.44z" /></svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="mt-12 pt-8 border-t border-gray-700 text-center text-gray-500 text-sm">
+            <p>&copy; 2024 An:Vision Space. All Rights Reserved. Designed to Impress.</p>
+        </div>
+    </footer>
+
+
+</body>
+</html>
