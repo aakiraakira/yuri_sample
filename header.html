@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>YEW – Apple-style Liquid Glass Header</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+
+<style>
+/* ==============================================
+   Apple-style Liquid Glass Header (YDL edition)
+   FINAL PRODUCTION VERSION
+   
+   - Scoped CSS to body#ydl-header-scope
+   - Increased font size/weight
+   - Removed hover arrows
+   ============================================== */
+
+/* --- Tokens --- */
+:root{
+  --header-h: 48px;              /* sticky bar height */
+  --fg: #f5f5f7;
+  --fg-soft:#d2d2d7;
+  --muted:#a1a1a6;
+  --glass: rgba(17,17,18,.65);
+  --panel: rgba(18,18,20,.74);
+  --hover: rgba(255,255,255,.08);
+  --ring:  rgba(255,255,255,.22);
+  --border: rgba(255,255,255,.08);
+  --maxw: 1280px;
+  --sp: 18px;
+  --t-fast: 140ms;
+  --t: 300ms; /* Panel open/close speed */
+  --t-slow: 500ms; /* Stagger animation speed */
+  --ease: cubic-bezier(.22,.61,.36,1);
+  --ease-soft: cubic-bezier(.16,1,.3,1);
+}
+
+/* --- Reset --- */
+body#ydl-header-scope * {box-sizing:border-box}
+body#ydl-header-scope {
+  margin: 0; /* Apply margin 0 only to our scoped body */
+  background:#000; color:var(--fg);
+  font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+}
+
+/* =======================================
+   Sticky glass header
+   ======================================= */
+body#ydl-header-scope .header{
+  position:sticky; top:0; z-index:9999;
+  background:var(--glass);
+  backdrop-filter:saturate(180%) blur(22px);
+  -webkit-backdrop-filter:saturate(180%) blur(22px);
+  transition: transform 300ms var(--ease-soft);
+}
+body#ydl-header-scope .header.header--hidden {
+  transform: translateY(-100%);
+}
+body#ydl-header-scope .header__inner{
+  height:var(--header-h);
+  max-width:var(--maxw); margin:0 auto; padding:0 var(--sp);
+  display: grid;
+  grid-template-columns: 1fr auto 1fr; /* Left, Center, Right */
+  align-items: center;
+  gap: 10px;
+}
+
+/* brand */
+body#ydl-header-scope .brand{
+  grid-column: 1 / 2;
+  justify-self: start;
+  display:inline-flex; align-items:center; text-decoration:none; color:var(--fg);
+  padding:6px 8px; border-radius:10px;
+}
+body#ydl-header-scope .brand__img{height:18px; display:block; object-fit:contain}
+
+/* desktop nav */
+body#ydl-header-scope .nav{
+  grid-column: 2 / 3;
+  justify-self: center;
+  display:flex; align-items:center; gap:6px;
+}
+body#ydl-header-scope .nav__link,
+body#ydl-header-scope .nav__btn{
+  appearance:none; border:0; background:transparent; color:var(--fg);
+  text-decoration:none; cursor:pointer; user-select:none;
+  padding:10px 12px; border-radius:12px;
+  font:500 13px/1 Inter,system-ui,sans-serif; letter-spacing:.02em;
+  transition:background var(--t-fast) var(--ease), color var(--t-fast) var(--ease), transform var(--t-fast) var(--ease);
+}
+body#ydl-header-scope .nav__link:hover,
+body#ydl-header-scope .nav__btn:hover{ background:var(--hover); transform:translateY(-.5px) }
+body#ydl-header-scope .nav__link:focus-visible,
+body#ydl-header-scope .nav__btn:focus-visible{ outline:none; box-shadow:0 0 0 2px var(--ring) inset }
+body#ydl-header-scope .nav__btn[aria-expanded="true"]{ color:var(--fg) }
+
+body#ydl-header-scope.has-overlay .nav__link,
+body#ydl-header-scope.has-overlay .nav__btn{ color:var(--fg-soft) }
+body#ydl-header-scope.has-overlay .nav__btn[aria-expanded="true"],
+body#ydl-header-scope.has-overlay .nav__btn:hover,
+body#ydl-header-scope.has-overlay .nav__link:hover{ color:var(--fg) }
+
+/* right side actions */
+body#ydl-header-scope .push{ display: none; }
+body#ydl-header-scope .actions{
+  grid-column: 3 / 4;
+  justify-self: end;
+  display:flex; align-items:center; gap:6px;
+}
+body#ydl-header-scope .iconbtn{
+  width:36px; height:36px; display:grid; place-items:center;
+  border:0; background:transparent; border-radius:12px; color:var(--fg); cursor:pointer;
+  transition:background var(--t-fast) var(--ease), transform var(--t-fast) var(--ease);
+  position: relative; /* For stacking hamburger icons */
+}
+body#ydl-header-scope .iconbtn:hover{ background:var(--hover); transform:translateY(-.5px) }
+body#ydl-header-scope .iconbtn:focus-visible{ outline:none; box-shadow:0 0 0 2px var(--ring) inset }
+body#ydl-header-scope .iconbtn svg{width:18px; height:18px}
+body#ydl-header-scope .hamburger{ display:none } 
+
+/* Hamburger/X Animation */
+body#ydl-header-scope .icon-hamburger,
+body#ydl-header-scope .icon-close {
+    transition: transform 300ms var(--ease), opacity 300ms var(--ease);
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%) scale(1) rotate(0deg);
+    opacity: 1;
+    width: 18px; 
+    height: 18px;
+}
+body#ydl-header-scope .icon-close {
+    transform: translate(-50%, -50%) scale(0.8) rotate(-90deg);
+    opacity: 0;
+}
+body#ydl-header-scope .hamburger[aria-expanded="true"] .icon-hamburger {
+    transform: translate(-50%, -50%) scale(0.8) rotate(90deg);
+    opacity: 0;
+}
+body#ydl-header-scope .hamburger[aria-expanded="true"] .icon-close {
+    transform: translate(-50%, -50%) scale(1) rotate(0deg);
+    opacity: 1;
+}
+
+/* overlay behind panels */
+body#ydl-header-scope .overlay{
+  position:fixed; inset:0; background:rgba(0,0,0,.46); opacity:0; pointer-events:none;
+  transition:opacity var(--t) var(--ease-soft); z-index:9998;
+}
+body#ydl-header-scope .overlay.show{ opacity:1; pointer-events:auto }
+
+/* ===== Panels (mega/search/bag) ===== */
+body#ydl-header-scope .panel{
+  position:fixed; left:0; right:0; top:var(--header-h);
+  background:var(--panel);
+  backdrop-filter:saturate(180%) blur(24px);
+  -webkit-backdrop-filter:saturate(180%) blur(24px);
+  box-shadow:0 18px 40px rgba(0,0,0,.40);
+  z-index:9999;
+  /* FOUC Fix */
+  display:none; 
+  opacity:0; 
+  visibility: hidden;
+  transform:translateY(-8px) scale(.985);
+  transform-origin:top center;
+  transition:transform var(--t) var(--ease), opacity var(--t) var(--ease), visibility 0s var(--t);
+}
+body#ydl-header-scope .panel.open{ 
+  display:block;
+  visibility: visible;
+  transition-delay: 0s;
+}
+body#ydl-header-scope .panel.animate-in{ opacity:1; transform:translateY(0) scale(1) }
+
+/* mega layout */
+body#ydl-header-scope .mega__wrap{
+  max-width:var(--maxw); margin:0 auto;
+  padding: 40px var(--sp) 60px;
+  display:grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap:36px;
+}
+
+/* Polished Staggered Animation (Includes Search/Bag) */
+body#ydl-header-scope .mega__col h4,
+body#ydl-header-scope .mega__col a,
+body#ydl-header-scope .searchbar,
+body#ydl-header-scope .chip,
+body#ydl-header-scope .bag__empty,
+body#ydl-header-scope .bag__cta {
+  opacity: 0;
+  transform: translateY(5px);
+  transition: opacity var(--t-slow) var(--ease), 
+              transform var(--t-slow) var(--ease),
+              background var(--t-fast) var(--ease), 
+              color var(--t-fast) var(--ease);
+}
+body#ydl-header-scope .panel.animate-in .mega__col h4,
+body#ydl-header-scope .panel.animate-in .mega__col a,
+body#ydl-header-scope .panel.animate-in .searchbar,
+body#ydl-header-scope .panel.animate-in .chip,
+body#ydl-header-scope .panel.animate-in .bag__empty,
+body#ydl-header-scope .panel.animate-in .bag__cta {
+    opacity: 1;
+    transform: translateY(0);
+}
+/* Stagger Delays */
+body#ydl-header-scope .panel.animate-in .mega__col h4                { transition-delay: 100ms; }
+body#ydl-header-scope .panel.animate-in .mega__col a:nth-of-type(1)  { transition-delay: 140ms; }
+body#ydl-header-scope .panel.animate-in .mega__col a:nth-of-type(2)  { transition-delay: 180ms; }
+body#ydl-header-scope .panel.animate-in .mega__col a:nth-of-type(3)  { transition-delay: 220ms; }
+body#ydl-header-scope .panel.animate-in .mega__col a:nth-of-type(4)  { transition-delay: 260ms; }
+body#ydl-header-scope .panel.animate-in .mega__col a:nth-of-type(5)  { transition-delay: 300ms; }
+body#ydl-header-scope .panel.animate-in .mega__col a:nth-of-type(6)  { transition-delay: 340ms; }
+body#ydl-header-scope .panel.animate-in .searchbar                 { transition-delay: 100ms; }
+body#ydl-header-scope .panel.animate-in .chip:nth-of-type(1)       { transition-delay: 140ms; }
+body#ydl-header-scope .panel.animate-in .chip:nth-of-type(2)       { transition-delay: 180ms; }
+body#ydl-header-scope .panel.animate-in .chip:nth-of-type(3)       { transition-delay: 220ms; }
+body#ydl-header-scope .panel.animate-in .chip:nth-of-type(4)       { transition-delay: 260ms; }
+body#ydl-header-scope .panel.animate-in .bag__empty                { transition-delay: 100ms; }
+body#ydl-header-scope .panel.animate-in .bag__cta                  { transition-delay: 140ms; }
+
+body#ydl-header-scope .mega__col h4{
+  margin:0 0 16px; 
+  padding: 0 10px; /* Align with link text */
+  font: 600 14px/1.2 Inter,system-ui; 
+  color:var(--fg-soft); text-transform:uppercase; letter-spacing:.06em;
+}
+body#ydl-header-scope .mega__col a{
+  display:block; text-decoration:none; border:0;
+  padding: 8px 10px; 
+  margin: 4px 0; 
+  border-radius:10px;
+  position: relative;
+}
+body#ydl-header-scope .mega__col a:hover{ 
+  background:var(--hover); transform:translateX(2px) translateY(0);
+  opacity: 1 !important; 
+  transition-delay: 0ms !important;
+}
+
+/* Visual Hierarchy Classes */
+body#ydl-header-scope .mega__link--primary {
+  /* NEW: Larger font */
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--fg);
+}
+body#ydl-header-scope .mega__link--secondary {
+  /* NEW: Larger font & weight */
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--fg-soft);
+}
+body#ydl-header-scope .mega__link--secondary:hover {
+  color: var(--fg);
+}
+body#ydl-header-scope .mega__col{ padding-left:0; border-left:0 }
+
+/* Search tray */
+body#ydl-header-scope .search__wrap{ max-width:var(--maxw); margin:0 auto; padding:16px var(--sp) 18px }
+body#ydl-header-scope .searchbar{
+  display:flex; align-items:center; gap:10px;
+  background:rgba(255,255,255,.06); border:1px solid var(--border);
+  border-radius:14px; padding:10px 12px;
+}
+body#ydl-header-scope .searchbar input{
+  flex:1; background:transparent; border:0; outline:0; color:var(--fg); font:500 15px Inter,system-ui;
+}
+body#ydl-header-scope .searchbar kbd{opacity:.55; font:600 12px/1 Inter; letter-spacing:.08em}
+body#ydl-header-scope .search__chips{display:flex; gap:12px; flex-wrap:wrap; margin-top:12px}
+body#ydl-header-scope .chip{
+  padding:8px 10px; border-radius:999px; font-size:13px; color:var(--fg-soft);
+  border:1px solid var(--border); background:rgba(255,255,255,.04); text-decoration:none;
+}
+body#ydl-header-scope .chip:hover{ color:var(--fg); background:var(--hover) }
+
+/* Bag tray */
+body#ydl-header-scope .bag__wrap{ max-width:var(--maxw); margin:0 auto; padding:18px var(--sp) 18px }
+body#ydl-header-scope .bag__empty{ color:var(--fg-soft); padding:6px 2px }
+body#ydl-header-scope .bag__cta{ margin-top:10px }
+body#ydl-header-scope .bag__cta a{
+  display:inline-block; text-decoration:none; color:#000; background:#fff; font:600 13px/1 Inter;
+  padding:10px 14px; border-radius:12px;
+}
+
+/* =============================
+   Mobile
+   ============================= */
+@media (max-width: 1060px){
+  /* Revert to mobile flex layout */
+  body#ydl-header-scope .header__inner{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  body#ydl-header-scope .brand {
+    grid-column: auto;
+    justify-self: auto;
+  }
+  body#ydl-header-scope .nav{ display:none }
+  body#ydl-header-scope .push { display: block; flex: 1; }
+  body#ydl-header-scope .actions {
+    grid-column: auto;
+    justify-self: auto;
+  }
+
+  body#ydl-header-scope .hamburger{display:grid} 
+  
+  /* Mobile Header Layout: Search, Cart, Hamburger */
+  body#ydl-header-scope .actions .iconbtn#btnSearch { order: 1; }
+  body#ydl-header-scope .actions .iconbtn[aria-label="Cart"] { order: 2; }
+  body#ydl-header-scope .actions .iconbtn.hamburger { order: 3; }
+
+  body#ydl-header-scope .panel{ top:var(--header-h) }
+  body#ydl-header-scope .mobile{ position:fixed; left:0; right:0; top:var(--header-h); z-index:9999;
+          background:var(--panel); backdrop-filter:saturate(180%) blur(24px); -webkit-backdrop-filter:saturate(180%) blur(24px);
+          display:none; opacity:0; visibility: hidden;
+          transform:translateY(-8px) scale(.985);
+          transition:transform var(--t) var(--ease), opacity var(--t) var(--ease), visibility 0s var(--t);
+          height: calc(100vh - var(--header-h));
+          overflow-y: auto;
+        }
+  body#ydl-header-scope .mobile.open{ display:block; visibility: visible; transition-delay: 0s; }
+  body#ydl-header-scope .mobile.animate-in{ opacity:1; transform:translateY(0) scale(1) }
+
+  /* Mobile Title Centering */
+  body#ydl-header-scope .mobile__head{
+    display: grid; 
+    grid-template-columns: 1fr auto 1fr; 
+    align-items: center;
+    height:52px; padding:0 var(--sp);
+    border-bottom:1px solid var(--border);
+    position: sticky; top: 0;
+    background: var(--panel);
+    z-index: 10;
+  }
+  body#ydl-header-scope .mobile__back{
+    display:none; border:0; background:transparent; color:var(--fg);
+    width:38px; height:38px; border-radius:12px; cursor:pointer;
+    grid-column: 1 / 2;
+    justify-self: start;
+  }
+  body#ydl-header-scope .mobile__title{
+    font:600 16px/1 Inter; color:var(--fg);
+    grid-column: 2 / 3;
+    justify-self: center;
+    position: relative;
+    opacity: 1;
+    transform: translateX(0);
+    transition: opacity 200ms var(--ease), transform 200ms var(--ease);
+  }
+  body#ydl-header-scope .mobile__title.slide-out {
+      opacity: 0;
+      transform: translateX(-20px);
+  }
+  body#ydl-header-scope .mobile__title.slide-in {
+      opacity: 0;
+      transform: translateX(20px);
+  }
+
+  body#ydl-header-scope .mobile__wrap{ padding:10px var(--sp) 16px }
+  body#ydl-header-scope .mobile__item, 
+  body#ydl-header-scope .mobile__btn{
+    width:100%; text-align:left; display:flex; align-items:center; justify-content:space-between;
+    text-decoration: none;
+    padding:12px 14px; border-radius:12px; color:var(--fg); background:transparent; border:0; cursor:pointer;
+    font:500 15px Inter,system-ui; letter-spacing:.02em;
+    /* --- Mobile Animation Base --- */
+    opacity: 0;
+    transform: translateY(5px);
+    transition: opacity 300ms var(--ease), 
+                transform 300ms var(--ease),
+                background var(--t-fast) var(--ease),
+                color var(--t-fast) var(--ease);
+  }
+  body#ydl-header-scope .mobile__item:hover, 
+  body#ydl-header-scope .mobile__btn:hover{ background:var(--hover); color: var(--fg); }
+  
+  /* Mobile Hierarchy */
+  body#ydl-header-scope .mobile__item--primary {
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--fg);
+  }
+  body#ydl-header-scope .mobile__section[data-m-section] .mobile__item:not(.mobile__item--primary) {
+    font-weight: 500;
+    color: var(--fg-soft);
+    padding-left: 20px; /* Indent sub-items */
+  }
+  
+  body#ydl-header-scope .mobile__section{ display:none; }
+  body#ydl-header-scope .mobile__section.show{ display:block }
+  
+  /* --- Mobile Staggered Animation (for ALL sections) --- */
+  body#ydl-header-scope .mobile__section.show .mobile__item,
+  body#ydl-header-scope .mobile__section.show .mobile__btn {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  body#ydl-header-scope .mobile__section.show .mobile__item:nth-of-type(1),
+  body#ydl-header-scope .mobile__section.show .mobile__btn:nth-of-type(1) { transition-delay: 50ms; }
+  body#ydl-header-scope .mobile__section.show .mobile__item:nth-of-type(2),
+  body#ydl-header-scope .mobile__section.show .mobile__btn:nth-of-type(2) { transition-delay: 75ms; }
+  body#ydl-header-scope .mobile__section.show .mobile__item:nth-of-type(3),
+  body#ydl-header-scope .mobile__section.show .mobile__btn:nth-of-type(3) { transition-delay: 100ms; }
+  body#ydl-header-scope .mobile__section.show .mobile__item:nth-of-type(4),
+  body#ydl-header-scope .mobile__section.show .mobile__btn:nth-of-type(4) { transition-delay: 125ms; }
+  body#ydl-header-scope .mobile__section.show .mobile__item:nth-of-type(5),
+  body#ydl-header-scope .mobile__section.show .mobile__btn:nth-of-type(5) { transition-delay: 150ms; }
+  body#ydl-header-scope .mobile__section.show .mobile__item:nth-of-type(6),
+  body#ydl-header-scope .mobile__section.show .mobile__btn:nth-of-type(6) { transition-delay: 175ms; }
+  body#ydl-header-scope .mobile__section.show .mobile__item:nth-of-type(7),
+  body#ydl-header-scope .mobile__section.show .mobile__btn:nth-of-type(7) { transition-delay: 200ms; }
+  body#ydl-header-scope .mobile__section.show .mobile__item:nth-of-type(8),
+  body#ydl-header-scope .mobile__section.show .mobile__btn:nth-of-type(8) { transition-delay: 225ms; }
+  body#ydl-header-scope .mobile__section.show .mobile__item:nth-of-type(9),
+  body#ydl-header-scope .mobile__section.show .mobile__btn:nth-of-type(9) { transition-delay: 250ms; }
+}
+
+/* Reduce motion */
+@media (prefers-reduced-motion: reduce){
+  body#ydl-header-scope .nav__link,
+  body#ydl-header-scope .nav__btn,
+  body#ydl-header-scope .iconbtn{ transition:none }
+  body#ydl-header-scope .panel,
+  body#ydl-header-scope .mobile{ transition:none }
+  body#ydl-header-scope .mega__col h4, 
+  body#ydl-header-scope .mega__col a { opacity: 1; transform: none; transition: none; }
+  body#ydl-header-scope .mobile__title { transition: none; }
+  body#ydl-header-scope .header { transition: none; }
+  body#ydl-header-scope .mobile__item,
+  body#ydl-header-scope .mobile__btn { opacity: 1; transform: none; transition: none; }
+  
+  /* Remove animated hamburger */
+  body#ydl-header-scope .icon-close { transform: none; opacity: 0; display: none; }
+  body#ydl-header-scope .hamburger[aria-expanded="true"] .icon-hamburger { transform: none; opacity: 1; display: block; }
+  body#ydl-header-scope .hamburger[aria-expanded="true"] .icon-close { display: block; }
+  body#ydl-header-scope .hamburger[aria-expanded="true"] .icon-hamburger { display: none; }
+}
+</style>
+</head>
+<body id="ydl-header-scope">
+
+<header class="header" id="ydlHeader" aria-label="Site header">
+  <div class="header__inner">
+
+    <a class="brand" href="https://yewdigitallock.com.sg/" aria-label="Home">
+      <img class="brand__img" alt="Yew Digital Lock" src="https://yewdigitallock.com.sg/wp-content/uploads/2023/09/YEW_NEW-LOGO_White-transparent-bg-e1761443184213-2048x581.png"/>
+    </a>
+
+    <nav class="nav" aria-label="Primary">
+      <button class="nav__btn" data-menu="digital" aria-expanded="false" aria-controls="menu-digital">Digital Locks</button>
+      <button class="nav__btn" data-menu="brands" aria-expanded="false" aria-controls="menu-brands">Brands</button>
+      <button class="nav__btn" data-menu="doors" aria-expanded="false" aria-controls="menu-doors">Doors &amp; Gates</button>
+      <button class="nav__btn" data-menu="nikawa" aria-expanded="false" aria-controls="menu-nikawa">Nikawa Safe</button>
+      <button class="nav__btn" data-menu="laundry" aria-expanded="false" aria-controls="menu-laundry">Smart Laundry Rack</button>
+      <button class="nav__btn" data-menu="services" aria-expanded="false" aria-controls="menu-services">Services</button>
+      <button class="nav__btn" data-menu="blog" aria-expanded="false" aria-controls="menu-blog">Blog</button>
+      <button class="nav__btn" data-menu="visit" aria-expanded="false" aria-controls="menu-visit">Visit Us</button>
+    </nav>
+
+    <div class="push"></div> <div class="actions">
+      <button class="iconbtn" id="btnSearch" aria-expanded="false" aria-controls="searchPanel" aria-label="Search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+      </button>
+      <a class="iconbtn" href="https://yewdigitallock.com.sg/cart" aria-label="Cart">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 7h12l-1 13H7L6 7Z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg>
+      </a>
+      <button class="iconbtn hamburger" id="btnHamburger" aria-expanded="false" aria-controls="mobileNav" aria-label="Open menu">
+          <svg class="icon-hamburger" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+          <svg class="icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="overlay" id="navOverlay" aria-hidden="true"></div>
+
+<section class="panel" id="menu-digital" role="dialog" aria-label="Digital Locks">
+  <div class="mega__wrap">
+    <div class="mega__col">
+      <h4>Explore Locks</h4>
+      <a class="mega__link--primary" href="https://yewdigitallock.com.sg/product-category/digital-locks/">Shop All Digital Locks</a>
+      <a class="mega__link--secondary" href="https://yewdigitallock.com.sg/product-category/digital-locks/digital-door-locks/">Digital Door Locks</a>
+      <a class="mega__link--secondary" href="https://yewdigitallock.com.sg/product-category/digital-locks/gate-digital-lock/">Gate Digital Lock</a>
+      <a class="mega__link--secondary" href="https://yewdigitallock.com.sg/product-category/digital-locks/digital-lock-bundle/">Digital Lock Bundles</a>
+    </div>
+    <div class="mega__col">
+      <h4>Shop Brands</h4>
+      <a class="mega__link--secondary" href="https://yewdigitallock.com.sg/product-category/yew/">Yew</a>
+      <a class="mega__link--secondary" href="https://yewdigitallock.com.sg/product-category/solity/">Solity</a>
+      <a class="mega__link--secondary" href="https://yewdigitallock.com.sg/product-category/aqara/">Aqara</a>
+    </div>
+    <div class="mega__col">
+      <h4>Related Services</h4>
+      <a class="mega__link--secondary" href="https://yewdigitallock.com.sg/digital-lock-installation/">Installation Service</a>
+      <a class="mega__link--secondary" href="https://yewdigitallock.com.sg/locksmith-singapore/">Locksmith Services</a>
+    </div>
+  </div>
+</section>
+
+<section class="panel" id="menu-brands" role="dialog" aria-label="Brands">
+  <div class="mega__wrap" style="grid-template-columns: 1fr 1fr 1fr;">
+    <div class="mega__col">
+      <h4>Shop by Brand</h4>
+      <a class="mega__link--secondary" href="https://yewdigitallock.com.sg/product-category/yew/">Yew</a>
+      <a class="mega__link--secondary" href="https://yewdigitallock.com.sg/product-category/solity/">Solity</a>
+      <a class="mega__link--secondary" href="https://yewdigitallock.com.sg/product-category/aqara/">Aqara</a>
+      <a class="mega__link--secondary" href="https://yewdigitallock.com.sg/product-category/elite/">Elite</a>
+      <a class="mega__link--secondary" href="https://yewdigitallock.com.sg/product-category/klock/">Klock</a>
+    </div>
+    <div class="mega__col">
+      <h4>Shop by Type</h4>
+      <a class="mega__link--secondary" href="https://yewdigitallock.com.sg/product-category/digital-locks/digital-door-locks/">Digital Door Locks</a>
+      <a class="mega__link--secondary" href="https://yewdigitallock.com.sg/product-category/digital-locks/gate-digital-lock/">Gate Digital Lock</a>
+      <a class="mega__link--secondary" href="https://yewdigitallock.com.sg/product-category/digital-locks/digital-lock-bundle/">Digital Lock Bundles</a>
+    </div>
+    <div class="mega__col">
+      <h4>Connect</h4>
+      <a class="mega__link--secondary" href="https://wa.me/6589037088" target="_blank" rel="noopener">WhatsApp</a>
+      <a class="mega__link--secondary" href="https://www.facebook.com/p/Yew-Digital-Lock-Pte-Ltd-100095223407972/" target="_blank" rel="noopener">Facebook</a>
+      <a class="mega__link--secondary" href="https://www.youtube.com/channel/UCAHrT8jWX-nJqyR9EGwMi3w" target="_blank" rel="noopener">YouTube</a>
+      <a class="mega__link--secondary" href="https://www.instagram.com/yewdigitallock/?hl=en" target="_blank" rel="noopener">Instagram</a>
+    </div>
+  </div>
+</section>
+
+<section class="panel" id="menu-doors" role="dialog" aria-label="Doors & Gates">
+  <div class="mega__wrap">
+    <div class="mega__col">
+      <h4>Explore Doors</h4>
+      <a class="mega__link--primary" href="https://yewdigitallock.com.sg/product-category/doors/">Shop All Doors</a>
+      <a class="mega__link--secondary" href="https://yewdigitallock.com.sg/product-category/doors/bedroom-doors/">Bedroom Doors</a>
+      <a class="mega__link--secondary" href="https://yewdigitallock.com.sg/product-category/doors/wooden-doors/">Wooden Doors</a>
+      <a class="mega__link--secondary" href="https://yewdigitallock.com.sg/product-category/doors/pd-door/">PD Doors</a>
+    </div>
+    <div class="mega__col">
+      <h4>Explore Gates</h4>
+      <a class="mega__link--primary" href="https://yewdigitallock.com.sg/product-category/metal-gates/">Shop All Metal Gates</a>
+      <a class="mega__link--secondary" href="https://yewdigitallock.com.sg/product/custom-made-gate/">Yew Gate CMG</a>
+      <a class="mega__link--secondary" href="https://yewdigitallock.com.sg/product/yew-gate-yg1/">Yew Gate YG1</a>
+      <a class="mega__link--secondary" href="https://yewdigitallock.com.sg/product/yew-gate-yg10/">Yew Gate YG10</a>
+    </div>
+    <div class="mega__col">
+      <h4>Custom</h4>
+      <a class="mega__link--secondary" href="https://yewdigitallock.com.sg/door-design-and-gate-design-services/">Custom Door &amp; Gate Design</a>
+    </div>
+  </div>
+</section>
+
+<section class="panel" id="menu-nikawa" role="dialog" aria-label="Nikawa Safe">
+  <div class="mega__wrap" style="grid-template-columns: 1fr 1fr;">
+    <div class="mega__col">
+      <h4>Shop Safes</h4>
+      <a class="mega__link--primary" href="https://yewdigitallock.com.sg/product-category/nikawa-safe/">Shop All Nikawa Safes</a>
+      <a class="mega__link--secondary" href="https://yewdigitallock.com.sg/product/nikawa-bp2ea-flip-up-safe-box/">Nikawa BP2EA Flip Safe</a>
+      <a class="mega__link--secondary" href="https://yewdigitallock.com.sg/product/nikawa-eis250-digital-safe-box/">Nikawa EIS250 Safe</a>
+      <a class="mega__link--secondary" href="https://yewdigitallock.com.sg/product/nikawa-eis500-digital-safe-box/">Nikawa EIS500 Safe</a>
+    </div>
+    <div class="mega__col">
+      <h4>Connect</h4>
+      <a class="mega__link--secondary" href="https://wa.me/6589037088" target="_blank" rel="noopener">WhatsApp</a>
+      <a class="mega__link--secondary" href="https://www.facebook.com/p/Yew-Digital-Lock-Pte-Ltd-100095223407972/" target="_blank" rel="noopener">Facebook</a>
+      <a class="mega__link--secondary" href="https://www.youtube.com/channel/UCAHrT8jWX-nJqyR9EGwMi3w" target="_blank" rel="noopener">YouTube</a>
+      <a class="mega__link--secondary" href="https://www.instagram.com/yewdigitallock/?hl=en" target="_blank" rel="noopener">Instagram</a>
+    </div>
+  </div>
+</section>
+
+<section class="panel" id="menu-laundry" role="dialog" aria-label="Smart Laundry Rack">
+  <div class="mega__wrap" style="grid-template-columns: 1fr 1fr;">
+    <div class="mega__col">
+      <h4>Shop Racks</h4>
+      <a class="mega__link--primary" href="https://yewdigitallock.com.sg/product-category/smart-laundry-rack/">Shop All Smart Laundry Racks</a>
+      <a class="mega__link--secondary" href="https://yewdigitallock.com.sg/product/yew-003-smart-laundry-rack/">Yew 003 Smart Laundry Rack</a>
+      <a class="mega__link--secondary" href="https://yewdigitallock.com.sg/product/yew-basic-smart-laundry/">Yew Basic Laundry Rack</a>
+      <a class="mega__link--secondary" href="https://yewdigitallock.com.sg/product/yew-f60-smart-laundry-rack/">Yew F60 Laundry Rack</a>
+      <a class="mega__link--secondary" href="https://yewdigitallock.com.sg/product/yew-f70-smart-laundry-rack/">Yew F70 Laundry Rack</a>
+    </div>
+    <div class="mega__col">
+      <h4>Connect</h4>
+      <a class="mega__link--secondary" href="https://wa.me/6589037088" target="_blank" rel="noopener">WhatsApp</a>
+      <a class="mega__link--secondary" href="https://www.facebook.com/p/Yew-Digital-Lock-Pte-Ltd-100095223407972/" target="_blank" rel="noopener">Facebook</a>
+      <a class="mega__link--secondary" href="https://www.youtube.com/channel/UCAHrT8jWX-nJqyR9EGwMi3w" target="_blank" rel="noopener">YouTube</a>
+      <a class="mega__link--secondary" href="https://www.instagram.com/yewdigitallock/?hl=en" target="_blank" rel="noopener">Instagram</a>
+    </div>
+  </div>
+</section>
+
+<section class="panel" id="menu-services" role="dialog" aria-label="Services">
+  <div class="mega__wrap" style="grid-template-columns: 1fr 1fr;">
+    <div class="mega__col">
+      <h4>Our Services</h4>
+      <a class="mega__link--primary" href="https://yewdigitallock.com.sg/smart-home-system-services/">View All Services</a>
+      <a class="mega__link--secondary" href="https://yewdigitallock.com.sg/digital-lock-installation/">Digital Lock Installation</a>
+      <a class="mega__link--secondary" href="https://yewdigitallock.com.sg/smart-home-system/">Smart Home System</a>
+      <a class="mega__link--secondary" href="https://yewdigitallock.com.sg/locksmith-singapore/">Locksmith Services</a>
+      <a class="mega__link--secondary" href="https://yewdigitallock.com.sg/door-design-and-gate-design-services/">Custom Door &amp; Gate Design</a>
+    </div>
+    <div class="mega__col">
+      <h4>Connect</h4>
+      <a class="mega__link--secondary" href="https://wa.me/6589037088" target="_blank" rel="noopener">WhatsApp</a>
+      <a class="mega__link--secondary" href="https://www.facebook.com/p/Yew-Digital-Lock-Pte-Ltd-100095223407972/" target="_blank" rel="noopener">Facebook</a>
+      <a class="mega__link--secondary" href="https://www.youtube.com/channel/UCAHrT8jWX-nJqyR9EGwMi3w" target="_blank" rel="noopener">YouTube</a>
+      <a class="mega__link--secondary" href="https://www.instagram.com/yewdigitallock/?hl=en" target="_blank" rel="noopener">Instagram</a>
+    </div>
+  </div>
+</section>
+
+<section class="panel" id="menu-blog" role="dialog" aria-label="Blog">
+  <div class="mega__wrap" style="grid-template-columns: 1fr 1fr;">
+    <div class="mega__col">
+      <h4>From the Blog</h4>
+      <a class="mega__link--primary" href="https://yewdigitallock.com.sg/category/blog/">View All Posts</a>
+      <a class="mega__link--secondary" href="https://yewdigitallock.com.sg/how-much-time-do-you-save-in-1-year-with-a-digital-lock-real-math-for-singapore-homes-offices/">How Much Time Do You Save...</a>
+      <a class="mega__link--secondary" href="https://yewdigitallock.com.sg/5-best-digital-locks-in-singapore/">5 Best Digital Locks in Singapore</a>
+      <a class="mega__link--secondary" href="https://yewdigitallock.com.sg/myths-about-digital-lock-installation/">Myths About Digital Lock Installations</a>
+    </div>
+    <div class="mega__col">
+      <h4>Connect</h4>
+      <a class="mega__link--secondary" href="https://wa.me/6589037088" target="_blank" rel="noopener">WhatsApp</a>
+      <a class="mega__link--secondary" href="https://www.facebook.com/p/Yew-Digital-Lock-Pte-Ltd-100095223407972/" target="_blank" rel="noopener">Facebook</a>
+      <a class="mega__link--secondary" href="https://www.youtube.com/channel/UCAHrT8jWX-nJqyR9EGwMi3w" target="_blank" rel="noopener">YouTube</a>
+      <a class="mega__link--secondary" href="https://www.instagram.com/yewdigitallock/?hl=en" target="_blank" rel="noopener">Instagram</a>
+    </div>
+  </div>
+</section>
+
+<section class="panel" id="menu-visit" role="dialog" aria-label="Visit Us">
+  <div class="mega__wrap" style="grid-template-columns: 1fr 1fr;">
+    <div class="mega__col">
+      <h4>Our Outlets</h4>
+      <a class="mega__link--primary" href="https://yewdigitallock.com.sg/door-design-and-gate-design-services/">View Showroom Details</a>
+      <a class="mega__link--secondary" href="https://share.google/DPV2SzE36p8MD1tGb" target="_blank" rel="noopener">Woodlands Outlet (Map)</a>
+      <a class="mega__link--secondary" href="https://share.google/5sMcasMuARKvEjGxr" target="_blank" rel="noopener">Hougang Outlet (Map)</a>
+    </div>
+    <div class="mega__col">
+      <h4>Connect</h4>
+      <a class="mega__link--secondary" href="https://wa.me/6589037088" target="_blank" rel="noopener">WhatsApp</a>
+      <a class="mega__link--secondary" href="https://www.facebook.com/p/Yew-Digital-Lock-Pte-Ltd-100095223407972/" target="_blank" rel="noopener">Facebook</a>
+      <a class="mega__link--secondary" href="https://www.youtube.com/channel/UCAHrT8jWX-nJqyR9EGwMi3w" target="_blank" rel="noopener">YouTube</a>
+      <a class="mega__link--secondary" href="https://www.instagram.com/yewdigitallock/?hl=en" target="_blank" rel="noopener">Instagram</a>
+    </div>
+  </div>
+</section>
+
+<section class="panel" id="searchPanel" role="dialog" aria-label="Search">
+  <div class="search__wrap">
+    <form class="searchbar" role="search" method="get" action="https://yewdigitallock.com.sg/">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+      <input name="s" type="search" placeholder="Search Yew Digital Lock…" aria-label="Search Yew Digital Lock" autocomplete="off"/>
+      <kbd>ESC</kbd>
+    </form>
+    <div class="search__chips">
+      <a class="chip" href="https://yewdigitallock.com.sg/?s=Digital+door+lock">Digital door lock</a>
+      <a class="chip" href="https://yewdigitallock.com.sg/?s=gate+lock">Gate lock</a>
+      <a class="chip" href="https://yewdigitallock.com.sg/?s=Solity">Solity</a>
+      <a class="chip" href="https://yewdigitallock.com.sg/?s=Yew">Yew</a>
+    </div>
+  </div>
+</section>
+
+<section class="panel" id="bagPanel" role="dialog" aria-label="Cart">
+  <div class="bag__wrap">
+    <div class="bag__empty">Your bag is empty.</div>
+    <div class="bag__cta"><a href="https://yewdigitallock.com.sg/cart">Go to Cart</a></div>
+  </div>
+</section>
+
+<nav class="mobile" id="mobileNav" aria-label="Mobile menu">
+  <div class="mobile__head">
+    <button class="mobile__back" id="mBack" aria-label="Back">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="mobile__title" id="mTitle">Menu</div>
+  </div>
+
+  <div class="mobile__wrap">
+    <div class="mobile__section show" data-m-section="root">
+      <button class="mobile__btn" data-m-go="digital">Digital Locks</button>
+      <button class="mobile__btn" data-m-go="brands">Brands</button>
+      <button class="mobile__btn" data-m-go="doors">Doors &amp; Gates</button>
+      <button class="mobile__btn" data-m-go="nikawa">Nikawa Safe</button>
+      <button class="mobile__btn" data-m-go="laundry">Smart Laundry Rack</button>
+      <button class="mobile__btn" data-m-go="services">Services</button>
+      <button class="mobile__btn" data-m-go="blog">Blog</button>
+      <button class="mobile__btn" data-m-go="visit">Visit Us</button>
+      <a class="mobile__item" href="https://yewdigitallock.com.sg/cart">Cart</a>
+    </div>
+
+    <div class="mobile__section" data-m-section="digital">
+      <a class="mobile__item mobile__item--primary" href="https://yewdigitallock.com.sg/product-category/digital-locks/">All Digital Locks</a>
+      <a class="mobile__item" href="https://yewdigitallock.com.sg/product-category/digital-locks/digital-door-locks/">Digital Door Locks</a>
+      <a class="mobile__item" href="https://yewdigitallock.com.sg/product-category/digital-locks/gate-digital-lock/">Gate Digital Lock</a>
+      <a class="mobile__item" href="https://yewdigitallock.com.sg/product-category/digital-locks/digital-lock-bundle/">Digital Lock Bundles</a>
+    </div>
+
+    <div class="mobile__section" data-m-section="brands">
+      <a class="mobile__item" href="https://yewdigitallock.com.sg/product-category/yew/">Yew</a>
+      <a class="mobile__item" href="https://yewdigitallock.com.sg/product-category/solity/">Solity</a>
+      <a class="mobile__item" href="https://yewdigitallock.com.sg/product-category/aqara/">Aqara</a>
+      <a class="mobile__item" href="https://yewdigitallock.com.sg/product-category/elite/">Elite</a>
+      <a class="mobile__item" href="https://yewdigitallock.com.sg/product-category/klock/">Klock</a>
+    </div>
+
+    <div class="mobile__section" data-m-section="doors">
+      <a class="mobile__item mobile__item--primary" href="https://yewdigitallock.com.sg/product-category/doors/">All Doors</a>
+      <a class="mobile__item" href="https://yewdigitallock.com.sg/product-category/doors/bedroom-doors/">Bedroom Doors</a>
+      <a class="mobile__item" href="https://yewdigitallock.com.sg/product-category/doors/wooden-doors/">Wooden Doors</a>
+      <a class="mobile__item" href="https://yewdigitallock.com.sg/product-category/doors/pd-door/">PD Doors</a>
+      <a class="mobile__item mobile__item--primary" href="https://yewdigitallock.com.sg/product-category/metal-gates/">All Metal Gates</a>
+      <a class="mobile__item" href="https://yewdigitallock.com.sg/product/custom-made-gate/">Yew Gate CMG</a>
+      <a class="mobile__item" href="https://yewdigitallock.com.sg/product/yew-gate-yg1/">Yew Gate YG1</a>
+      <a class="mobile__item" href="https://yewdigitallock.com.sg/product/yew-gate-yg10/">Yew Gate YG10</a>
+    </div>
+
+    <div class="mobile__section" data-m-section="nikawa">
+      <a class="mobile__item mobile__item--primary" href="https://yewdigitallock.com.sg/product-category/nikawa-safe/">All Nikawa Safes</a>
+      <a class="mobile__item" href="https://yewdigitallock.com.sg/product/nikawa-bp2ea-flip-up-safe-box/">Nikawa BP2EA Flip Safe</a>
+      <a class="mobile__item" href="https://yewdigitallock.com.sg/product/nikawa-eis250-digital-safe-box/">Nikawa EIS250 Safe</a>
+      <a class="mobile__item" href="https://yewdigitallock.com.sg/product/nikawa-eis500-digital-safe-box/">Nikawa EIS500 Safe</a>
+    </div>
+
+    <div class="mobile__section" data-m-section="laundry">
+      <a class="mobile__item mobile__item--primary" href="https://yewdigitallock.com.sg/product-category/smart-laundry-rack/">All Smart Laundry Racks</a>
+      <a class="mobile__item" href="https://yewdigitallock.com.sg/product/yew-003-smart-laundry-rack/">Yew 003 Smart Laundry Rack</a>
+      <a class="mobile__item" href="https://yewdigitallock.com.sg/product/yew-basic-smart-laundry/">Yew Basic Laundry Rack</a>
+      <a class="mobile__item" href="https://yewdigitallock.com.sg/product/yew-f60-smart-laundry-rack/">Yew F60 Laundry Rack</a>
+      <a class="mobile__item" href="https://yewdigitallock.com.sg/product/yew-f70-smart-laundry-rack/">Yew F70 Laundry Rack</a>
+    </div>
+
+    <div class="mobile__section" data-m-section="services">
+      <a class="mobile__item mobile__item--primary" href="https://yewdigitallock.com.sg/smart-home-system-services/">All Services</a>
+      <a class="mobile__item" href="https://yewdigitallock.com.sg/digital-lock-installation/">Digital Lock Installation</a>
+      <a class="mobile__item" href="https://yewdigitallock.com.sg/smart-home-system/">Smart Home System</a>
+      <a class="mobile__item" href="https://yewdigitallock.com.sg/locksmith-singapore/">Locksmith Services</a>
+      <a class="mobile__item" href="https://yewdigitallock.com.sg/door-design-and-gate-design-services/">Custom Design</a>
+    </div>
+    
+    <div class="mobile__section" data-m-section="blog">
+      <a class="mobile__item mobile__item--primary" href="https://yewdigitallock.com.sg/category/blog/">All Posts</a>
+      <a class="mobile__item" href="https://yewdigitallock.com.sg/how-much-time-do-you-save-in-1-year-with-a-digital-lock-real-math-for-singapore-homes-offices/">How Much Time Do You Save...</a>
+      <a class="mobile__item" href="https://yewdigitallock.com.sg/5-best-digital-locks-in-singapore/">5 Best Digital Locks...</a>
+      <a class="mobile__item" href="https://yewdigitallock.com.sg/myths-about-digital-lock-installation/">Myths About Installation...</a>
+    </div>
+    
+    <div class="mobile__section" data-m-section="visit">
+      <a class="mobile__item mobile__item--primary" href="https://yewdigitallock.com.sg/door-design-and-gate-design-services/">Visit Us</a>
+      <a class="mobile__item" href="https://share.google/DPV2SzE36p8MD1tGb" target="_blank" rel="noopener">Woodlands Outlet (Map)</a>
+      <a class="mobile__item" href="https://share.google/5sMcasMuARKvEjGxr" target="_blank" rel="noopener">Hougang Outlet (Map)</a>
+    </div>
+  </div>
+</nav>
+
+<script>
+/* ===========================================================
+   Controller
+   - Scoped to body#ydl-header-scope
+   - Desktop hover-intent & mega-menu logic
+   - Mobile slide-in submenus with title animation
+   - Hide-on-scroll functionality
+   =========================================================== */
+(function(){
+  // Check if this script has already run
+  if (document.body.dataset.ydlHeaderInitialized) {
+    return;
+  }
+  document.body.dataset.ydlHeaderInitialized = true;
+  
+  // Ensure the scope ID is on the body
+  document.body.id = 'ydl-header-scope';
+
+  const header = document.getElementById('ydlHeader');
+  const overlay = document.getElementById('navOverlay');
+
+  // Panels
+  const panels = {
+    digital: document.getElementById('menu-digital'),
+    brands:  document.getElementById('menu-brands'),
+    doors:   document.getElementById('menu-doors'),
+    nikawa:  document.getElementById('menu-nikawa'),
+    laundry: document.getElementById('menu-laundry'),
+    services:document.getElementById('menu-services'),
+    blog:    document.getElementById('menu-blog'),
+    visit:   document.getElementById('menu-visit'),
+    search:  document.getElementById('searchPanel'),
+    bag:     document.getElementById('bagPanel'),
+    mobile:  document.getElementById('mobileNav'),
+  };
+  
+  const megaMenuIDs = ['digital','brands','doors','nikawa','laundry','services','blog','visit'];
+
+  // Triggers
+  const btnHamburger = document.getElementById('btnHamburger');
+  const btnSearch    = document.getElementById('btnSearch');
+  const menuBtns     = document.querySelectorAll('.nav__btn[data-menu]');
+
+  // Mobile
+  const mNav    = panels.mobile;
+  const mBack   = document.getElementById('mBack');
+  const mTitle  = document.getElementById('mTitle');
+  const mSections = document.querySelectorAll('[data-m-section]');
+  let isMobileAnimating = false;
+
+  // State
+  let openKind = null; // 'mega' | 'search' | 'bag' | 'mobile'
+  let openId   = null; 
+  let closeTimer = null;
+  let lastScrollTop = 0; // For hide-on-scroll
+  
+  if (!header || !overlay || !mNav) {
+    console.warn('YEW Header script: Could not find all necessary elements.');
+    return;
+  }
+
+  function syncHeaderH(){
+    const h = header.getBoundingClientRect().height || 48;
+    document.documentElement.style.setProperty('--header-h', h + 'px');
+  }
+  syncHeaderH();
+  window.addEventListener('resize', syncHeaderH);
+
+  function showOverlay(){
+    overlay.classList.add('show');
+    document.body.classList.add('has-overlay');
+  }
+  function hideOverlay(){
+    overlay.classList.remove('show');
+    document.body.classList.remove('has-overlay');
+  }
+  function animateIn(el){ requestAnimationFrame(()=> el.classList.add('animate-in')); }
+
+  function setExpanded(triggerId, val){
+    const t = document.querySelector('.nav__btn[data-menu="'+triggerId+'"]');
+    if(t) t.setAttribute('aria-expanded', val ? 'true' : 'false');
+  }
+
+  function closeAll(){
+    clearTimeout(closeTimer);
+    for(const id of megaMenuIDs){
+      const p = panels[id];
+      if(p){ p.classList.remove('animate-in','open'); setExpanded(id,false); }
+    }
+    [panels.search, panels.bag, panels.mobile].forEach(p=> {
+      if(p) p.classList.remove('animate-in','open');
+    });
+    if(btnSearch) btnSearch.setAttribute('aria-expanded','false');
+    if(btnHamburger) btnHamburger.setAttribute('aria-expanded','false'); // This triggers the X -> hamburger
+    openKind = null; openId = null;
+    hideOverlay();
+    
+    if(mNav){ 
+        mTitle.textContent = 'Menu'; 
+        mBack.style.display='none'; 
+        showSection('root'); 
+        mTitle.classList.remove('slide-in', 'slide-out');
+    }
+  }
+
+  function openPanel(kind, id){
+    closeAll();
+    header.classList.remove('header--hidden');
+
+    if(kind==='mega'){
+      if(panels[id]) {
+        panels[id].classList.add('open'); animateIn(panels[id]);
+        openKind='mega'; openId=id; setExpanded(id,true); showOverlay();
+      }
+    }else if(kind==='search'){
+      if(panels.search) {
+        panels.search.classList.add('open'); animateIn(panels.search);
+        openKind='search'; showOverlay(); btnSearch.setAttribute('aria-expanded','true');
+        const input = panels.search.querySelector('input'); input && input.focus({preventScroll:true});
+      }
+    }else if(kind==='bag'){
+      if(panels.bag) {
+        panels.bag.classList.add('open'); animateIn(panels.bag);
+        openKind='bag'; showOverlay(); 
+      }
+    }else if(kind==='mobile'){
+      if(mNav) {
+        mNav.classList.add('open'); animateIn(mNav);
+        openKind='mobile'; showOverlay(); btnHamburger.setAttribute('aria-expanded','true'); // This triggers hamburger -> X
+        mTitle.textContent='Menu'; mBack.style.display='none'; showSection('root');
+      }
+    }
+  }
+
+  // Desktop hover-intent logic
+  function isDesktop(){ return !window.matchMedia('(max-width:1060px)').matches }
+  menuBtns.forEach(btn=>{
+    const id = btn.dataset.menu;
+    btn.addEventListener('mouseenter', ()=>{ if(isDesktop()){ clearTimeout(closeTimer); openPanel('mega', id); }});
+    btn.addEventListener('focus',     ()=>{ if(isDesktop()){ openPanel('mega', id); }});
+  });
+
+  function scheduleCloseIfMega(){
+    if(!isDesktop()) return;
+    if(openKind==='mega'){
+      clearTimeout(closeTimer);
+      closeTimer = setTimeout(()=> closeAll(), 130);
+    }
+  }
+  function cancelClose(){ clearTimeout(closeTimer); }
+
+  megaMenuIDs.forEach(id=>{
+    const p = panels[id];
+    if(!p) return;
+    p.addEventListener('mouseleave', scheduleCloseIfMega);
+    p.addEventListener('mouseenter', cancelClose);
+  });
+  header.addEventListener('mouseleave', scheduleCloseIfMega);
+  header.addEventListener('mouseenter', cancelClose);
+
+  // Click handlers
+  overlay.addEventListener('click', closeAll);
+  if(btnSearch) btnSearch.addEventListener('click', ()=>{ openKind==='search' ? closeAll() : openPanel('search'); });
+  if(btnHamburger) btnHamburger.addEventListener('click', ()=>{ openKind==='mobile' ? closeAll() : openPanel('mobile'); });
+
+  // Mobile section navigation
+  function showSection(key){
+    mSections.forEach(sec=>{
+      sec.classList.toggle('show', sec.dataset.mSection === key);
+    });
+  }
+  
+  document.querySelectorAll('[data-m-go]').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      if (isMobileAnimating) return;
+      isMobileAnimating = true;
+      const key = btn.dataset.mGo;
+      const newTitle = btn.textContent.trim();
+      
+      mTitle.classList.add('slide-out');
+      setTimeout(() => {
+          showSection(key);
+          mTitle.textContent = newTitle;
+          mTitle.classList.remove('slide-out');
+          mTitle.classList.add('slide-in');
+          mBack.style.display='inline-grid';
+          setTimeout(() => {
+              mTitle.classList.remove('slide-in');
+              isMobileAnimating = false;
+          }, 200);
+      }, 200);
+    });
+  });
+  
+  if(mBack) mBack.addEventListener('click', ()=>{
+    if (isMobileAnimating) return;
+    isMobileAnimating = true;
+    mTitle.classList.add('slide-out');
+    setTimeout(() => {
+        showSection('root');
+        mTitle.textContent='Menu';
+        mTitle.classList.remove('slide-out');
+        mTitle.classList.add('slide-in');
+        mBack.style.display='none';
+        setTimeout(() => {
+            mTitle.classList.remove('slide-in');
+            isMobileAnimating = false;
+        }, 200);
+    }, 200);
+  });
+
+  // Global ESC key
+  window.addEventListener('keydown', (e)=>{
+    if(e.key==='Escape'){ closeAll(); }
+  });
+
+  // --- Hide-on-scroll logic ---
+  window.addEventListener('scroll', () => {
+    if (openKind !== null) {
+      header.classList.remove('header--hidden');
+      return;
+    }
+    let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    if (scrollTop > lastScrollTop && scrollTop > header.offsetHeight) {
+      header.classList.add('header--hidden');
+    } else {
+      header.classList.remove('header--hidden');
+    }
+    lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+  }, false);
+
+})();
+</script>
+
+</body>
+</html>
