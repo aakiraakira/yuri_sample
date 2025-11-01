@@ -1,0 +1,1727 @@
+<!DOCTYPE html>
+<html lang="en-SG" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO Meta Tags -->
+    <title>Yew X1 Digital Lock — Facial Recognition, Built-In Viewer, Live View | $899 SGD</title>
+    <meta name="description" content="Yew X1 combines facial recognition, fingerprint, PIN, card, and app control with a built-in viewer and live view. Free installation, 5-year local warranty, 24/7 support.">
+    
+    <!-- Open Graph Tags -->
+    <meta property="og:title" content="Yew X1 Digital Lock — Facial Recognition, Built-In Viewer, Live View | $899 SGD">
+    <meta property="og:description" content="Yew X1 combines facial recognition, fingerprint, PIN, card, and app control with a built-in viewer and live view. Free installation, 5-year local warranty, 24/7 support.">
+    <meta property="og:image" content="https://yewdigitallock.com.sg/wp-content/uploads/2025/10/Yew-X1-Digital-Lock.png">
+    <meta property="og:url" content="https://yewdigitallock.com.sg/product/yew-x1"> <!-- Placeholder: Update with final URL -->
+    <meta property="og:type" content="product">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Alpine.js for interactivity -->
+    <script src="https://unpkg.com/alpinejs@3.14.1/dist/cdn.min.js"></script>
+    
+    <!-- GTag (Analytics) Placeholder -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=YOUR_GA_ID"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'YOUR_GA_ID'); // <!-- TODO: Replace with your Google Analytics ID -->
+    </script>
+    
+    <!-- JSON-LD Schema -->
+    <script type="application/ld+json" id="product-schema"></script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Will Yew X1 fit my door?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Most HDB/condo/main doors are compatible. We’ll confirm compatibility during the booking process."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What happens during a power outage?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "You still have manual key access for emergencies. The lock is designed with redundant access methods."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is live view always available?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Live view performance depends on your home's network quality (Wi-Fi strength) and the immediate environment."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What does the 5-year local warranty cover?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The warranty covers manufacturing defects under normal use. Full terms and conditions apply."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do you provide installation?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Free professional installation and cleanup are included for all orders in Singapore."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Which apps are supported?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The Yew X1 works with the Dual Sync & Tuya apps for remote control, activity logs, and alerts."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does it sync with gate systems?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, the Yew X1 is designed to seamlessly SYNC with the Elite U-2 or Elite U-3 Gate systems for a unified access experience."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do Atome payments work?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Atome allows you to split your payment into three interest-free parts. Final approval is subject to Atome’s terms and conditions."
+          }
+        }
+      ]
+    }
+    </script>
+
+    <!-- 
+      Main CSS Stylesheet 
+      All styles are in this single <style> tag as requested.
+    -->
+    <style>
+      :root {
+        --bg-dark: #0B0D10;
+        --bg-panel: rgba(25, 28, 33, 0.6); /* Slightly lighter panel for better glass effect */
+        --bg-panel-solid: #15171a;
+        --text-primary: #EAF0F6;
+        --text-secondary: #B9C2CD;
+        --text-tertiary: #8A94A2;
+        --accent-blue: #59A7FF;
+        --accent-blue-darker: #3b8ef0;
+        --divider: rgba(255, 255, 255, 0.08);
+        --glow: 0 0 20px rgba(89, 167, 255, 0.1), 0 0 40px rgba(89, 167, 255, 0.05);
+        --font-main: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      /* Base & Typography */
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      html {
+        font-family: var(--font-main);
+        background-color: var(--bg-dark);
+        color: var(--text-primary);
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      body {
+        line-height: 1.6;
+        overflow-x: hidden;
+      }
+
+      img, picture, video, canvas, svg {
+        display: block;
+        max-width: 100%;
+      }
+
+      p {
+        color: var(--text-secondary);
+        margin-bottom: 1rem;
+      }
+
+      h1, h2, h3, h4 {
+        line-height: 1.3;
+        font-weight: 600;
+        color: var(--text-primary);
+        margin-bottom: 1rem;
+      }
+
+      h1 {
+        font-size: clamp(2.5rem, 6vw, 4.5rem); /* Responsive h1 */
+        font-weight: 700;
+        letter-spacing: -0.02em;
+      }
+
+      h2 {
+        font-size: clamp(2rem, 5vw, 3rem);
+        letter-spacing: -0.01em;
+      }
+
+      h3 {
+        font-size: 1.5rem;
+      }
+      
+      small {
+        font-size: 0.875rem;
+        color: var(--text-tertiary);
+      }
+
+      a {
+        color: var(--accent-blue);
+        text-decoration: none;
+        transition: var(--transition);
+      }
+      a:hover {
+        color: var(--text-primary);
+      }
+      
+      /* Screen-reader only */
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border-width: 0;
+      }
+
+      /* Layout */
+      .container {
+        width: 100%;
+        max-width: 1200px;
+        margin-left: auto;
+        margin-right: auto;
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+      }
+      
+      section {
+        padding-top: 6rem;
+        padding-bottom: 6rem;
+      }
+
+      /* Buttons */
+      .btn {
+        display: inline-block;
+        font-size: 1rem;
+        font-weight: 500;
+        padding: 0.875rem 1.75rem;
+        border-radius: 999px; /* Pill shape */
+        cursor: pointer;
+        transition: var(--transition);
+        border: 2px solid transparent;
+        text-align: center;
+        white-space: nowrap;
+      }
+      
+      .btn-primary {
+        background-color: var(--accent-blue);
+        color: #0B0D10;
+        font-weight: 600;
+      }
+      .btn-primary:hover {
+        background-color: var(--accent-blue-darker);
+        color: #0B0D10;
+        transform: scale(1.03);
+      }
+      
+      .btn-secondary {
+        background-color: transparent;
+        color: var(--text-primary);
+        border-color: var(--divider);
+      }
+      .btn-secondary:hover {
+        background-color: var(--bg-panel-solid);
+        border-color: var(--text-tertiary);
+        color: var(--text-primary);
+      }
+      
+      .btn:focus-visible {
+        outline: 3px solid var(--accent-blue);
+        outline-offset: 2px;
+      }
+
+      /* Glassmorphism Panel */
+      .glass-panel {
+        background-color: var(--bg-panel);
+        border: 1px solid var(--divider);
+        border-radius: 16px;
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+      }
+
+      /* --- Sticky Header --- */
+      .sticky-header {
+        position: sticky;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 50;
+        padding: 1.25rem 0;
+        transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+        border-bottom: 1px solid transparent;
+      }
+      
+      .sticky-header.header-scrolled {
+        background-color: var(--bg-panel);
+        border-color: var(--divider);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      }
+      
+      .header-nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      
+      .header-logo {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: var(--text-primary);
+        letter-spacing: 0.05em;
+      }
+      
+      .header-links {
+        display: none; /* Mobile-first: hidden */
+        gap: 1.5rem;
+      }
+      .header-links a {
+        font-size: 0.9rem;
+        font-weight: 500;
+        color: var(--text-secondary);
+      }
+      .header-links a:hover {
+        color: var(--text-primary);
+      }
+      
+      .header-cta {
+        display: flex;
+        gap: 0.75rem;
+      }
+      .header-cta .btn {
+        font-size: 0.875rem;
+        padding: 0.5rem 1rem;
+      }
+      
+      .header-cta .btn-secondary {
+        display: none; /* Hide WhatsApp on mobile header for space */
+      }
+
+      /* --- Hero Section --- */
+      #overview {
+        min-height: 90vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding-top: 8rem;
+        padding-bottom: 8rem;
+        position: relative;
+        overflow: hidden;
+      }
+      
+      /* Background Spotlight */
+      #overview::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 60%;
+        padding-top: 60%;
+        max-width: 900px;
+        max-height: 900px;
+        transform: translate(-50%, -60%);
+        background: radial-gradient(circle, rgba(89, 167, 255, 0.1) 0%, rgba(89, 167, 255, 0) 60%);
+        opacity: 0.7;
+        z-index: -1;
+        animation: pulseGlow 8s ease-in-out infinite;
+      }
+      
+      @keyframes pulseGlow {
+        0%, 100% { opacity: 0.6; transform: translate(-50%, -60%) scale(0.95); }
+        50% { opacity: 0.8; transform: translate(-50%, -60%) scale(1.05); }
+      }
+      
+      .hero-content {
+        max-width: 750px;
+        animation: fadeInUp 1s ease-out;
+      }
+      
+      .hero-subtitle {
+        font-size: 1.125rem;
+        font-weight: 500;
+        color: var(--text-secondary);
+        margin-top: 1rem;
+      }
+      
+      .hero-price {
+        margin-top: 2rem;
+        font-size: 1.75rem;
+        font-weight: 600;
+      }
+      .hero-price .old-price {
+        text-decoration: line-through;
+        color: var(--text-tertiary);
+        font-size: 1.25rem;
+        margin-right: 0.75rem;
+      }
+      .hero-price .atome-price {
+        font-size: 1rem;
+        font-weight: 400;
+        color: var(--text-secondary);
+        margin-left: 0.5rem;
+      }
+      
+      .hero-badges {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1rem 2rem;
+        margin-top: 2rem;
+        color: var(--text-tertiary);
+        font-size: 0.875rem;
+        font-weight: 500;
+      }
+      .hero-badges span {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      .hero-badges svg {
+        width: 16px;
+        height: 16px;
+        flex-shrink: 0;
+      }
+      
+      .hero-image-wrapper {
+        margin: -4rem auto 2rem; /* Pull image up */
+        max-width: 450px;
+        position: relative;
+      }
+      .hero-image {
+        width: 100%;
+        height: auto;
+        object-fit: contain;
+        animation: floatUp 1.2s ease-out;
+        transform: scale(1);
+        transition: transform 0.3s ease;
+      }
+      .hero-image:hover {
+        transform: scale(1.02);
+      }
+      
+      .hero-cta {
+        margin-top: 2.5rem;
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+      }
+      
+      .hero-microcopy {
+        margin-top: 1.5rem;
+        color: var(--text-tertiary);
+        font-size: 0.875rem;
+      }
+
+      /* Animation keyframes */
+      @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      @keyframes floatUp {
+        from { opacity: 0; transform: scale(0.95) translateY(10px); }
+        to { opacity: 1; transform: scale(1) translateY(0); }
+      }
+      
+      /* --- Section Base Styles --- */
+      .section-header {
+        max-width: 700px;
+        text-align: center;
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 4rem;
+      }
+      .section-header .eyebrow {
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--accent-blue);
+        margin-bottom: 0.5rem;
+      }
+
+      /* --- Highlights Section --- */
+      .highlights-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+      .highlight-card {
+        padding: 2rem;
+        transition: var(--transition);
+      }
+      .highlight-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2), var(--glow);
+      }
+      .highlight-card h3 {
+        color: var(--text-primary);
+        font-size: 1.25rem;
+      }
+
+      /* --- Deep-Dive Section --- */
+      .feature-deep-dive {
+        display: grid;
+        grid-template-columns: 1fr;
+        align-items: center;
+        gap: 3rem;
+        padding: 4rem 0;
+        border-bottom: 1px solid var(--divider);
+      }
+      .feature-deep-dive:last-child {
+        border-bottom: none;
+      }
+      .feature-image {
+        border-radius: 12px;
+        overflow: hidden;
+        background-color: #000;
+      }
+      .feature-image img {
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+      }
+
+      /* --- Live View Demo --- */
+      .demo-wrapper {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 1.5rem;
+      }
+      .phone-mockup {
+        max-width: 400px;
+        margin: 0 auto;
+        border: 10px solid #111;
+        border-radius: 40px;
+        background: #000;
+        padding: 10px;
+        box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+      }
+      .phone-screen {
+        aspect-ratio: 9 / 19.5;
+        background: #0B0D10;
+        border-radius: 30px;
+        overflow: hidden;
+        position: relative;
+      }
+      .phone-screen img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        position: absolute;
+        transition: opacity 0.4s ease;
+      }
+      .demo-tabs {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+      }
+      .demo-tab {
+        padding: 0.5rem 1rem;
+        border-radius: 99px;
+        cursor: pointer;
+        background: var(--bg-panel-solid);
+        color: var(--text-secondary);
+        border: 1px solid var(--divider);
+        transition: var(--transition);
+      }
+      .demo-tab[aria-selected="true"] {
+        background: var(--accent-blue);
+        color: var(--bg-dark);
+        font-weight: 500;
+        border-color: var(--accent-blue);
+      }
+
+      /* --- App Experience --- */
+      .app-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+      }
+      .app-screen {
+        border-radius: 12px;
+        overflow: hidden;
+        border: 1px solid var(--divider);
+      }
+      .app-screen img {
+        width: 100%;
+        height: auto;
+      }
+      .app-features-list {
+        list-style: none;
+        margin-top: 3rem;
+        max-width: 500px;
+      }
+      .app-features-list li {
+        position: relative;
+        padding-left: 2rem;
+        margin-bottom: 1rem;
+        font-size: 1.125rem;
+      }
+      .app-features-list li::before {
+        content: '✓';
+        position: absolute;
+        left: 0;
+        top: 0;
+        color: var(--accent-blue);
+        font-weight: 600;
+      }
+
+      /* --- Comparison Table --- */
+      .table-wrapper {
+        overflow-x: auto;
+        padding: 1px; /* Fixes margin collapse */
+      }
+      .comparison-table {
+        width: 100%;
+        min-width: 700px;
+        border-collapse: collapse;
+        margin-top: 2rem;
+      }
+      .comparison-table th,
+      .comparison-table td {
+        padding: 1.25rem 1rem;
+        text-align: left;
+        border-bottom: 1px solid var(--divider);
+      }
+      .comparison-table th {
+        color: var(--text-secondary);
+        font-weight: 500;
+        font-size: 0.875rem;
+        text-transform: uppercase;
+      }
+      .comparison-table tbody tr {
+        transition: background-color 0.2s ease;
+      }
+      .comparison-table tbody tr:hover {
+        background-color: rgba(255, 255, 255, 0.03);
+      }
+      .comparison-table td:nth-child(2) { /* Yew X1 Column */
+        color: var(--text-primary);
+        font-weight: 500;
+        background-color: rgba(89, 167, 255, 0.05);
+      }
+      .comparison-table .icon-yes {
+        color: var(--accent-blue);
+        font-weight: 600;
+      }
+      .comparison-table .icon-no {
+        color: var(--text-tertiary);
+      }
+      .table-disclaimer {
+        font-size: 0.875rem;
+        color: var(--text-tertiary);
+        margin-top: 1.5rem;
+        max-width: 700px;
+      }
+
+      /* --- Trust Section --- */
+      #installation-warranty {
+        background-color: var(--bg-panel-solid);
+      }
+      .trust-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 3rem;
+        align-items: center;
+      }
+      .trust-badges {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+      .trust-badge {
+        display: flex;
+        align-items: flex-start;
+        gap: 1.5rem;
+      }
+      .trust-badge-icon {
+        flex-shrink: 0;
+        width: 48px;
+        height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--bg-panel);
+        border: 1px solid var(--divider);
+        border-radius: 12px;
+        color: var(--accent-blue);
+      }
+      .trust-badge-icon svg {
+        width: 24px;
+        height: 24px;
+      }
+      .trust-badge-content h3 {
+        font-size: 1.125rem;
+        margin-bottom: 0.25rem;
+      }
+      .trust-badge-content p {
+        color: var(--text-secondary);
+        margin-bottom: 0;
+      }
+
+      /* --- FAQ Section --- */
+      .faq-item {
+        border-bottom: 1px solid var(--divider);
+      }
+      .faq-question {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1.5rem 0;
+        cursor: pointer;
+        background: none;
+        border: none;
+        text-align: left;
+      }
+      .faq-question h3 {
+        font-size: 1.125rem;
+        font-weight: 500;
+        margin-bottom: 0;
+        color: var(--text-primary);
+      }
+      .faq-icon {
+        width: 1.5rem;
+        height: 1.5rem;
+        transition: transform 0.3s ease;
+        flex-shrink: 0;
+        margin-left: 1rem;
+        color: var(--text-secondary);
+      }
+      .faq-question[aria-expanded="true"] .faq-icon {
+        transform: rotate(45deg);
+      }
+      .faq-answer {
+        overflow: hidden;
+        transition: max-height 0.3s ease-out;
+      }
+      .faq-answer p {
+        padding-bottom: 1.5rem;
+        max-width: 80ch;
+      }
+
+      /* --- Sticky Purchase Bar --- */
+      #sticky-bar {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 40;
+        background: var(--bg-panel);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border-top: 1px solid var(--divider);
+        padding: 1rem 1.5rem;
+        padding-bottom: calc(1rem + env(safe-area-inset-bottom));
+        box-shadow: 0 -4px 20px rgba(0,0,0,0.2);
+        transform: translateY(100%);
+        transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      #sticky-bar.bar-visible {
+        transform: translateY(0);
+      }
+      
+      .sticky-bar-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1.5rem;
+      }
+      
+      .sticky-bar-info {
+        display: none; /* Hidden on mobile */
+      }
+      .sticky-bar-info h4 {
+        margin-bottom: 0;
+        font-size: 1.125rem;
+      }
+      .sticky-bar-info p {
+        margin-bottom: 0;
+        font-size: 0.875rem;
+      }
+      .sticky-bar-info .old-price {
+        text-decoration: line-through;
+        color: var(--text-tertiary);
+        margin-right: 0.5rem;
+      }
+      
+      .sticky-bar-cta {
+        display: flex;
+        gap: 1rem;
+        width: 100%;
+      }
+      .sticky-bar-cta .btn {
+        width: 50%;
+        padding: 0.75rem 1rem;
+      }
+
+      /* --- Checkout Modal --- */
+      .modal-overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 100;
+        background-color: rgba(0, 0, 0, 0.7);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
+        transition: opacity 0.3s ease;
+      }
+      
+      .modal-panel {
+        width: 100%;
+        max-width: 500px;
+        max-height: 90vh;
+        overflow-y: auto;
+        background-color: var(--bg-panel-solid);
+        border-radius: 16px;
+        border: 1px solid var(--divider);
+        padding: 2.5rem;
+        box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+        transition: all 0.3s ease;
+      }
+      
+      /* Alpine transitions for modal */
+      [x-show][x-transition:enter] { transition: opacity 0.3s ease; }
+      [x-show][x-transition:enter-start] { opacity: 0; }
+      [x-show][x-transition:enter-end] { opacity: 1; }
+      [x-show][x-transition:leave] { transition: opacity 0.3s ease; }
+      [x-show][x-transition:leave-start] { opacity: 1; }
+      [x-show][x-transition:leave-end] { opacity: 0; }
+      
+      [x-show][x-transition:enter] .modal-panel { transition: all 0.3s ease-out; }
+      [x-show][x-transition:enter-start] .modal-panel { opacity: 0; transform: scale(0.95); }
+      [x-show][x-transition:enter-end] .modal-panel { opacity: 1; transform: scale(1); }
+      [x-show][x-transition:leave] .modal-panel { transition: all 0.3s ease-in; }
+      [x-show][x-transition:leave-start] .modal-panel { opacity: 1; transform: scale(1); }
+      [x-show][x-transition:leave-end] .modal-panel { opacity: 0; transform: scale(0.95); }
+      
+      .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+      }
+      .modal-header h3 {
+        margin-bottom: 0;
+        font-size: 1.5rem;
+      }
+      .modal-close-btn {
+        background: none;
+        border: none;
+        color: var(--text-tertiary);
+        cursor: pointer;
+        padding: 0.5rem;
+        border-radius: 99px;
+        transition: var(--transition);
+      }
+      .modal-close-btn:hover {
+        background-color: var(--bg-panel);
+        color: var(--text-primary);
+      }
+      .modal-close-btn svg {
+        width: 20px;
+        height: 20px;
+      }
+      
+      .modal-form-group {
+        margin-bottom: 1.5rem;
+      }
+      .modal-form-group label {
+        display: block;
+        font-size: 0.875rem;
+        font-weight: 500;
+        margin-bottom: 0.5rem;
+      }
+      .modal-form-group input {
+        width: 100%;
+        padding: 0.875rem 1rem;
+        background-color: var(--bg-dark);
+        border: 1px solid var(--divider);
+        border-radius: 8px;
+        color: var(--text-primary);
+        font-size: 1rem;
+      }
+      .modal-form-group input:focus {
+        border-color: var(--accent-blue);
+        outline: none;
+        box-shadow: 0 0 0 2px rgba(89, 167, 255, 0.3);
+      }
+      .modal-compatibility-note {
+        font-size: 0.875rem;
+        color: var(--text-tertiary);
+        background-color: var(--bg-panel);
+        padding: 1rem;
+        border-radius: 8px;
+        margin-top: 2rem;
+      }
+      .modal-submit-btn {
+        width: 100%;
+        margin-top: 2rem;
+      }
+      
+      /* --- Footer --- */
+      footer {
+        padding: 4rem 0;
+        border-top: 1px solid var(--divider);
+        text-align: center;
+      }
+      .footer-links {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1rem 2rem;
+        margin-bottom: 2rem;
+      }
+      .footer-links a {
+        font-size: 0.875rem;
+        color: var(--text-secondary);
+      }
+      .footer-copy {
+        font-size: 0.875rem;
+        color: var(--text-tertiary);
+      }
+
+      /* --- Scrollbar --- */
+      ::-webkit-scrollbar {
+        width: 10px;
+      }
+      ::-webkit-scrollbar-track {
+        background: var(--bg-dark);
+      }
+      ::-webkit-scrollbar-thumb {
+        background: var(--bg-panel-solid);
+        border-radius: 10px;
+        border: 2px solid var(--bg-dark);
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: var(--text-tertiary);
+      }
+      
+      /* --- Responsive Media Queries --- */
+      
+      /* Tablet */
+      @media (min-width: 768px) {
+        .header-links {
+          display: flex;
+        }
+        .header-cta .btn-secondary {
+          display: inline-block;
+        }
+        
+        .hero-badges {
+          font-size: 0.9rem;
+        }
+
+        .highlights-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        
+        .feature-deep-dive {
+          grid-template-columns: repeat(2, 1fr);
+          gap: 5rem;
+        }
+        /* Alternating layout */
+        .feature-deep-dive:nth-child(even) .feature-text {
+          order: 2;
+        }
+        
+        .trust-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+        .trust-badges {
+          grid-template-columns: 1fr; /* Keep badges stacked */
+        }
+        
+        .sticky-bar-info {
+          display: block;
+        }
+        .sticky-bar-cta {
+          width: auto;
+        }
+        .sticky-bar-cta .btn {
+          width: auto;
+          padding-left: 1.5rem;
+          padding-right: 1.5rem;
+        }
+      }
+      
+      /* Desktop */
+      @media (min-width: 1024px) {
+        .highlights-grid {
+          grid-template-columns: repeat(4, 1fr);
+        }
+        
+        .trust-badges {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      /* --- Animation on Scroll --- */
+      .animate-on-scroll {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+      }
+      
+      .animate-on-scroll.is-visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    </style>
+</head>
+
+<!-- 
+  Alpine.js data store:
+  - isHeaderScrolled: Tracks scroll to apply sticky header style
+  - isStickyBarVisible: Tracks scroll to show the purchase bar after the hero
+  - isModalOpen: Toggles the checkout modal
+  - activeFaq: Controls the FAQ accordion
+  - activeDemoTab: Controls the Live View demo tabs
+-->
+<body 
+  x-data="{
+    isHeaderScrolled: false,
+    isStickyBarVisible: false,
+    isModalOpen: false,
+    activeFaq: null,
+    activeDemoTab: 'doorway'
+  }"
+  @scroll.window="
+    isHeaderScrolled = (window.scrollY > 50);
+    heroHeight = document.getElementById('overview').offsetHeight;
+    isStickyBarVisible = (window.scrollY > (heroHeight - 100));
+  "
+>
+
+  <!-- --- Sticky Header --- -->
+  <header 
+    class="sticky-header"
+    x-bind:class="{ 'header-scrolled': isHeaderScrolled }"
+  >
+    <div class="container header-nav">
+      <a href="#" class="header-logo">YEW</a>
+      
+      <nav class="header-links" aria-label="Main Navigation">
+        <a href="#overview">Overview</a>
+        <a href="#features">Features</a>
+        <a href="#live-view-demo">Live View</a>
+        <a href="#comparison">Comparison</a>
+        <a href="#installation-warranty">Warranty</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+      
+      <div class="header-cta">
+        <a 
+          href="https://wa.me/65XXXXXXX?text=I%27m%20interested%20in%20Yew%20X1" 
+          target="_blank" 
+          class="btn btn-secondary"
+          @click="if (typeof gtag === 'function') gtag('event', 'contact', {method: 'whatsapp', product: 'Yew X1'});"
+        >
+          WhatsApp
+        </a>
+        <button 
+          class="btn btn-primary"
+          @click.prevent="isModalOpen = true; if (typeof gtag === 'function') gtag('event', 'begin_checkout', {items: [{id:'YEW-X1', name:'Yew X1', price: 899}]});"
+        >
+          Buy Now
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+    <!-- --- Hero Section --- -->
+    <section id="overview">
+      <div class="container hero-content">
+        
+        <div class="hero-image-wrapper">
+          <img 
+            src="https://yewdigitallock.com.sg/wp-content/uploads/2025/10/Yew-X1-Digital-Lock.png" 
+            alt="Yew X1 Digital Lock in matte black with integrated viewer"
+            width="600"
+            height="600"
+            class="hero-image"
+            fetchpriority="high" 
+          >
+        </div>
+        
+        <h1>Yew X1 — Unlock Security. See Everything.</h1>
+        <p class="hero-subtitle">Facial Recognition • Built-In Viewer • Live View • App Control</p>
+        
+        <div class="hero-price">
+          <span class="old-price">$1,049.00</span>
+          <span>$899.00</span>
+          <span class="atome-price" 
+            @click="if (typeof gtag === 'function') gtag('event', 'view_promotion', {promotion_name: 'Atome 3-pay'});"
+          >
+            · Atome from $299.67 x 3
+          </span>
+        </div>
+        
+        <div class="hero-badges">
+          <span>
+            <!-- Icon: Shield Check -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+            5 Year Local Warranty
+          </span>
+          <span>
+            <!-- Icon: Wrench -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.7-3.7a1 1 0 0 0 0-1.4l-1.6-1.6a1 1 0 0 0-1.4 0l-3.7 3.7z"/><path d="M9 11l-4 4l-1.5 1.5a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0L8 18l4-4"/><path d="m16 5 3 3"/></svg>
+            Free Installation & Cleanup
+          </span>
+          <span>
+            <!-- Icon: Headset -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 14h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7a9 9 0 0 1 18 0v7a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3"/><path d="M18 19a6 6 0 0 0-12 0"/></svg>
+            24/7 Local Customer Support
+          </span>
+        </div>
+        
+        <div class="hero-cta">
+          <button 
+            class="btn btn-primary"
+            @click.prevent="isModalOpen = true; if (typeof gtag === 'function') gtag('event', 'begin_checkout', {items: [{id:'YEW-X1', name:'Yew X1', price: 899}]});"
+          >
+            Buy Now
+          </button>
+          <a 
+            href="https://wa.me/65XXXXXXX?text=I%27m%20interested%20in%20Yew%20X1" 
+            target="_blank" 
+            class="btn btn-secondary"
+            @click="if (typeof gtag === 'function') gtag('event', 'contact', {method: 'whatsapp', product: 'Yew X1'});"
+          >
+            WhatsApp Us
+          </a>
+        </div>
+        <p class="hero-microcopy">Fast, clean installation by our local team.</p>
+        
+      </div>
+    </section>
+
+    <!-- --- Instant Highlights Section --- -->
+    <section id="features">
+      <div class="container">
+        <div class="section-header animate-on-scroll">
+          <span class="eyebrow">Key Features</span>
+          <h2>The Complete Access System</h2>
+        </div>
+        
+        <div class="highlights-grid">
+          <div class="highlight-card glass-panel animate-on-scroll">
+            <h3>Face Unlock</h3>
+            <p>Secure, contactless access in under a second. Rapid, reliable facial recognition.</p>
+          </div>
+          <div class="highlight-card glass-panel animate-on-scroll" style="transition-delay: 100ms;">
+            <h3>Built-In Viewer</h3>
+            <p>See who’s at the door at any time with a clear, integrated high-definition viewer.</p>
+          </div>
+          <div class="highlight-card glass-panel animate-on-scroll" style="transition-delay: 200ms;">
+            <h3>Live View</h3>
+            <p>Real-time visuals from inside the lock’s viewer, streamed directly to your app.</p>
+          </div>
+          <div class="highlight-card glass-panel animate-on-scroll" style="transition-delay: 300ms;">
+            <h3>App Control</h3>
+            <p>Manage access via Dual Sync & Tuya apps. Grant PINs, check logs, and get alerts.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- --- Feature Deep-Dive Section --- -->
+    <section id="deep-dive">
+      <div class="container">
+        
+        <div class="feature-deep-dive animate-on-scroll">
+          <div class="feature-text">
+            <h2>Personalized, Redundant Security</h2>
+            <p>Six ways to enter. Yew X1 provides personalized security with rapid facial recognition—no phone, card, or key required. It's built with redundancy for every scenario, including emergencies, with access via Fingerprint, PIN, Card, and a Manual Key.</p>
+          </div>
+          <div class="feature-image">
+            <img 
+              src="https://placehold.co/600x400/0B0D10/59A7FF?text=Facial+Scan+UI" 
+              alt="Mockup of Yew X1 facial recognition in use"
+              loading="lazy"
+              decoding="async"
+            >
+          </div>
+        </div>
+        
+        <div class="feature-deep-dive animate-on-scroll">
+          <div class="feature-text">
+            <h2>Eyes On Your Doorway, 24/7</h2>
+            <p>The built-in viewer plus live view gives you eyes on your doorway—right when you need it. Check who's visiting before you open the door, or stream a live feed to your phone when you're away for complete peace of mind.</p>
+          </div>
+          <div class="feature-image">
+            <img 
+              src="https://placehold.co/600x400/0B0D10/59A7FF?text=Built-in+Viewer+Screen" 
+              alt="Close-up of the Yew X1's built-in viewer screen"
+              loading="lazy"
+              decoding="async"
+            >
+          </div>
+        </div>
+
+        <div class="feature-deep-dive animate-on-scroll">
+          <div class="feature-text">
+            <h2>Total Control from Anywhere</h2>
+            <p>Grant or revoke access, check activity logs, and get instant notifications from anywhere using the Dual Sync & Tuya apps. Create one-time PINs for guests or receive alerts when the family gets home.</p>
+          </div>
+          <div class="feature-image">
+            <img 
+              src="https://placehold.co/600x400/0B0D10/59A7FF?text=App+Control+Screenshot" 
+              alt="Screenshot of the Tuya app interface"
+              loading="lazy"
+              decoding="async"
+            >
+          </div>
+        </div>
+        
+        <div class="feature-deep-dive animate-on-scroll" style="border-bottom: none;">
+          <div class="feature-text">
+            <h2>Syncs With Your Gate</h2>
+            <p>Unify your home access. The Yew X1 is designed to seamlessly SYNC with the Elite U-2 or Elite U-3 Gate for a single, integrated security solution. Unlock both your gate and door with one action.</p>
+          </div>
+          <div class="feature-image">
+            <img 
+              src="https://placehold.co/600x400/0B0D10/59A7FF?text=Gate+Sync+Illustration" 
+              alt="Illustration showing Yew X1 lock syncing with a digital gate lock"
+              loading="lazy"
+              decoding="async"
+            >
+          </div>
+        </div>
+        
+      </div>
+    </section>
+
+    <!-- --- Live View Mini Demo --- -->
+    <section id="live-view-demo" style="background-color: var(--bg-panel-solid);">
+      <div class="container">
+        <div class="section-header animate-on-scroll">
+          <span class="eyebrow">Live View Demo</span>
+          <h2>See Your App in Action</h2>
+        </div>
+        
+        <div class="demo-wrapper animate-on-scroll">
+          <div class="demo-tabs">
+            <button 
+              class="demo-tab" 
+              :aria-selected="activeDemoTab === 'doorway'"
+              @click="activeDemoTab = 'doorway'"
+            >
+              Doorway
+            </button>
+            <button 
+              class="demo-tab" 
+              :aria-selected="activeDemoTab === 'history'"
+              @click="activeDemoTab = 'history'"
+            >
+              History
+            </button>
+            <button 
+              class="demo-tab" 
+              :aria-selected="activeDemoTab === 'visitors'"
+              @click="activeDemoTab = 'visitors'"
+            >
+              Visitors
+            </button>
+          </div>
+          
+          <div class="phone-mockup glass-panel">
+            <div class="phone-screen">
+              <!-- Demo screens -->
+              <img 
+                src="https://placehold.co/380x823/15171a/EAF0F6?text=Live+Doorway+View" 
+                alt="Live view of doorway" 
+                loading="lazy"
+                decoding="async"
+                :style="activeDemoTab === 'doorway' ? {opacity: 1} : {opacity: 0}"
+              >
+              <img 
+                src="https://placehold.co/380x823/15171a/EAF0F6?text=Access+History+Log" 
+                alt="Access history log" 
+                loading="lazy"
+                decoding="async"
+                :style="activeDemoTab === 'history' ? {opacity: 1} : {opacity: 0}"
+              >
+              <img 
+                src="https://placehold.co/380x823/15171a/EAF0F6?text=Visitor+Alerts" 
+                alt="Visitor alerts screen" 
+                loading="lazy"
+                decoding="async"
+                :style="activeDemoTab === 'visitors' ? {opacity: 1} : {opacity: 0}"
+              >
+            </div>
+          </div>
+          <small style="text-align: center; display: block; margin-top: 1.5rem;">
+            Live view availability depends on network and environment. App features may vary by device and OS.
+          </small>
+        </div>
+      </div>
+    </section>
+
+    <!-- --- Comparison Table --- -->
+    <section id="comparison">
+      <div class="container">
+        <div class="section-header animate-on-scroll">
+          <span class="eyebrow">The Yew Difference</span>
+          <h2>Compare Yew X1 vs Others</h2>
+        </div>
+        
+        <div class="table-wrapper glass-panel animate-on-scroll" style="padding: 2rem;">
+          <table class="comparison-table">
+            <thead>
+              <tr>
+                <th>Feature</th>
+                <th>Yew X1</th>
+                <th>Others (Typical)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Warranty</td>
+                <td class="icon-yes">5-Year Local Warranty</td>
+                <td>1–2 years typical</td>
+              </tr>
+              <tr>
+                <td>Installation</td>
+                <td class="icon-yes">Free Installation & Cleanup</td>
+                <td>Often paid add-on</td>
+              </tr>
+              <tr>
+                <td>Support</td>
+                <td class="icon-yes">24/7 Local Support</td>
+                <td>Limited hours / outsourced</td>
+              </tr>
+              <tr>
+                <td>Unlock Methods</td>
+                <td class="icon-yes">Face, Fingerprint, PIN, Card, Key, App</td>
+                <td class="icon-no">Varies, often fewer</td>
+              </tr>
+              <tr>
+                <td>Built-In Viewer</td>
+                <td class="icon-yes">Included</td>
+                <td class="icon-no">Often not included</td>
+              </tr>
+              <tr>
+                <td>Live View</td>
+                <td class="icon-yes">Included</td>
+                <td class="icon-no">Rare / requires extra hardware</td>
+              </tr>
+              <tr>
+                <td>App Control</td>
+                <td class="icon-yes">Dual Sync & Tuya</td>
+                <td class="icon-no">Single app or basic</td>
+              </tr>
+              <tr>
+                <td>Gate Sync (Elite U-2/U-3)</td>
+                <td class="icon-yes">Yes</td>
+                <td class="icon-no">Typically not</td>
+              </tr>
+              <tr>
+                <td>Price (SGD)</td>
+                <td class="icon-yes">$899</td>
+                <td>Similar or higher with fewer features</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="table-disclaimer animate-on-scroll">
+          Market comparison based on typical offerings and publicly available specifications. Actual competitor specs may vary.
+        </p>
+      </div>
+    </section>
+
+    <!-- --- Installation & Warranty (Trust Section) --- -->
+    <section id="installation-warranty">
+      <div class="container">
+        <div class="trust-grid animate-on-scroll">
+          
+          <div class="trust-badges">
+            <div class="trust-badge">
+              <div class="trust-badge-icon">
+                <!-- Icon: Wrench -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.7-3.7a1 1 0 0 0 0-1.4l-1.6-1.6a1 1 0 0 0-1.4 0l-3.7 3.7z"/><path d="M9 11l-4 4l-1.5 1.5a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0L8 18l4-4"/><path d="m16 5 3 3"/></svg>
+              </div>
+              <div class="trust-badge-content">
+                <h3>Free Installation & Cleanup</h3>
+                <p>Professional on-site install and a tidy finish by our local expert team.</p>
+              </div>
+            </div>
+            <div class="trust-badge">
+              <div class="trust-badge-icon">
+                <!-- Icon: Shield Check -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+              </div>
+              <div class="trust-badge-content">
+                <h3>5-Year Local Warranty</h3>
+                <p>Get peace of mind with 5 years of local coverage and parts support.</p>
+              </div>
+            </div>
+            <div class="trust-badge">
+              <div class="trust-badge-icon">
+                <!-- Icon: Headset -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 14h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7a9 9 0 0 1 18 0v7a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3"/><path d="M18 19a6 6 0 0 0-12 0"/></svg>
+              </div>
+              <div class="trust-badge-content">
+                <h3>24/7 Local Support</h3>
+                <p>Questions? Issues? Our local support team is ready. WhatsApp us anytime.</p>
+              </div>
+            </div>
+            <div class="trust-badge">
+              <div class="trust-badge-icon">
+                <!-- Icon: Atome (simple 'A') -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 18 6-12 6 12"/><path d="M8 14h8"/></svg>
+              </div>
+              <div class="trust-badge-content">
+                <h3>Flexible Payments by Atome</h3>
+                <p>Split your purchase into three easy, interest-free payments.</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="trust-copy" style="opacity: 0.9;">
+            <h2>We stand by our work.</h2>
+            <p>Your security is our top priority. That's why every Yew digital lock comes with our industry-leading 5-year local warranty and professional installation. Our in-house team handles everything, ensuring a perfect fit and a clean finish. No subcontractors, no hidden fees.</p>
+            <p>Warranty terms apply. Coverage is subject to proper installation and normal use. <a href="/warranty-policy" target="_blank">Read our full warranty policy</a>.</p>
+          </div>
+          
+        </div>
+      </div>
+    </section>
+
+    <!-- --- FAQ Section --- -->
+    <section id="faq">
+      <div class="container" style="max-width: 800px;">
+        <div class="section-header animate-on-scroll">
+          <h2>Frequently Asked Questions</h2>
+        </div>
+        
+        <div class="faq-list animate-on-scroll">
+          
+          <!-- FAQ Item 1 -->
+          <div class="faq-item" x-data="{ id: 1 }">
+            <button 
+              class="faq-question" 
+              @click="activeFaq = (activeFaq === id) ? null : id"
+              :aria-expanded="activeFaq === id"
+              aria-controls="faq-answer-1"
+            >
+              <h3>Will Yew X1 fit my door?</h3>
+              <!-- Icon: Plus -->
+              <svg class="faq-icon" x-show="activeFaq !== id" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+              <!-- Icon: X -->
+              <svg class="faq-icon" x-show="activeFaq === id" style="display: none;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+            <div 
+              class="faq-answer" 
+              id="faq-answer-1"
+              x-show="activeFaq === id" 
+              x-transition:enter="transition-all ease-out duration-300"
+              x-transition:enter-start="max-height-0 opacity-0"
+              x-transition:enter-end="max-height-screen opacity-100"
+              x-transition:leave="transition-all ease-in duration-200"
+              x-transition:leave-start="max-height-screen opacity-100"
+              x-transition:leave-end="max-height-0 opacity-0"
+              style="display: none;"
+            >
+              <p>Most HDB/condo/main doors in Singapore are compatible. We will confirm your door's compatibility with you via WhatsApp after you book.</p>
+            </div>
+          </div>
+          
+          <!-- FAQ Item 2 -->
+          <div class="faq-item" x-data="{ id: 2 }">
+            <button class="faq-question" @click="activeFaq = (activeFaq === id) ? null : id" :aria-expanded="activeFaq === id" aria-controls="faq-answer-2">
+              <h3>What happens during a power outage?</h3>
+              <svg class="faq-icon" x-show="activeFaq !== id" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+              <svg class="faq-icon" x-show="activeFaq === id" style="display: none;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+            <div class="faq-answer" id="faq-answer-2" x-show="activeFaq === id" x-transition:enter="transition-all ease-out duration-300" x-transition:enter-start="max-height-0 opacity-0" x-transition:enter-end="max-height-screen opacity-100" x-transition:leave="transition-all ease-in duration-200" x-transition:leave-start="max-height-screen opacity-100" x-transition:leave-end="max-height-0 opacity-0" style="display: none;">
+              <p>You still have manual key access. The Yew X1 runs on batteries and is not dependent on your home's main power, but the manual key serves as a foolproof emergency backup.</p>
+            </div>
+          </div>
+          
+          <!-- FAQ Item 3 -->
+          <div class="faq-item" x-data="{ id: 3 }">
+            <button class="faq-question" @click="activeFaq = (activeFaq === id) ? null : id" :aria-expanded="activeFaq === id" aria-controls="faq-answer-3">
+              <h3>Is live view always available?</h3>
+              <svg class="faq-icon" x-show="activeFaq !== id" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+              <svg class="faq-icon" x-show="activeFaq === id" style="display: none;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+            <div class="faq-answer" id="faq-answer-3" x-show="activeFaq === id" x-transition:enter="transition-all ease-out duration-300" x-transition:enter-start="max-height-0 opacity-0" x-transition:enter-end="max-height-screen opacity-100" x-transition:leave="transition-all ease-in duration-200" x-transition:leave-start="max-height-screen opacity-100" x-transition:leave-end="max-height-0 opacity-0" style="display: none;">
+              <p>Live view requires a stable Wi-Fi connection at your door. Its performance depends on your network quality and the immediate environment.</p>
+            </div>
+          </div>
+
+          <!-- FAQ Item 4 -->
+          <div class="faq-item" x-data="{ id: 4 }">
+            <button class="faq-question" @click="activeFaq = (activeFaq === id) ? null : id" :aria-expanded="activeFaq === id" aria-controls="faq-answer-4">
+              <h3>What does the 5-year local warranty cover?</h3>
+              <svg class="faq-icon" x-show="activeFaq !== id" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+              <svg class="faq-icon" x-show="activeFaq === id" style="display: none;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+            <div class="faq-answer" id="faq-answer-4" x-show="activeFaq === id" x-transition:enter="transition-all ease-out duration-300" x-transition:enter-start="max-height-0 opacity-0" x-transition:enter-end="max-height-screen opacity-100" x-transition:leave="transition-all ease-in duration-200" x-transition:leave-start="max-height-screen opacity-100" x-transition:leave-end="max-height-0 opacity-0" style="display: none;">
+              <p>Our 5-year warranty covers manufacturing defects under normal use. Full terms and conditions apply and can be viewed on our <a href="/warranty-policy" target="_blank">warranty policy page</a>.</p>
+            </div>
+          </div>
+          
+          <!-- FAQ Item 5 -->
+          <div class="faq-item" x-data="{ id: 5 }">
+            <button class="faq-question" @click="activeFaq = (activeFaq === id) ? null : id" :aria-expanded="activeFaq === id" aria-controls="faq-answer-5">
+              <h3>Does it sync with gate systems?</h3>
+              <svg class="faq-icon" x-show="activeFaq !== id" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+              <svg class="faq-icon" x-show="activeFaq === id" style="display: none;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+            <div class="faq-answer" id="faq-answer-5" x-show="activeFaq === id" x-transition:enter="transition-all ease-out duration-300" x-transition:enter-start="max-height-0 opacity-0" x-transition:enter-end="max-height-screen opacity-100" x-transition:leave="transition-all ease-in duration-200" x-transition:leave-start="max-height-screen opacity-100" x-transition:leave-end="max-height-0 opacity-0" style="display: none;">
+              <p>Yes, the Yew X1 is designed to SYNC with the Elite U-2 or Elite U-3 Gate systems, allowing you to control both from one system.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- --- Footer --- -->
+  <footer>
+    <div class="container">
+      <div class="footer-links">
+        <a 
+          href="https://wa.me/65XXXXXXX?text=I%27m%20interested%20in%20Yew%20X1" 
+          target="_blank"
+          @click="if (typeof gtag === 'function') gtag('event', 'contact', {method: 'whatsapp', product: 'Yew X1'});"
+        >
+          WhatsApp Us
+        </a>
+        <a href="/terms-and-conditions" target="_blank">Terms & Conditions</a>
+        <a href="/warranty-policy" target="_blank">Warranty Policy</a>
+        <a href="/privacy-policy" target="_blank">Privacy</a>
+      </div>
+      <div class="footer-copy">
+        <p>Placeholder: 123 Showroom Ave, #01-01, Singapore 123456</p>
+        <p>© <span id="footer-year"></span> Yew Digital Lock. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- --- Sticky Purchase Bar --- -->
+  <div id="sticky-bar" x-bind:class="{ 'bar-visible': isStickyBarVisible }">
+    <div class="sticky-bar-content">
+      <div class="sticky-bar-info">
+        <h4>Yew X1</h4>
+        <p>
+          <span class="old-price">$1,049.00</span>
+          <strong>$899.00</strong>
+        </p>
+      </div>
+      <div class="sticky-bar-cta">
+        <a 
+          href="https://wa.me/65XXXXXXX?text=I%27m%20interested%20in%20Yew%20X1" 
+          target="_blank" 
+          class="btn btn-secondary"
+          @click="if (typeof gtag === 'function') gtag('event', 'contact', {method: 'whatsapp', product: 'Yew X1'});"
+        >
+          WhatsApp
+        </a>
+        <button 
+          class="btn btn-primary"
+          @click.prevent="isModalOpen = true; if (typeof gtag === 'function') gtag('event', 'begin_checkout', {items: [{id:'YEW-X1', name:'Yew X1', price: 899}]});"
+        >
+          Buy Now
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- --- Checkout Modal --- -->
+  <div 
+    class="modal-overlay"
+    x-show="isModalOpen"
+    x-transition
+    @keydown.escape.window="isModalOpen = false"
+    style="display: none;"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="modal-title"
+  >
+    <div 
+      class="modal-panel"
+      @click.outside="isModalOpen = false"
+    >
+      <div class="modal-header">
+        <h3 id="modal-title">Book Your Yew X1</h3>
+        <button class="modal-close-btn" @click="isModalOpen = false" aria-label="Close modal">
+          <!-- Icon: X -->
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+      
+      <p style="color: var(--text-secondary); margin-bottom: 2rem;">
+        Finalize your purchase and schedule your installation. Our team will contact you via WhatsApp to confirm details.
+      </p>
+      
+      <!-- 
+        Note: This is a mock form. For a real checkout,
+        this form would submit or this modal would link
+        directly to the final checkout page.
+      -->
+      <form action="https://yewdigitallock.com.sg/product/yew-x1" method="get" target="_blank">
+        <div class="modal-form-group">
+          <label for="name">Name</label>
+          <input type="text" id="name" name="name" placeholder="Your Name" required>
+        </div>
+        <div class="modal-form-group">
+          <label for="phone">Phone (for WhatsApp)</label>
+          <input type="tel" id="phone" name="phone" placeholder="Your Phone Number" required>
+        </div>
+        <div class="modal-form-group">
+          <label for="install_date">Preferred Installation Date (Optional)</label>
+          <input type="date" id="install_date" name="install_date">
+        </div>
+        
+        <div class="modal-compatibility-note">
+          <p style="margin-bottom: 0;">We will contact you on WhatsApp to confirm your door compatibility (size, type, and handle side) before installation.</p>
+        </div>
+        
+        <button type="submit" class="btn btn-primary modal-submit-btn">
+          Proceed to Purchase ($899.00)
+        </button>
+      </form>
+      
+    </div>
+  </div>
+
+  <!-- 
+    Main JavaScript 
+    - Sets footer year
+    - Generates Product Schema
+    - Adds IntersectionObserver for animations
+  -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      
+      // Set Footer Year
+      document.getElementById('footer-year').textContent = new Date().getFullYear();
+      
+      // Generate Product JSON-LD Schema
+      try {
+        const schemaEl = document.getElementById('product-schema');
+        if (schemaEl) {
+          const today = new Date();
+          const oneYearFromNow = new Date(today.setFullYear(today.getFullYear() + 1));
+          
+          const productSchema = {
+            "@context": "https://schema.org/",
+            "@type": "Product",
+            "name": "Yew X1 Digital Lock",
+            "image": "https://yewdigitallock.com.sg/wp-content/uploads/2025/10/Yew-X1-Digital-Lock.png",
+            "description": "The Yew X1 Digital Lock features Facial Recognition, Built-In Viewer, Live View, and App Control. Includes Fingerprint, PIN, Card, and Manual Key access. SYNCs with Elite U-2/U-3 gates.",
+            "sku": "YEW-X1",
+            "brand": {
+              "@type": "Brand",
+              "name": "Yew"
+            },
+            "offers": {
+              "@type": "Offer",
+              "url": "https://yewdigitallock.com.sg/product/yew-x1", // <!-- TODO: Update with final URL -->
+              "priceCurrency": "SGD",
+              "price": "899.00",
+              "priceValidUntil": oneYearFromNow.toISOString().split('T')[0],
+              "itemCondition": "https://schema.org/NewCondition",
+              "availability": "https://schema.org/InStock",
+              "shippingDetails": {
+                "@type": "OfferShippingDetails",
+                "shippingDestination": {
+                  "@type": "DefinedRegion",
+                  "addressCountry": "SG"
+                },
+                "shippingRate": {
+                  "@type": "MonetaryAmount",
+                  "value": "0",
+                  "currency": "SGD"
+                }
+              }
+            }
+            // "aggregateRating" can be added here once reviews are available
+          };
+          schemaEl.textContent = JSON.stringify(productSchema, null, 2);
+        }
+      } catch (e) {
+        console.error("Failed to generate product schema:", e);
+      }
+      
+      // Intersection Observer for Animations
+      try {
+        const animatedElements = document.querySelectorAll('.animate-on-scroll');
+        if ('IntersectionObserver' in window) {
+          const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+                observer.unobserve(entry.target);
+              }
+            });
+          }, { 
+            threshold: 0.1,
+            rootMargin: "0px 0px -50px 0px"
+          });
+          
+          animatedElements.forEach(el => {
+            if (el) observer.observe(el);
+          });
+        } else {
+          // Fallback for older browsers
+          animatedElements.forEach(el => {
+            if (el) el.classList.add('is-visible');
+          });
+        }
+      } catch (e) {
+        console.error("Failed to initialize IntersectionObserver:", e);
+      }
+
+    });
+  </script>
+
+</body>
+</html>
