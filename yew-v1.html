@@ -241,7 +241,27 @@
         background-color: var(--accent-blue);
         color: #0B0D10;
         font-weight: 600;
+        position: relative; /* For shimmer */
+        overflow: hidden; /* For shimmer */
+        z-index: 1; 
       }
+      
+      /* Shimmer Effect */
+      .btn-primary::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 200%;
+        height: 100%;
+        background: linear-gradient(110deg, transparent 30%, rgba(255,255,255,0.2) 50%, transparent 70%);
+        transform: skewX(-30deg);
+        transition: left 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .btn-primary:hover::before {
+        left: 100%;
+      }
+      
       .btn-primary:hover {
         background-color: var(--accent-blue-darker);
         color: #0B0D10;
@@ -367,16 +387,30 @@
         50% { opacity: 0.8; transform: translate(-50%, -60%) scale(1.05); }
       }
       
-      .hero-content {
-        max-width: 750px;
-        animation: fadeInUp 1s ease-out;
+      .hero-grid {
+        /* Mobile-first: default is stacking */
+        width: 100%;
       }
       
+      .hero-content-right {
+        /* Mobile-first: default */
+         animation: fadeInUp 1s ease-out;
+      }
+
+      .hero-tagline {
+        font-size: clamp(1.5rem, 4vw, 2.25rem);
+        font-weight: 500;
+        color: var(--text-primary);
+        margin-top: 1rem;
+        margin-bottom: 1.5rem;
+        line-height: 1.3;
+      }
+
       .hero-subtitle {
         font-size: 1.125rem;
         font-weight: 500;
         color: var(--text-secondary);
-        margin-top: 1rem;
+        margin-top: 0; /* Adjusted from 1rem */
       }
       
       .hero-price {
@@ -422,6 +456,7 @@
         margin: -4rem auto 2rem; /* Pull image up */
         max-width: 450px;
         position: relative;
+        perspective: 1500px; /* For 3D parallax */
       }
       .hero-image {
         width: 100%;
@@ -429,7 +464,8 @@
         object-fit: contain;
         animation: floatUp 1.2s ease-out;
         transform: scale(1);
-        transition: transform 0.3s ease;
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        will-change: transform;
       }
       .hero-image:hover {
         transform: scale(1.02);
@@ -482,15 +518,44 @@
       .highlight-card {
         padding: 2rem;
         transition: var(--transition);
+        position: relative; /* For pseudo-element */
+        overflow: hidden; /* For pseudo-element */
+      }
+      .highlight-card::before {
+        content: '';
+        position: absolute;
+        /* Use variables for mouse position */
+        top: var(--mouse-y, 50%);
+        left: var(--mouse-x, 50%);
+        width: 400px; /* Size of the glow */
+        height: 400px;
+        background: radial-gradient(circle at center, rgba(89, 167, 255, 0.15) 0%, transparent 60%);
+        transform: translate(-50%, -50%);
+        opacity: 0;
+        transition: opacity 0.4s ease, top 0.1s linear, left 0.1s linear;
+        z-index: 1; /* Below content, above bg */
+        will-change: top, left, opacity;
+      }
+      .highlight-card:hover::before {
+        opacity: 1;
       }
       .highlight-card:hover {
         transform: translateY(-8px);
         box-shadow: 0 10px 30px rgba(0,0,0,0.2), var(--glow);
+        /* Border highlight */
+        border-color: rgba(89, 167, 255, 0.3);
       }
       .highlight-card h3 {
         color: var(--text-primary);
         font-size: 1.25rem;
+        position: relative; 
+        z-index: 2; /* Above glow */
       }
+      .highlight-card p {
+        position: relative;
+        z-index: 2; /* Above glow */
+      }
+
 
       /* --- Deep-Dive Section --- */
       .feature-deep-dive {
@@ -987,6 +1052,42 @@
       
       /* Desktop */
       @media (min-width: 1024px) {
+        /* New Hero Desktop Layout */
+        #overview {
+          min-height: 90vh;
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 3rem;
+          align-items: center;
+          text-align: left;
+          padding-top: 6rem;
+        }
+        .hero-image-wrapper {
+          margin: 0;
+          max-width: none;
+        }
+        .hero-price, .hero-cta, .hero-badges {
+          justify-content: flex-start;
+        }
+        .hero-badges {
+          gap: 1.5rem;
+        }
+        /* Move spotlight to follow image */
+        #overview::before {
+          top: 50%;
+          left: 25%; /* Center on left column */
+          transform: translate(-50%, -50%);
+          width: 100%;
+          padding-top: 100%;
+          max-width: 900px;
+          max-height: 900px;
+        }
+        /* Adjust pulse transform */
+        @keyframes pulseGlow { 
+          0%, 100% { opacity: 0.6; transform: translate(-50%, -50%) scale(0.95); }
+          50% { opacity: 0.8; transform: translate(-50%, -50%) scale(1.05); }
+        }
+
         .highlights-grid {
           grid-template-columns: repeat(4, 1fr);
         }
@@ -1073,7 +1174,7 @@
     
     <!-- --- Hero Section --- -->
     <section id="overview">
-      <div class="container hero-content">
+      <div class="container hero-grid">
         
         <div class="hero-image-wrapper">
           <img 
@@ -1086,54 +1187,57 @@
           >
         </div>
         
-        <h1>Yew X1 — Unlock Security. See Everything.</h1>
-        <p class="hero-subtitle">Facial Recognition • Built-In Viewer • Live View • App Control</p>
-        
-        <div class="hero-price">
-          <span class="old-price">$1,049.00</span>
-          <span>$899.00</span>
-          <span class="atome-price" 
-            @click="if (typeof gtag === 'function') gtag('event', 'view_promotion', {promotion_name: 'Atome 3-pay'});"
-          >
-            · Atome from $299.67 x 3
-          </span>
+        <div class="hero-content-right">
+          <h1>Yew X1</h1>
+          <p class="hero-tagline">Unlock Security. See Everything.</p>
+          <p class="hero-subtitle">Facial Recognition • Built-In Viewer • Live View • App Control</p>
+          
+          <div class="hero-price">
+            <span class="old-price">$1,049.00</span>
+            <span>$899.00</span>
+            <span class="atome-price" 
+              @click="if (typeof gtag === 'function') gtag('event', 'view_promotion', {promotion_name: 'Atome 3-pay'});"
+            >
+              · Atome from $299.67 x 3
+            </span>
+          </div>
+          
+          <div class="hero-badges">
+            <span>
+              <!-- Icon: Shield Check -->
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+              5 Year Local Warranty
+            </span>
+            <span>
+              <!-- Icon: Wrench -->
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.7-3.7a1 1 0 0 0 0-1.4l-1.6-1.6a1 1 0 0 0-1.4 0l-3.7 3.7z"/><path d="M9 11l-4 4l-1.5 1.5a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0L8 18l4-4"/><path d="m16 5 3 3"/></svg>
+              Free Installation & Cleanup
+            </span>
+            <span>
+              <!-- Icon: Headset -->
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 14h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7a9 9 0 0 1 18 0v7a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3"/><path d="M18 19a6 6 0 0 0-12 0"/></svg>
+              24/7 Local Customer Support
+            </span>
+          </div>
+          
+          <div class="hero-cta">
+            <button 
+              class="btn btn-primary"
+              @click.prevent="isModalOpen = true; if (typeof gtag === 'function') gtag('event', 'begin_checkout', {items: [{id:'YEW-X1', name:'Yew X1', price: 899}]});"
+            >
+              Buy Now
+            </button>
+            <a 
+              href="https://wa.me/65XXXXXXX?text=I%27m%20interested%20in%20Yew%20X1" 
+              target="_blank" 
+              class="btn btn-secondary"
+              @click="if (typeof gtag === 'function') gtag('event', 'contact', {method: 'whatsapp', product: 'Yew X1'});"
+            >
+              WhatsApp Us
+            </a>
+          </div>
+          <p class="hero-microcopy">Fast, clean installation by our local team.</p>
         </div>
-        
-        <div class="hero-badges">
-          <span>
-            <!-- Icon: Shield Check -->
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
-            5 Year Local Warranty
-          </span>
-          <span>
-            <!-- Icon: Wrench -->
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.7-3.7a1 1 0 0 0 0-1.4l-1.6-1.6a1 1 0 0 0-1.4 0l-3.7 3.7z"/><path d="M9 11l-4 4l-1.5 1.5a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0L8 18l4-4"/><path d="m16 5 3 3"/></svg>
-            Free Installation & Cleanup
-          </span>
-          <span>
-            <!-- Icon: Headset -->
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 14h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7a9 9 0 0 1 18 0v7a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3"/><path d="M18 19a6 6 0 0 0-12 0"/></svg>
-            24/7 Local Customer Support
-          </span>
-        </div>
-        
-        <div class="hero-cta">
-          <button 
-            class="btn btn-primary"
-            @click.prevent="isModalOpen = true; if (typeof gtag === 'function') gtag('event', 'begin_checkout', {items: [{id:'YEW-X1', name:'Yew X1', price: 899}]});"
-          >
-            Buy Now
-          </button>
-          <a 
-            href="https://wa.me/65XXXXXXX?text=I%27m%20interested%20in%20Yew%20X1" 
-            target="_blank" 
-            class="btn btn-secondary"
-            @click="if (typeof gtag === 'function') gtag('event', 'contact', {method: 'whatsapp', product: 'Yew X1'});"
-          >
-            WhatsApp Us
-          </a>
-        </div>
-        <p class="hero-microcopy">Fast, clean installation by our local team.</p>
         
       </div>
     </section>
@@ -1637,6 +1741,7 @@
     - Sets footer year
     - Generates Product Schema
     - Adds IntersectionObserver for animations
+    - Adds new interactive animations
   -->
   <script>
     document.addEventListener('DOMContentLoaded', () => {
@@ -1719,9 +1824,54 @@
       } catch (e) {
         console.error("Failed to initialize IntersectionObserver:", e);
       }
+      
+      // --- NEW: Interactive Animations ---
+
+      // 1. Card interactive glow
+      try {
+        const cards = document.querySelectorAll('.highlight-card');
+        cards.forEach(card => {
+          card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            card.style.setProperty('--mouse-x', `${x}px`);
+            card.style.setProperty('--mouse-y', `${y}px`);
+          });
+        });
+      } catch (e) {
+        console.error("Failed to init card glow effect:", e);
+      }
+
+      // 2. Hero image parallax
+      try {
+        const heroSection = document.getElementById('overview');
+        const heroImage = document.querySelector('.hero-image');
+        if (heroSection && heroImage) {
+          heroSection.addEventListener('mousemove', (e) => {
+            if (window.innerWidth < 1024) return; // Only on desktop
+            
+            const { left, top, width, height } = heroSection.getBoundingClientRect();
+            const x = (e.clientX - left) / width; // 0 to 1
+            const y = (e.clientY - top) / height; // 0 to 1
+
+            const xRotation = 15 * (y - 0.5); // Max 15deg tilt
+            const yRotation = 15 * (x - 0.5);
+            
+            heroImage.style.transform = `perspective(1000px) scale(1.05) rotateX(${xRotation * -1}deg) rotateY(${yRotation}deg)`;
+          });
+          
+          heroSection.addEventListener('mouseleave', () => {
+             heroImage.style.transform = 'perspective(1000px) scale(1) rotateX(0deg) rotateY(0deg)';
+          });
+        }
+      } catch (e) {
+        console.error("Failed to init hero parallax:", e);
+      }
 
     });
   </script>
 
 </body>
 </html>
+
