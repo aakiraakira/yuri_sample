@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yew Digital Lock - Warranty</title>
+    
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Configure Tailwind to use Inter font -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                },
+            },
+        }
+    </script>
+    
+    <!-- Custom Styles -->
+    <style>
+        /* Use Inter font by default */
+        body {
+            font-family: 'Inter', sans-serif;
+            /* Polished radial gradient background */
+            background: radial-gradient(ellipse at top, #111 0%, #000 70%) #000;
+            background-attachment: fixed;
+        }
+
+        /* NEW Dynamic gradient class for buttons and steps */
+        .gradient-bg {
+            background-image: linear-gradient(to right, #0ea5e9 0%, #3b82f6 50%, #6366f1 100%);
+        }
+
+        /* Custom class for the blue gradient button */
+        .btn-gradient {
+            background-image: linear-gradient(to right, #0ea5e9 0%, #3b82f6 50%, #6366f1 100%);
+            background-size: 200% auto;
+            transition: background-position 0.5s ease;
+        }
+
+        .btn-gradient:hover {
+            background-position: right center; /* Animate gradient on hover */
+        }
+
+        /* Custom class for the "subtle silver glow" section separator */
+        .section-glow-border {
+            /* A very subtle white/silver border with 10% opacity */
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* NEW Dynamic sky blue gradient text */
+        .text-gradient-sky {
+            background-image: linear-gradient(to right, #0ea5e9, #3b82f6, #6366f1);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        /* Custom class for white subtext emphasis */
+        .subtext-emphasis {
+            color: #ffffff;
+            font-weight: 600;
+        }
+        
+        /* Custom styles for sleek, dark form inputs (adapted for glass) */
+        .form-input {
+            background-color: rgba(0, 0, 0, 0.3); /* bg-black/30 */
+            border: 1px solid rgba(255, 255, 255, 0.2); /* border-white/20 */
+            color: #d4d4d8; /* zinc-300 */
+            border-radius: 0.5rem; /* rounded-lg */
+            padding: 0.75rem 1rem; /* py-3 px-4 */
+            width: 100%;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+        }
+        .form-input:focus {
+            outline: none;
+            background-color: rgba(0, 0, 0, 0.5); /* bg-black/50 */
+            border-color: #3b82f6; /* blue-500 */
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.4);
+        }
+        /* Fix for date picker icon in dark mode */
+        .form-input::-webkit-calendar-picker-indicator {
+            filter: invert(1);
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem; /* mb-2 */
+            font-size: 0.875rem; /* text-sm */
+            font-weight: 500; /* font-medium */
+            color: #a1a1aa; /* zinc-400 */
+        }
+
+        /* Secondary button style (for "Previous") */
+        .btn-secondary {
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #d4d4d8;
+            font-weight: 600;
+            padding: 0.625rem 1.5rem; /* py-2.5 px-6 */
+            border-radius: 9999px; /* rounded-full */
+            transition: background-color 0.3s ease;
+        }
+        .btn-secondary:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        /* Primary button style (for "Next") */
+        .btn-primary {
+            background-color: #3b82f6;
+            color: white;
+            font-weight: 600;
+            padding: 0.625rem 1.5rem; /* py-2.5 px-6 */
+            border-radius: 9999px; /* rounded-full */
+            transition: background-color 0.3s ease;
+        }
+        .btn-primary:hover {
+            background-color: #2563eb;
+        }
+
+    </style>
+</head>
+<body class="bg-black text-gray-300 antialiased">
+
+    <div class="min-h-screen">
+
+        <!-- Header -->
+        <header class="py-6 px-4 sm:px-6 lg:px-8">
+            <nav class="max-w-6xl mx-auto flex justify-between items-center">
+                <!-- Logo -->
+                <img 
+                    src="https://kishord30.sg-host.com/wp-content/uploads/2023/09/YEW_NEW-LOGO_White-transparent-bg-e1761443184213-2048x581.png" 
+                    alt="YEW Logo" 
+                    class="h-10 w-auto"
+                    onerror="this.onerror=null; this.parentElement.innerHTML = '<h1 class=\'text-2xl font-bold text-white tracking-tighter\'>YEW</h1>';"
+                >
+                
+                <!-- Navigation -->
+                <div class="flex items-center space-x-6">
+                    <a href="#" class="text-sm font-medium text-gray-400 hover:text-white transition-colors">Products</a>
+                    <a href="#" class="text-sm font-medium text-gray-400 hover:text-white transition-colors">Support</a>
+                    <a href="#" class="text-sm font-medium text-white">Warranty</a>
+                </div>
+            </nav>
+        </header>
+
+        <!-- Main Content -->
+        <main class="overflow-hidden">
+
+            <!-- New Hero & Form Section -->
+            <section class="py-24 sm:py-32">
+                <div class="max-w-6xl mx-auto px-6 lg:px-8">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                        
+                        <!-- Left: Hero Text (Mobile Centered) -->
+                        <div class="text-center lg:text-left">
+                            <h1 class="text-4xl sm:text-6xl font-bold tracking-tight text-white">
+                                Your Security, <span class="text-gradient-sky">Guaranteed.</span>
+                            </h1>
+                            <p class="mt-6 text-lg leading-8 text-gray-400">
+                                Register your new Yew Digital Lock to activate your <span class="subtext-emphasis">5-Year Warranty</span>, or file a claim for existing service.
+                            </p>
+                            <div class="mt-10 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-6">
+                                <!-- Silver/Gray Secondary CTA -->
+                                <a href="#" class="font-semibold py-3 px-8 rounded-full text-lg text-gray-300 bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 transition-all duration-300 transform hover:scale-105 w-full sm:w-auto">
+                                    File a Claim
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Right: Liquid Glass 3-Step Form -->
+                        <div class="bg-white/5 backdrop-blur-lg rounded-2xl border border-white/10 shadow-xl shadow-blue-500/20 p-8 sm:p-10">
+                            
+                            <h2 id="form-title" class="text-3xl font-bold tracking-tight text-white text-center">
+                                Register Your Warranty
+                            </h2>
+                            
+                            <!-- NEW Step Indicator -->
+                            <div class="flex items-center w-full max-w-xs mx-auto my-8">
+                                <div id="step-dot-1" class="w-9 h-9 rounded-full flex items-center justify-center font-semibold border-2 border-zinc-600 text-zinc-400 transition-all duration-300 flex-shrink-0">
+                                    1
+                                </div>
+                                <div id="step-line-1" class="flex-grow border-t-2 border-zinc-600 transition-all duration-300 mx-2"></div>
+                                <div id="step-dot-2" class="w-9 h-9 rounded-full flex items-center justify-center font-semibold border-2 border-zinc-600 text-zinc-400 transition-all duration-300 flex-shrink-0">
+                                    2
+                                </div>
+                                <div id="step-line-2" class="flex-grow border-t-2 border-zinc-600 transition-all duration-300 mx-2"></div>
+                                <div id="step-dot-3" class="w-9 h-9 rounded-full flex items-center justify-center font-semibold border-2 border-zinc-600 text-zinc-400 transition-all duration-300 flex-shrink-0">
+                                    3
+                                </div>
+                            </div>
+                            
+                            <form action="#" method="POST">
+                                <!-- Step 1: Personal Details -->
+                                <div id="form-step-1">
+                                    <p class="text-center text-zinc-400 mb-6 -mt-2">Step 1: Personal Details</p>
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-6">
+                                        <!-- Name -->
+                                        <div>
+                                            <label for="name" class="form-label">Full Name</label>
+                                            <input type="text" id="name" name="name" class="form-input" required>
+                                        </div>
+                                        
+                                        <!-- Email -->
+                                        <div>
+                                            <label for="email" class="form-label">Email Address</label>
+                                            <input type="email" id="email" name="email" class="form-input" required>
+                                        </div>
+                                        
+                                        <!-- Phone Number -->
+                                        <div class="sm:col-span-2">
+                                            <label for="phone" class="form-label">Phone Number</label>
+                                            <input type="tel" id="phone" name="phone" class="form-input" required>
+                                        </div>
+                                    </div>
+                                    <!-- Step 1 Navigation -->
+                                    <div class="mt-10 text-right">
+                                        <button type="button" id="btn-next-1" class="btn-primary">
+                                            Next &rarr;
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- Step 2: Product Details -->
+                                <div id="form-step-2" class="hidden">
+                                    <p class="text-center text-zinc-400 mb-6 -mt-2">Step 2: Product Details</p>
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-6">
+                                        <!-- Product -->
+                                        <div>
+                                            <label for="product" class="form-label">Product Model</label>
+                                            <input type="text" id="product" name="product" class="form-input" placeholder="e.g., Yew Z1" required>
+                                        </div>
+                                        
+                                        <!-- Serial Number -->
+                                        <div>
+                                            <label for="serial" class="form-label">Serial Number</label>
+                                            <input type="text" id="serial" name="serial" class="form-input" placeholder="Found inside battery cover" required>
+                                        </div>
+
+                                        <!-- Date of Purchase -->
+                                        <div class="sm:col-span-2">
+                                            <label for="purchase-date" class="form-label">Date of Purchase</label>
+                                            <input type="date" id="purchase-date" name="purchase-date" class="form-input" required>
+                                        </div>
+                                    </div>
+                                    <!-- Step 2 Navigation (Justified) -->
+                                    <div class="mt-10 flex justify-between items-center">
+                                        <button type="button" id="btn-prev-2" class="btn-secondary">
+                                            &larr; Previous
+                                        </button>
+                                        <button type="button" id="btn-next-2" class="btn-primary">
+                                            Next &rarr;
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- Step 3: Address & Submit -->
+                                <div id="form-step-3" class="hidden">
+                                    <p class="text-center text-zinc-400 mb-6 -mt-2">Step 3: Installation Address</p>
+                                    <div class="grid grid-cols-1 gap-y-6">
+                                        <!-- Address -->
+                                        <div>
+                                            <label for="address" class="form-label">Installation Address</label>
+                                            <input type="text" id="address" name="address" class="form-input" required>
+                                        </div>
+                                    </div>
+                                    <!-- Step 3 Navigation (Justified) -->
+                                    <div class="mt-10 flex justify-between items-center">
+                                        <button type="button" id="btn-prev-3" class="btn-secondary">
+                                            &larr; Previous
+                                        </button>
+                                        <!-- Final Submit Button -->
+                                        <button type="submit" class="btn-gradient text-white font-semibold py-2.5 px-6 rounded-full text-base shadow-lg shadow-blue-500/30 transition-all duration-300 transform hover:scale-105">
+                                            Submit Warranty
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+            <!-- Key Features Section -->
+            <section class="py-24 sm:py-32 section-glow-border">
+                <div class="max-w-6xl mx-auto px-6 lg:px-8">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
+                        
+                        <!-- Feature 1: Free Installation -->
+                        <div class="flex flex-col items-center">
+                            <svg class="w-10 h-10 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M11.42 15.17 17.25 21A2.652 2.652 0 0 0 21 17.25l-5.83-5.83M11.42 15.17l-4.5-4.5M11.42 15.17 6.92 20.67M11.42 15.17l5.83-5.83M12 5.25A2.25 2.25 0 0 0 9.75 3H6a2.25 2.25 0 0 0-2.25 2.25v3.75A2.25 2.25 0 0 0 6 11.25h3.75a2.25 2.25 0 0 0 2.25-2.25V5.25Z" />
+                            </svg>
+                            <h3 class="mt-4 text-xl font-semibold subtext-emphasis">
+                                Free Installation
+                            </h3>
+                            <p class="mt-2 text-gray-400">
+                                Professional setup by our certified technicians, included with every purchase.
+                            </p>
+                        </div>
+                        
+                        <!-- Feature 2: 5 Year Warranty -->
+                        <div class="flex flex-col items-center">
+                             <svg class="w-10 h-10 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.623 0-1.604-.368-3.14-.99-4.508A11.959 11.959 0 0 1 12 2.714Z" />
+                            </svg>
+                            <h3 class="mt-4 text-xl font-semibold">
+                                <span class="text-gradient-sky subtext-emphasis">5 Year Local Warranty</span>
+                            </h3>
+                            <p class="mt-2 text-gray-400">
+                                An industry-leading 5-year warranty covering all electronic and mechanical parts.
+                            </p>
+                        </div>
+
+                        <!-- Feature 3: 24/7 Support -->
+                        <div class="flex flex-col items-center">
+                            <svg class="w-10 h-10 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z" />
+                            </svg>
+                            <h3 class="mt-4 text-xl font-semibold subtext-emphasis">
+                                24/7 Customer Support
+                            </h3>
+                            <p class="mt-2 text-gray-400">
+                                Our dedicated support team is available around the clock to assist you.
+                            </p>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+            <!-- Coverage Summary Section -->
+            <section class="py-24 sm:py-32 section-glow-border">
+                <div class="max-w-6xl mx-auto px-6 lg:px-8">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+                        
+                        <!-- Main Warranty Offer -->
+                        <div class="md:col-span-1">
+                            <h2 class="text-3xl font-bold tracking-tight text-white">
+                                Warranty Coverage
+                            </h2>
+                            <p class="mt-4 text-gray-400">
+                                Our 5-year warranty covers all electronic and mechanical components against manufacturing defects.
+                            </p>
+                        </div>
+                        
+                        <!-- Coverage Details -->
+                        <div class="md:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-8">
+                            <div class="flex flex-col">
+                                <!-- Icon -->
+                                <div class="w-10 h-10 flex-shrink-0">
+                                    <svg class="w-8 h-8 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 1.5H8.25A2.25 2.25 0 0 0 6 3.75v16.5a2.25 2.25 0 0 0 2.25 2.25h7.5A2.25 2.25 0 0 0 18 20.25V3.75A2.25 2.25 0 0 0 15.75 1.5m-7.5 0v11.25m11.25-11.25v11.25m-7.5 0h7.5M12 15.75h.008v.008H12v-.008Z" />
+                                    </svg>
+                                </div>
+                                <h3 class="mt-4 text-lg font-semibold text-white">
+                                    Electronic Components
+                                </h3>
+                                <p class="mt-2 text-gray-400">
+                                    Full coverage for keypads, RFID scanners, biometric sensors, and internal circuit boards.
+                                </p>
+                            </div>
+                            <div class="flex flex-col">
+                                <!-- Icon -->
+                                <div class="w-10 h-10 flex-shrink-0">
+                                    <svg class="w-8 h-8 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" />
+                                    </svg>
+                                </div>
+                                <h3 class="mt-4 text-lg font-semibold text-white">
+                                    Mechanical Parts
+                                </h3>
+                                <p class="mt-2 text-gray-400">
+                                    Includes the lockset, deadbolt, and latch mechanisms. Guaranteed free from defects.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Exclusions Section -->
+            <section class="py-24 sm:py-32 section-glow-border">
+                <div class="max-w-6xl mx-auto px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                    
+                    <!-- Exclusion List -->
+                    <div>
+                        <h2 class="text-3xl font-bold tracking-tight text-white">
+                            What's Not Covered
+                        </h2>
+                        <p class="mt-6 text-gray-400">
+                            Our warranty is comprehensive, but it does not cover issues arising from external factors or misuse.
+                        </p>
+                        <ul class="mt-6 space-y-4 list-disc list-outside text-gray-400 ml-5">
+                            <li>Improper installation or failure to follow setup instructions.</li>
+                            <li>Damage caused by <span class="subtext-emphasis">battery leakage</span>, misuse, or accidents.</li>
+                            <li>Unauthorized repairs, modifications, or disassembly.</li>
+                            <li>Normal wear and tear, including cosmetic scratches or fading.</li>
+                            <li>Damage from fire, flood, or other acts of God.</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Highlight Box -->
+                    <div class="p-8 rounded-2xl bg-zinc-900 border border-zinc-800 shadow-xl shadow-black/30">
+                        <!-- Icon -->
+                        <svg class="w-8 h-8 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
+                        </svg>
+                        <h3 class="mt-4 text-lg font-semibold text-white">
+                            A Note on Batteries
+                        </h3>
+                        <p class="mt-2 text-gray-400">
+                            Please use <span class="subtext-emphasis">high-quality, new alkaline batteries.</span> Damage resulting from battery leakage (corrosion) is the most common issue not covered by warranty. Replace all batteries at the same time.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- FAQ Section -->
+            <section class="py-24 sm:py-32 section-glow-border">
+                <div class="max-w-4xl mx-auto px-6 lg:px-8">
+                    <h2 class="text-3xl font-bold tracking-tight text-white text-center">
+                        Frequently Asked Questions
+                    </h2>
+                    <div class="mt-12 space-y-8">
+                        <div>
+                            <h3 class="text-lg font-semibold text-white">
+                                How do I find my serial number?
+                            </h3>
+                            <p class="mt-2 text-gray-400">
+                                Your Yew lock's serial number is located on a sticker <span class="subtext-emphasis">inside the battery compartment cover.</span> It is typically a 12-digit alphanumeric code.
+                            </p>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-semibold text-white">
+                                Is the warranty transferable?
+                            </h3>
+                            <p class="mt-2 text-gray-400">
+                                No, the warranty is <span class="subtext-emphasis">non-transferable</span> and applies only to the original purchaser of the product from an authorized Yew retailer.
+                            </p>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-semibold text-white">
+                                Do I need to keep my receipt?
+                            </h3>
+                            <p class="mt-2 text-gray-400">
+                                Yes, a <span class="subtext-emphasis">valid proof of purchase</span> (such as a sales receipt or invoice) is required to validate all warranty claims.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="py-12 section-glow-border">
+            <div class="max-w-6xl mx-auto px-6 lg:px-8 text-center">
+                <p class="text-sm text-gray-500">
+                    © 2025 Yew Digital. All rights reserved.
+                </p>
+                <div class="mt-4 flex justify-center space-x-6">
+                    <a href="#" class="text-sm text-gray-500 hover:text-gray-400 transition-colors">Privacy Policy</a>
+                    <a href="#" class="text-sm text-gray-500 hover:text-gray-400 transition-colors">Terms of Service</a>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- JavaScript for Multi-Step Form -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const steps = [
+                document.getElementById('form-step-1'),
+                document.getElementById('form-step-2'),
+                document.getElementById('form-step-3')
+            ];
+            
+            const nextButtons = [
+                document.getElementById('btn-next-1'),
+                document.getElementById('btn-next-2')
+            ];
+
+            const prevButtons = [
+                document.getElementById('btn-prev-2'),
+                document.getElementById('btn-prev-3')
+            ];
+
+            let currentStep = 1;
+
+            const dots = [
+                document.getElementById('step-dot-1'),
+                document.getElementById('step-dot-2'),
+                document.getElementById('step-dot-3')
+            ];
+            const lines = [
+                document.getElementById('step-line-1'),
+                document.getElementById('step-line-2')
+            ];
+
+            function showStep(stepNumber) {
+                currentStep = stepNumber;
+                
+                // Show/hide form steps
+                steps.forEach((step, index) => {
+                    if (index + 1 === currentStep) {
+                        step.classList.remove('hidden');
+                    } else {
+                        step.classList.add('hidden');
+                    }
+                });
+
+                // --- Update Step Indicator ---
+
+                // Reset all
+                dots.forEach(dot => {
+                    dot.classList.remove('gradient-bg', 'border-transparent', 'text-white');
+                    dot.classList.add('border-zinc-600', 'text-zinc-400');
+                });
+                lines.forEach(line => {
+                    line.classList.remove('border-blue-500');
+                    line.classList.add('border-zinc-600');
+                });
+
+                // Activate dots up to current step
+                for (let i = 0; i < stepNumber; i++) {
+                    dots[i].classList.add('gradient-bg', 'border-transparent', 'text-white');
+                    dots[i].classList.remove('border-zinc-600', 'text-zinc-400');
+                }
+
+                // Activate lines up to *before* current step
+                for (let i = 0; i < stepNumber - 1; i++) {
+                    lines[i].classList.add('border-blue-500');
+                    lines[i].classList.remove('border-zinc-600');
+                }
+            }
+
+            // Next button listeners
+            nextButtons[0].addEventListener('click', () => {
+                // Validation for step 1
+                const inputs = steps[0].querySelectorAll('input[required]');
+                let allValid = true;
+                inputs.forEach(input => {
+                    if (!input.checkValidity()) {
+                        allValid = false;
+                        // Trigger browser's native validation UI
+                        input.reportValidity();
+                    }
+                });
+
+                if (allValid) {
+                    showStep(2);
+                }
+            });
+
+            nextButtons[1].addEventListener('click', () => {
+                // Validation for step 2
+                const inputs = steps[1].querySelectorAll('input[required]');
+                let allValid = true;
+                inputs.forEach(input => {
+                    if (!input.checkValidity()) {
+                        allValid = false;
+                        input.reportValidity();
+                    }
+                });
+                
+                if (allValid) {
+                    showStep(3);
+                }
+            });
+
+            // Previous button listeners
+            prevButtons[0].addEventListener('click', () => {
+                showStep(1);
+            });
+
+            prevButtons[1].addEventListener('click', () => {
+                showStep(2);
+            });
+
+            // Show the first step initially
+            showStep(1);
+
+            // Handle form submission
+            const form = document.querySelector('form');
+            form.addEventListener('submit', (e) => {
+                // Final validation check for the last step
+                const inputs = steps[2].querySelectorAll('input[required]');
+                let allValid = true;
+                inputs.forEach(input => {
+                    if (!input.checkValidity()) {
+                        allValid = false;
+                        input.reportValidity();
+                    }
+                });
+
+                if (!allValid) {
+                    e.preventDefault(); // Stop submission if last step is invalid
+                } else {
+                    // Handle successful submission
+                    // For demo, we'll just log to console
+                    console.log('Form submitted successfully!');
+                    // You would typically send the data to a server here
+                    // To prevent actual submission in this demo:
+                    e.preventDefault(); 
+                    
+                    // Show a success message
+                    const formContainer = form.parentElement;
+                    formContainer.innerHTML = `
+                        <div class="text-center">
+                            <h2 class="text-3xl font-bold tracking-tight text-white">
+                                Thank You!
+                            </h2>
+                            <p class="mt-4 text-lg text-gray-300">
+                                Your warranty has been successfully registered.
+                            </p>
+                            <svg class="w-16 h-16 text-green-500 mx-auto mt-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                            </svg>
+                        </div>
+                    `;
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
+
