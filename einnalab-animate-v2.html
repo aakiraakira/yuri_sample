@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Einnalab Ingredient Arc</title>
+    <style>
+        /* --- 1. Base & Body Styling --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #0a0a0a; /* Very dark background */
+            color: #eee;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+            padding: 2rem;
+        }
+
+        /* --- 2. Main Layout Container --- */
+        .product-showcase {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            max-width: 1200px; /* Wider container for split layout */
+            margin: 0 auto;
+        }
+
+        /* --- 3. Left & Right Panels --- */
+        .left-panel {
+            flex: 1.2; /* Give arc slightly more space */
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 70vh;
+        }
+
+        .right-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding-left: 3rem;
+        }
+
+        /* --- 4. Bottle Styling --- */
+        .bottle-container {
+            position: relative; /* Sits in the flex center */
+            z-index: 10;
+        }
+
+        .bottle-image {
+            width: 170px; /* Smaller bottle */
+            height: auto;
+            filter: drop-shadow(0 4px 15px rgba(0, 0, 0, 0.4));
+            transition: transform 0.3s ease;
+        }
+        
+        .bottle-image:hover {
+            transform: scale(1.03);
+        }
+
+        /* --- 5. Ingredient Arc Container --- */
+        .ingredient-arc {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%); /* Centered on the panel */
+            width: 1px;
+            height: 1px;
+            z-index: 5;
+        }
+
+        /* --- 6. Individual Ingredient Item --- */
+        .ingredient-item {
+            position: absolute;
+            top: 0; 
+            left: 0;
+            width: 90px; /* Larger ingredients */
+            height: 90px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 5;
+            
+            /* Animation setup */
+            opacity: 0;
+            transform: translate(-50%, -50%) scale(0.5); /* Start centered, small, and translated */
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+        
+        /* Specific size for Aloe Vera */
+        .ingredient-item--center {
+            width: 120px;
+            height: 120px;
+            z-index: 15; /* Ensure it's on top */
+        }
+
+        .ingredient-item:hover {
+            transform: var(--transform-base) scale(1.15) !important; /* Use var for base pos */
+            z-index: 20;
+        }
+
+        .ingredient-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+            transition: box-shadow 0.3s ease, transform 0.3s ease;
+            /* No default border, shadow, or background */
+        }
+        
+        .ingredient-item:hover img {
+            box-shadow: 0 6px 25px rgba(178, 34, 34, 0.5); /* Maroon glow on hover */
+            transform: scale(1.05);
+        }
+
+        /* --- 7. Tooltip (Modal) Styling --- */
+        .ingredient-tooltip {
+            position: absolute;
+            bottom: 100%; /* Position above the item */
+            left: 50%;
+            transform: translateX(-50%) translateY(-10px); /* Move 10px up */
+            background-color: #fff;
+            color: #111;
+            padding: 6px 12px;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            white-space: nowrap;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            
+            /* Hidden by default */
+            visibility: hidden;
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 30;
+        }
+
+        .ingredient-item:hover .ingredient-tooltip {
+            visibility: visible;
+            opacity: 1;
+            transform: translateX(-50%) translateY(-15px); /* Animate up */
+        }
+
+        /* --- 8. Text Styling --- */
+        .text-content {
+            text-align: left;
+        }
+        
+        .text-content h2 {
+            font-size: 3rem;
+            font-weight: 800;
+            /* Maroon Red Linear Gradient */
+            background: linear-gradient(90deg, #d32f2f, #800000);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .text-content .subtitle {
+            font-size: 1rem;
+            color: #888;
+            letter-spacing: 0.5px;
+            margin-bottom: 2rem;
+        }
+
+        .text-content .description {
+            font-size: 1.1rem;
+            color: #aaa;
+            line-height: 1.6;
+            max-width: 450px;
+        }
+
+        /* --- 9. Animation Keyframes --- */
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: var(--transform-final) scale(1);
+            }
+        }
+
+        /* --- 10. Mobile Responsiveness --- */
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem 0;
+            }
+            
+            /* Stack them vertically */
+            .product-showcase {
+                flex-direction: column;
+                padding: 1rem;
+                margin-top: 2rem;
+            }
+
+            .left-panel, .right-panel {
+                flex: none;
+                width: 100%;
+                min-height: auto;
+                padding-left: 0;
+            }
+
+            /* --- MOBILE CIRCLE LAYOUT --- */
+            .left-panel {
+                position: relative;
+                /* Height to contain the circle (300px) + items (80px) */
+                height: 400px; 
+            }
+
+            .bottle-container {
+                /* Center bottle *inside* the left panel */
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                z-index: 10;
+            }
+            
+            .bottle-image {
+                width: 140px; /* Smaller bottle on mobile */
+            }
+
+            .ingredient-arc {
+                /* Center the arc *inside* the left panel */
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                z-index: 5;
+            }
+            /* --- END MOBILE CIRCLE LAYOUT --- */
+
+
+            .ingredient-item {
+                width: 60px;
+                height: 60px;
+            }
+            
+            .ingredient-item--center {
+                width: 80px;
+                height: 80px;
+            }
+
+            .right-panel {
+                margin-top: 2rem; /* Space above text */
+            }
+
+            .text-content {
+                text-align: center;
+            }
+            
+            .text-content h2 {
+                font-size: 2.2rem;
+            }
+            
+            .text-content .subtitle {
+                font-size: 0.9rem;
+                margin-bottom: 1.5rem;
+            }
+            
+            .text-content .description {
+                font-size: 1rem;
+                max-width: 100%;
+                padding: 0 1rem;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="product-showcase" id="product-showcase">
+
+        <div class="left-panel">
+            <div class="bottle-container" id="bottle-container">
+                <img src="https://einnalab.com/wp-content/uploads/2025/07/EiNNALAB-Deer-Placenta-30000mg-DarkRed-TRANSPARENT-Front-scaled-e1751113638955.png" alt="Einnalab Deer Placenta" class="bottle-image">
+            </div>
+
+            <div class="ingredient-arc" id="ingredient-arc">
+                </div>
+        </div>
+        
+        <div class="right-panel">
+            <div class="text-content" id="text-content">
+                <h2>Natural Ingredients</h2>
+                <p class="subtitle">Hover to explore</p>
+                <p class="description">
+                    Our formula is enriched with highly-prized <strong>Deer Placenta</strong>, a potent source of nutrients and growth factors to support cellular rejuvenation and youthful vitality, blended with 10 other powerful natural extracts.
+                </eq>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // --- 1. Data & Configuration ---
+            
+            // Re-ordered so Aloe Vera (the 5th in your list) is the 6th in this array,
+            // making it the perfect center (index 5) of 11 items for symmetry.
+            const ingredients = [
+                { name: 'Vitamin E', img: 'https://einnalab.com/wp-content/uploads/2025/11/Vitamin-E.png' },
+                { name: 'Squalene', img: 'https://einnalab.com/wp-content/uploads/2025/11/Squalene.png' },
+                { name: 'Fucoidan', img: 'https://einnalab.com/wp-content/uploads/2025/11/Fucoidan.png' },
+                { name: 'Lycopene', img: 'https://einnalab.com/wp-content/uploads/2025/11/lycopene.png' },
+                { name: 'Avocado Oil', img: 'https://einnalab.com/wp-content/uploads/2025/11/Avocado-Oil.png' }, 
+                { name: 'Aloe Vera', img: 'https://einnalab.com/wp-content/uploads/2025/11/Aloe-Vera-scaled.png' }, // The point of symmetry
+                { name: 'Grape Seed', img: 'https://einnalab.com/wp-content/uploads/2025/11/Grape-Seed.png' },
+                { name: 'Evening Primrose Oil', img: 'https://einnalab.com/wp-content/uploads/2025/11/Evening-Primrose-Oil.png' },
+                { name: 'Borage Oil', img: 'https://einnalab.com/wp-content/uploads/2025/11/borage-oil.png' },
+                { name: 'Marine Collagen', img: 'https://einnalab.com/wp-content/uploads/2025/11/Marine-Collagen-Extract.png' },
+                { name: 'Turmeric', img: 'https://einnalab.com/wp-content/uploads/2025/11/Tumeric.png' }
+            ];
+
+            const arcContainer = document.getElementById('ingredient-arc');
+            
+            // --- 2. Dynamic HTML Generation ---
+            
+            function createIngredientElements() {
+                arcContainer.innerHTML = ''; // Clear for resize
+                ingredients.forEach((ingredient, index) => {
+                    const item = document.createElement('div');
+                    item.className = 'ingredient-item';
+                    
+                    // Add special class for Aloe Vera
+                    if (ingredient.name === 'Aloe Vera') {
+                        item.classList.add('ingredient-item--center');
+                    }
+                    
+                    const img = document.createElement('img');
+                    img.src = ingredient.img;
+                    img.alt = ingredient.name;
+                    
+                    const tooltip = document.createElement('span');
+                    tooltip.className = 'ingredient-tooltip';
+                    tooltip.textContent = ingredient.name;
+                    
+                    item.appendChild(img);
+                    item.appendChild(tooltip);
+                    
+                    arcContainer.appendChild(item);
+                });
+            }
+
+            // --- 3. Layout & Positioning Function ---
+            
+            function positionElements() {
+                const items = arcContainer.querySelectorAll('.ingredient-item');
+                const totalItems = items.length;
+                const isMobile = window.innerWidth <= 768;
+
+                // Arc parameters
+                let radius, startAngle, endAngle;
+
+                if (isMobile) {
+                    // Mobile: Full circle
+                    radius = 150; // Radius for the circle
+                } else {
+                    // Desktop: Wide "C" arc
+                    radius = 280; // Keep radius large
+                    startAngle = 120; // Tighter arc start
+                    endAngle = 240;   // Tighter arc end (120 deg sweep)
+                }
+
+                // Position items
+                items.forEach((item, index) => {
+                    let angleDeg;
+
+                    if (isMobile) {
+                        // Calculate angle for a full *clockwise* circle
+                        const angleStep = 360 / totalItems;
+                        angleDeg = -(index * angleStep); // Negative for clockwise
+                        
+                        // Set *clockwise* animation delay
+                        item.style.animationDelay = `${index * 100}ms`;
+                        
+                    } else {
+                        // Calculate angle for the "C" arc
+                        // Note: 120deg is bottom-left, 240deg is top-left
+                        const angleStep = (endAngle - startAngle) / (totalItems - 1);
+                        angleDeg = startAngle + (index * angleStep);
+                        
+                        // Set *up-to-down* animation delay (reverse of index)
+                        // (totalItems - 1 - index) makes index 10 (top) start first
+                        item.style.animationDelay = `${(totalItems - 1 - index) * 100}ms`;
+                    }
+                    
+                    const angleRad = angleDeg * (Math.PI / 180);
+                    
+                    // Calculate (x, y) coordinates from the center of the arc container
+                    const x = radius * Math.cos(angleRad);
+                    const y = radius * Math.sin(angleRad);
+                    
+                    // Base transform for hover
+                    const baseTransform = `translate(-50%, -50%) translate(${x}px, ${y}px)`;
+                    // Final transform for animation
+                    const finalTransform = `translate(-50%, -50%) translate(${x}px, ${y}px)`;
+
+                    item.style.setProperty('--transform-base', baseTransform);
+                    item.style.setProperty('--transform-final', finalTransform);
+                });
+            }
+
+            // --- 4. Initial Run & Event Listeners ---
+            
+            createIngredientElements();
+            positionElements();
+
+            // Reposition on window resize
+            window.addEventListener('resize', positionElements);
+
+        });
+    </script>
+
+</body>
+</html>
