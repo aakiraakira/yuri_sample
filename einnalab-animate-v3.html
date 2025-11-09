@@ -3,327 +3,261 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Einnalab Ingredients – Halo Showcase</title>
+  <title>Einnalab Ingredients – Tabs Layout (Mobile & Desktop)</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
   <style>
-    /* =====================
-       Einnalab Ingredients Halo Section
-       (Drop-in component; fully scoped)
-       ===================== */
-    :root { --einna-brand:#8A1C1C; --einna-ink:#0D0F12; --einna-text:#EAECEF; --einna-muted:#A9B0BA; --einna-panel:rgba(255,255,255,.06); --einna-outline:rgba(255,255,255,.12); }
-
-    /* Scope everything to avoid leaking styles */
-    #einna-ingredients * { box-sizing:border-box; }
-
-    body { margin:0; background:#0b0d10; } /* safe fallback when used as a standalone file */
+    /*
+     * Fully scoped component – no global selectors used
+     */
+    #einna-ingredients, #einna-ingredients * { box-sizing: border-box; }
 
     #einna-ingredients {
-      --ring-size: clamp(360px, 42vw, 560px);    /* overall diameter of the orbit ring */
-      --node: clamp(64px, 7vw, 96px);            /* ingredient chip size */
-      --bottle: clamp(220px, 28vw, 360px);       /* bottle height */
-      --gap: 28px;                                /* column gap */
-      --r: calc(var(--ring-size) * 0.42);        /* orbit radius (auto from ring size) */
-      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-      color: var(--einna-text);
-      padding: clamp(28px, 4vw, 56px);
-      position: relative;
-      overflow: hidden; /* for background glow */
-      isolation:isolate;
-    }
+      /* Design tokens */
+      --text: #EAECEF;
+      --muted:#A9B0BA;
+      --outline: rgba(255,255,255,.12);
+      --panelA: rgba(255,255,255,.06);
+      --panelB: rgba(255,255,255,.03);
+      --brand:#8A1C1C;
 
-    /* Soft radial glow background */
-    #einna-ingredients::before {
-      content:"";
-      position:absolute; inset:-40% -20% auto -20%;
-      height:160%;
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial;
+      color: var(--text);
+      position: relative; isolation:isolate;
+      padding: clamp(24px, 4vw, 48px);
+      overflow:hidden;
+    }
+    #einna-ingredients::before{
+      content:""; position:absolute; inset:-40% -20% auto -20%; height:160%;
       background:
         radial-gradient(60% 60% at 30% 30%, rgba(138,28,28,.32), transparent 60%),
         radial-gradient(50% 50% at 70% 20%, rgba(255,255,255,.08), transparent 60%),
         radial-gradient(65% 55% at 50% 85%, rgba(138,28,28,.18), transparent 70%);
-      filter: blur(28px);
-      z-index: -1;
-      pointer-events:none;
+      filter: blur(28px); z-index:-1; pointer-events:none;
     }
 
-    /* Two-column responsive layout */
-    .einna-grid {
-      display:grid; align-items:center;
-      grid-template-columns: 1.1fr .9fr;
-      gap: var(--gap);
-      max-width: 1200px; margin:0 auto;
+    /* ===== Layout ===== */
+    #einna-ingredients .grid { display:grid; gap: 28px; max-width: 1200px; margin:0 auto; }
+
+    /* Desktop: two columns – left detail card, right vertical tabs */
+    @media (min-width: 981px){
+      #einna-ingredients .grid{ grid-template-columns: 1.1fr .9fr; align-items:start; }
+      #einna-ingredients .desktop-left{ display:block; }
+      #einna-ingredients .desktop-right{ display:block; }
+      #einna-ingredients .mobile-only{ display:none !important; }
     }
 
-    @media (max-width: 980px) {
-      .einna-grid { grid-template-columns: 1fr; gap: 40px; }
-      /* Order: show visual first, then copy */
-      .col-copy { order: 2; }
-      .col-visual { order: 1; }
+    /* Mobile: stack – bottle, horizontal tabs, detail card */
+    @media (max-width: 980px){
+      #einna-ingredients .desktop-left, 
+      #einna-ingredients .desktop-right{ display:none !important; }
+      #einna-ingredients .mobile-only{ display:block; }
     }
 
-    /* =====================
-       LEFT: Bottle + Halo Orbit
-       ===================== */
-    .halo-wrap {
-      position: relative; width: var(--ring-size); height: var(--ring-size);
-      margin-inline:auto;
-    }
-
-    /* Rotating ring (GPU accelerated) */
-    .orbit {
-      position:absolute; inset:0; border-radius:50%;
-      animation: spin 80s linear infinite;
-      will-change: transform;
-    }
-    /* Pause rotation on hover/focus for usability */
-    .halo-wrap:hover .orbit, .halo-wrap:focus-within .orbit { animation-play-state: paused; }
-
-    /* Subtle ring visuals */
-    .orbit::before {
-      content:""; position:absolute; inset:0; border-radius:50%;
-      border:1px dashed var(--einna-outline);
-      box-shadow: 0 0 0 1px rgba(255,255,255,.03) inset;
-    }
-
-    .bottle {
-      position:absolute; inset:0; display:grid; place-items:center;
-      pointer-events:none; /* bottle is decorative */
-    }
-    .bottle img {
-      height: var(--bottle); width:auto; object-fit:contain; filter: drop-shadow(0 22px 40px rgba(0,0,0,.55));
-      transform: translateZ(0);
-    }
-
-    /* Ingredient chip (orbiting node) */
-    .node {
-      position:absolute; left:50%; top:50%;
-      width: var(--node); height: var(--node);
-      transform: translate(-50%, -50%);
-      border-radius: 18px; padding:10px;
-      background: linear-gradient(180deg, rgba(255,255,255,.16), rgba(255,255,255,.06));
-      border:1px solid var(--einna-outline);
-      box-shadow: 0 8px 26px rgba(0,0,0,.30), inset 0 1px 0 rgba(255,255,255,.08);
-      backdrop-filter: blur(6px);
-      display:grid; place-items:center;
-      transition: transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s;
-      will-change: transform;
-    }
-    .node img { width: 100%; height:100%; object-fit: contain; display:block; }
-
-    .node:hover { transform: translate(-50%, -50%) scale(1.08); box-shadow: 0 12px 36px rgba(0,0,0,.42), inset 0 1px 0 rgba(255,255,255,.10); }
-
-    /* Tooltip (pure CSS via data-name) */
-    .node::after {
-      content: attr(data-name);
-      position:absolute; left:50%; bottom: calc(100% + 10px);
-      transform: translateX(-50%);
-      background: rgba(12,14,18,.9);
-      color: #fff; font-size: 12px; letter-spacing:.2px; white-space: nowrap;
-      padding:6px 10px; border-radius: 10px; opacity:0; pointer-events:none;
-      border:1px solid rgba(255,255,255,.12);
-      box-shadow: 0 10px 22px rgba(0,0,0,.35);
-      transition: opacity .25s ease, transform .25s ease;
-    }
-    .node:hover::after, .node:focus-visible::after { opacity:1; transform: translateX(-50%) translateY(-3px); }
-
-    /* =====================
-       Mobile fallback: smooth marquee strip
-       ===================== */
-    .marquee {
-      display:none; gap:14px; align-items:center;
-      overflow:auto; scroll-snap-type: x mandatory; padding: 10px 4px 2px; margin-top:14px;
-      -webkit-overflow-scrolling: touch; scrollbar-width: none;
-    }
-    .marquee::-webkit-scrollbar { display:none; }
-    .marq-item { flex:0 0 auto; width: 92px; height:92px; border-radius:18px; padding:10px; scroll-snap-align:center;
-      background: linear-gradient(180deg, rgba(255,255,255,.16), rgba(255,255,255,.06));
-      border:1px solid var(--einna-outline); display:grid; place-items:center; }
-    .marq-item img { width:100%; height:100%; object-fit:contain; }
-
-    @media (max-width: 820px) {
-      .halo-wrap { display:none; }
-      .marquee { display:flex; }
-    }
-
-    /* =====================
-       RIGHT: Copy / Bullets
-       ===================== */
-    .copy {
-      background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
-      border:1px solid var(--einna-outline);
-      border-radius: 20px; padding: clamp(18px, 3vw, 28px);
+    /* ===== Liquid glass primitives ===== */
+    #einna-ingredients .glass {
+      background: linear-gradient(180deg, var(--panelA), var(--panelB));
+      border: 1px solid var(--outline);
+      border-radius: 20px;
       box-shadow: 0 14px 34px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.06);
+      backdrop-filter: blur(6px);
     }
-    .eyebrow { color: var(--einna-muted); font-size:13px; letter-spacing:.28em; text-transform:uppercase; display:block; margin-bottom:10px; }
-    .h1 { font-size:clamp(28px, 4vw, 44px); line-height:1.1; font-weight:800; margin:0 0 10px; }
-    .sub { color: var(--einna-muted); font-size: clamp(14px, 1.9vw, 16px); line-height:1.7; margin: 0 0 16px; }
-
-    .bullets { display:flex; flex-wrap:wrap; gap:10px; margin: 16px 0 4px; }
-    .pill { font-size:14px; color:#F7F8FA; background: rgba(255,255,255,.06); border:1px solid var(--einna-outline); padding:10px 12px; border-radius:999px; }
-
-    .why {
-      margin-top: 18px; padding-top: 16px; border-top:1px dashed var(--einna-outline);
-    }
-    .why h3 { margin: 0 0 8px; font-size: clamp(18px, 2.6vw, 22px); }
-    .why p { margin:0; color: var(--einna-muted); line-height:1.7; }
-
-    /* =====================
-       Motion preferences
-       ===================== */
-    @media (prefers-reduced-motion: reduce) {
-      .orbit { animation: none; }
-      .node, .node::after { transition: none; }
+    #einna-ingredients .card{
+      padding: clamp(16px, 2vw, 24px);
     }
 
-    @keyframes spin { to { transform: rotate(360deg); } }
+    /* ===== Bottle (mobile top) ===== */
+    #einna-ingredients .bottle { display:grid; place-items:center; margin-bottom: 6px; }
+    #einna-ingredients .bottle img{ height: clamp(220px, 42vw, 440px); width:auto; object-fit:contain; filter: drop-shadow(0 22px 40px rgba(0,0,0,.55)); }
+
+    /* ===== Tabs – Mobile (horizontal) ===== */
+    #einna-ingredients .tabs-h{ display:flex; gap:10px; overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none; scroll-snap-type:x mandatory; padding: 6px 2px; }
+    #einna-ingredients .tabs-h::-webkit-scrollbar{ display:none; }
+
+    #einna-ingredients .tab-pill{
+      flex:0 0 auto; scroll-snap-align:center; display:flex; align-items:center; gap:10px;
+      padding:10px 14px; border-radius:999px; border:1px solid var(--outline);
+      background: linear-gradient(180deg, rgba(255,255,255,.16), rgba(255,255,255,.06));
+      box-shadow: 0 8px 24px rgba(0,0,0,.25), inset 0 1px 0 rgba(255,255,255,.08);
+      backdrop-filter: blur(6px);
+      transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+      white-space:nowrap; cursor:pointer;
+    }
+    #einna-ingredients .tab-pill[aria-selected="true"]{
+      border-color: rgba(255,255,255,.5); transform: translateY(-2px);
+      box-shadow: 0 12px 28px rgba(0,0,0,.35);
+    }
+    #einna-ingredients .tab-icon{ width:26px; height:26px; border-radius:8px; padding:4px; display:grid; place-items:center; background: linear-gradient(180deg, rgba(255,255,255,.18), rgba(255,255,255,.08)); border:1px solid var(--outline); }
+    #einna-ingredients .tab-icon img{ width:100%; height:100%; object-fit:contain; display:block; }
+    #einna-ingredients .tab-label{ font-size:14px; }
+
+    /* ===== Tabs – Desktop (vertical list) ===== */
+    #einna-ingredients .tabs-v{ display:flex; flex-direction:column; gap:10px; max-height: 640px; overflow:auto; padding-right:4px; }
+    #einna-ingredients .tab-vert{
+      display:flex; align-items:center; justify-content:space-between; gap:12px; cursor:pointer;
+      padding:12px 14px; border-radius:14px; border:1px solid var(--outline);
+      background: linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.04));
+      box-shadow: 0 6px 18px rgba(0,0,0,.25), inset 0 1px 0 rgba(255,255,255,.06);
+      transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+    }
+    #einna-ingredients .tab-vert:hover{ transform: translateX(2px); }
+    #einna-ingredients .tab-vert[aria-selected="true"]{ border-color: rgba(255,255,255,.5); box-shadow: 0 10px 24px rgba(0,0,0,.3); }
+    #einna-ingredients .tab-vert .title{ font-weight:700; font-size:15px; }
+    #einna-ingredients .tab-vert .chev{ opacity:.8; }
+
+    /* ===== Detail card (shared style) ===== */
+    #einna-ingredients .detail-wrap{ display:grid; gap:14px; }
+    #einna-ingredients .detail-head{ display:flex; gap:14px; align-items:center; }
+    #einna-ingredients .detail-thumb{ width:84px; height:84px; border-radius:16px; border:1px solid var(--outline); background: linear-gradient(180deg, rgba(255,255,255,.16), rgba(255,255,255,.06)); display:grid; place-items:center; }
+    #einna-ingredients .detail-thumb img{ width:100%; height:100%; object-fit:contain; display:block; }
+    #einna-ingredients .detail-title{ margin:0; font-size:22px; font-weight:800; letter-spacing:.2px; }
+    #einna-ingredients .detail-body{ margin:0; color: var(--muted); line-height:1.7; font-size:15px; }
+
+    /* Big preview inside card */
+    #einna-ingredients .big-visual{ display:grid; place-items:center; padding:8px; border-radius:18px; border:1px solid var(--outline); background: linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.04)); }
+    #einna-ingredients .big-visual img{ max-height: 320px; width:auto; height:auto; object-fit:contain; display:block; }
+
+    /* Desktop column paddings */
+    #einna-ingredients .desktop-left .card{ min-height: 420px; }
+
   </style>
 </head>
 <body>
-  <section id="einna-ingredients" aria-label="Einnalab Natural Ingredients Showcase">
-    <div class="einna-grid">
-      <!-- LEFT: Bottle + Orbit (desktop) / marquee (mobile) -->
-      <div class="col-visual">
-        <div class="halo-wrap" aria-hidden="true">
-          <div class="bottle">
-            <img src="https://einnalab.com/wp-content/uploads/2025/07/EiNNALAB-Deer-Placenta-30000mg-DarkRed-TRANSPARENT-Front-scaled-e1751113638955.png" alt="Einnalab Deer Placenta Bottle" />
-          </div>
-          <div class="orbit" id="orbit-ring"></div>
-        </div>
+  <section id="einna-ingredients" aria-label="Einnalab Ingredients">
+    <div class="grid">
 
-        <!-- Mobile smooth marquee fallback -->
-        <div class="marquee" id="marquee" aria-label="Ingredient images carousel" role="list"></div>
+      <!-- ================= MOBILE STACK ================= -->
+      <div class="mobile-only">
+        <div class="bottle">
+          <img src="https://einnalab.com/wp-content/uploads/2025/07/EiNNALAB-Deer-Placenta-30000mg-DarkRed-TRANSPARENT-Front-scaled-e1751113638955.png" alt="Einnalab Deer Placenta Bottle" />
+        </div>
+        <div id="tabsMobile" class="tabs-h" role="tablist" aria-orientation="horizontal" aria-label="Ingredients"></div>
+        <article id="panelMobile" class="glass card detail-wrap" role="tabpanel" aria-live="polite"></article>
       </div>
 
-      <!-- RIGHT: Copy / Bullets -->
-      <div class="col-copy">
-        <div class="copy">
-          <span class="eyebrow">Ingredient Matrix</span>
-          <h2 class="h1">Natural Ingredients, Thoughtfully Blended</h2>
-          <p class="sub">Each extract complements premium deer placenta to support radiant skin and overall vitality. Hover over the halo to explore each ingredient.</p>
-
-          <div class="bullets" id="bullet-list" aria-live="polite"></div>
-
-          <div class="why">
-            <h3>Why Deer Placenta?</h3>
-            <p>
-              Deer placenta is prized for its rich profile of peptides and bioactive nutrients. In combination with marine collagen, antioxidants (like Vitamin&nbsp;E and Lycopene), and lipid complexes (Squalene, Avocado, Grape Seed, Evening Primrose, and Borage oils), this formula is designed to nourish from within and support skin elasticity and renewal. *No medical claims—individual results may vary.*
-            </p>
-          </div>
-        </div>
+      <!-- ================= DESKTOP ROW ================= -->
+      <div class="desktop-left">
+        <article id="panelDesktop" class="glass card detail-wrap" role="tabpanel" aria-live="polite"></article>
       </div>
+      <aside class="desktop-right">
+        <div id="tabsDesktop" class="tabs-v" role="tablist" aria-orientation="vertical" aria-label="Ingredients"></div>
+      </aside>
     </div>
   </section>
 
   <script>
     // ========= Data =========
     const INGREDIENTS = [
-      { name: "Vitamin E", src: "https://einnalab.com/wp-content/uploads/2025/11/Vitamin-E.png" },
-      { name: "Squalene", src: "https://einnalab.com/wp-content/uploads/2025/11/Squalene.png" },
-      { name: "Fucoidan", src: "https://einnalab.com/wp-content/uploads/2025/11/Fucoidan.png" },
-      { name: "Lycopene", src: "https://einnalab.com/wp-content/uploads/2025/11/lycopene.png" },
-      { name: "Aloe Vera", src: "https://einnalab.com/wp-content/uploads/2025/11/Aloe-Vera-scaled.png" },
-      { name: "Avocado Oil", src: "https://einnalab.com/wp-content/uploads/2025/11/Avocado-Oil.png" },
-      { name: "Grape Seed", src: "https://einnalab.com/wp-content/uploads/2025/11/Grape-Seed.png" },
-      { name: "Evening Primrose Oil", src: "https://einnalab.com/wp-content/uploads/2025/11/Evening-Primrose-Oil.png" },
-      { name: "Borage Oil", src: "https://einnalab.com/wp-content/uploads/2025/11/borage-oil.png" },
-      { name: "Marine Collagen Extract", src: "https://einnalab.com/wp-content/uploads/2025/11/Marine-Collagen-Extract.png" },
-      { name: "Turmeric", src: "https://einnalab.com/wp-content/uploads/2025/11/Tumeric.png" },
+      { name: "Vitamin E", src: "https://einnalab.com/wp-content/uploads/2025/11/Vitamin-E.png", desc: "A classic antioxidant known for helping shield lipids from oxidative stress and supporting skin suppleness." },
+      { name: "Squalene", src: "https://einnalab.com/wp-content/uploads/2025/11/Squalene.png", desc: "A lightweight lipid naturally found in skin; helps reinforce the moisture barrier for a soft, comfortable feel." },
+      { name: "Fucoidan", src: "https://einnalab.com/wp-content/uploads/2025/11/Fucoidan.png", desc: "Brown-seaweed polysaccharide often used for soothing, water-binding properties in beauty formulations." },
+      { name: "Lycopene", src: "https://einnalab.com/wp-content/uploads/2025/11/lycopene.png", desc: "Tomato-derived carotenoid frequently referenced for antioxidant activity that supports overall skin vitality." },
+      { name: "Aloe Vera", src: "https://einnalab.com/wp-content/uploads/2025/11/Aloe-Vera-scaled.png", desc: "A perennial hydrator used to calm and refresh; known for its water-binding, skin-comforting profile." },
+      { name: "Avocado Oil", src: "https://einnalab.com/wp-content/uploads/2025/11/Avocado-Oil.png", desc: "Rich, emollient plant oil that helps soften and condition for a nourished feel." },
+      { name: "Grape Seed", src: "https://einnalab.com/wp-content/uploads/2025/11/Grape-Seed.png", desc: "Source of polyphenols; commonly used to support antioxidant care and a balanced look." },
+      { name: "Evening Primrose Oil", src: "https://einnalab.com/wp-content/uploads/2025/11/Evening-Primrose-Oil.png", desc: "Lipid with essential fatty acids that helps promote a supple, comfortable skin feel." },
+      { name: "Borage Oil", src: "https://einnalab.com/wp-content/uploads/2025/11/borage-oil.png", desc: "Gamma-linolenic acid–rich oil used to cushion and support the skin’s barrier." },
+      { name: "Marine Collagen Extract", src: "https://einnalab.com/wp-content/uploads/2025/11/Marine-Collagen-Extract.png", desc: "Marine-derived peptides commonly featured to complement skin’s firmness routine." },
+      { name: "Turmeric", src: "https://einnalab.com/wp-content/uploads/2025/11/Tumeric.png", desc: "Golden spice noted for antioxidant benefits and a comforting, balanced-looking complexion." },
     ];
 
-    // Build orbiting nodes dynamically & position around circle
-    const orbit = document.getElementById('orbit-ring');
-    const marquee = document.getElementById('marquee');
-    const bullets = document.getElementById('bullet-list');
+    // ========= Refs =========
+    const tabsMobile = document.getElementById('tabsMobile');
+    const panelMobile = document.getElementById('panelMobile');
+    const tabsDesktop = document.getElementById('tabsDesktop');
+    const panelDesktop = document.getElementById('panelDesktop');
 
-    function createNode(item, idx, total) {
-      const el = document.createElement('button');
-      el.className = 'node';
-      el.type = 'button';
-      el.setAttribute('aria-label', item.name);
-      el.dataset.name = item.name;
+    let current = 0;
 
-      const img = document.createElement('img');
-      img.loading = 'lazy';
-      img.decoding = 'async';
-      img.src = item.src;
-      img.alt = item.name;
-      img.onerror = () => { el.style.display = 'none'; };
-      el.appendChild(img);
-
-      // Position around ring
-      const angle = (idx / total) * Math.PI * 2; // radians
-      const r = getComputedStyle(document.getElementById('einna-ingredients')).getPropertyValue('--r').trim();
-      const radius = parseFloat(r) || 220; // fallback px
-      const x = Math.cos(angle) * radius;
-      const y = Math.sin(angle) * radius;
-      // translate to coordinates while keeping hover scale origin centered
-      el.style.left = '50%';
-      el.style.top = '50%';
-      el.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`;
-
-      return el;
+    function renderPanel(targetEl, index){
+      const it = INGREDIENTS[index]; if(!it) return;
+      targetEl.innerHTML = `
+        <div class="detail-head">
+          <div class="detail-thumb"><img src="${it.src}" alt="${it.name}" loading="lazy" decoding="async"></div>
+          <h3 class="detail-title">${it.name}</h3>
+        </div>
+        <div class="big-visual"><img src="${it.src}" alt="${it.name} large" loading="lazy" decoding="async"></div>
+        <p class="detail-body">${it.desc}</p>
+      `;
     }
 
-    function buildOrbit() {
-      orbit.innerHTML = '';
-      INGREDIENTS.forEach((it, i) => orbit.appendChild(createNode(it, i, INGREDIENTS.length)));
-    }
-
-    function buildMarquee() {
-      marquee.innerHTML = '';
-      INGREDIENTS.forEach(it => {
-        const card = document.createElement('div');
-        card.className = 'marq-item';
-        card.role = 'listitem';
-        const img = document.createElement('img');
-        img.loading = 'lazy'; img.decoding = 'async'; img.alt = it.name; img.src = it.src;
-        img.onerror = () => { card.style.display = 'none'; };
-        card.appendChild(img);
-        marquee.appendChild(card);
-      });
-
-      // Gentle auto-scroll that respects user interaction
-      let autoScroll; let paused = false;
-      const start = () => {
-        if (autoScroll) return;
-        autoScroll = setInterval(() => {
-          if (paused) return;
-          marquee.scrollBy({ left: 1.2, behavior: 'auto' });
-          // loop
-          if (Math.ceil(marquee.scrollLeft + marquee.clientWidth) >= marquee.scrollWidth) {
-            marquee.scrollTo({ left: 0, behavior: 'auto' });
-          }
-        }, 16); // ~60fps tiny nudge
-      };
-      const stop = () => { clearInterval(autoScroll); autoScroll = null; };
-      // Pause on hover/touch/keyboard focus
-      ['mouseenter','touchstart','focusin'].forEach(ev => marquee.addEventListener(ev, () => { paused = true; }));
-      ['mouseleave','touchend','focusout'].forEach(ev => marquee.addEventListener(ev, () => { paused = false; }));
-      // Respect reduced motion
-      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) start();
-      window.addEventListener('visibilitychange', () => document.hidden ? stop() : start());
-    }
-
-    function buildBullets() {
-      bullets.innerHTML = '';
-      INGREDIENTS.forEach(it => {
-        const p = document.createElement('span');
-        p.className = 'pill';
-        p.textContent = it.name;
-        bullets.appendChild(p);
+    function focusTab(list, idx){
+      [...list.children].forEach((btn, i)=>{
+        const selected = i===idx;
+        btn.setAttribute('aria-selected', selected);
+        btn.tabIndex = selected? 0 : -1;
       });
     }
 
-    // Initialize
-    buildOrbit();
-    buildMarquee();
-    buildBullets();
+    function setActive(idx){
+      current = idx;
+      // update both tab lists
+      if(tabsMobile) focusTab(tabsMobile, idx);
+      if(tabsDesktop) focusTab(tabsDesktop, idx);
+      // render both panels (only one is visible due to CSS)
+      if(panelMobile) renderPanel(panelMobile, idx);
+      if(panelDesktop) renderPanel(panelDesktop, idx);
+      // ensure mobile selected tab is visible
+      const btn = tabsMobile?.children?.[idx];
+      if(btn && 'scrollIntoView' in btn){
+        btn.scrollIntoView({behavior:'smooth', inline:'center', block:'nearest'});
+      }
+    }
 
-    // Reposition nodes on resize (ring size changes)
-    let resizeRaf;
-    window.addEventListener('resize', () => {
-      cancelAnimationFrame(resizeRaf);
-      resizeRaf = requestAnimationFrame(buildOrbit);
-    });
+    function buildMobileTabs(){
+      if(!tabsMobile) return;
+      tabsMobile.innerHTML='';
+      tabsMobile.setAttribute('role','tablist');
+      tabsMobile.setAttribute('aria-orientation','horizontal');
+      INGREDIENTS.forEach((it, i)=>{
+        const b = document.createElement('button');
+        b.className = 'tab-pill';
+        b.type='button'; b.role='tab';
+        b.setAttribute('aria-selected','false');
+        b.innerHTML = `
+          <span class="tab-icon"><img src="${it.src}" alt="" /></span>
+          <span class="tab-label">${it.name}</span>
+        `;
+        b.addEventListener('click', ()=> setActive(i));
+        tabsMobile.appendChild(b);
+      });
+    }
+
+    function buildDesktopTabs(){
+      if(!tabsDesktop) return;
+      tabsDesktop.innerHTML='';
+      tabsDesktop.setAttribute('role','tablist');
+      tabsDesktop.setAttribute('aria-orientation','vertical');
+      INGREDIENTS.forEach((it, i)=>{
+        const b = document.createElement('button');
+        b.className = 'tab-vert'; b.type='button'; b.role='tab';
+        b.setAttribute('aria-selected','false');
+        b.innerHTML = `<span class="title">${it.name}</span><span class="chev">›</span>`;
+        b.addEventListener('click', ()=> setActive(i));
+        tabsDesktop.appendChild(b);
+      });
+    }
+
+    // Keyboard navigation for accessibility
+    function attachKeyboardNav(container, axis='horizontal'){
+      if(!container) return;
+      container.addEventListener('keydown', (e)=>{
+        const count = INGREDIENTS.length;
+        if(axis==='horizontal'){
+          if(e.key==='ArrowRight'){ e.preventDefault(); setActive((current+1)%count); }
+          if(e.key==='ArrowLeft'){ e.preventDefault(); setActive((current-1+count)%count); }
+        } else {
+          if(e.key==='ArrowDown'){ e.preventDefault(); setActive((current+1)%count); }
+          if(e.key==='ArrowUp'){ e.preventDefault(); setActive((current-1+count)%count); }
+        }
+      });
+    }
+
+    // Init
+    buildMobileTabs();
+    buildDesktopTabs();
+    attachKeyboardNav(tabsMobile, 'horizontal');
+    attachKeyboardNav(tabsDesktop, 'vertical');
+    setActive(0);
   </script>
 </body>
 </html>
