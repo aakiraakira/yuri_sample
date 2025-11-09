@@ -3,11 +3,11 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Capsule Open — Transparent Background</title>
+  <title>Capsule Open — 3D Transparent</title>
   <style>
     html,body{height:100%;margin:0;background:transparent}
     #scene{position:fixed;inset:0;background:transparent;pointer-events:none;}
-    /* Optional play button (first tap/scroll can auto-start if you want) */
+    /* Optional play button */
     .ui {position:fixed; inset:auto 0 24px 0; display:flex; justify-content:center; gap:10px; pointer-events:auto;}
     .btn{font:600 14px/1.1 Inter,system-ui,Arial; padding:12px 16px; border-radius:12px; border:0;
          background:#151515; color:#fff; box-shadow:0 6px 20px rgba(0,0,0,.25); cursor:pointer}
@@ -21,7 +21,6 @@
     <button id="replay" class="btn">Replay</button>
   </div>
 
-  <!-- Three.js CDN -->
   <script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
 
   <script>
@@ -34,64 +33,66 @@
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference:'high-performance' });
     renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
     renderer.setSize(innerWidth, innerHeight);
-    renderer.setClearColor(0x000000, 0);           // alpha = 0 (transparent)
+    renderer.setClearColor(0x000000, 0); // alpha = 0 (transparent)
     host.appendChild(renderer.domElement);
 
-    // Orthographic camera to GUARANTEE no crop (fixed framing)
-    const viewHeight = 10; // world units visible vertically
+    // ----- 📸 CAMERA -----
     let aspect = innerWidth / innerHeight;
-    let camera = new THREE.OrthographicCamera(-viewHeight*aspect/2, viewHeight*aspect/2, viewHeight/2, -viewHeight/2, 0.1, 100);
-    camera.position.set(0,0,20);
+    let camera = new THREE.PerspectiveCamera(50, aspect, 0.1, 100);
+    camera.position.set(0, 3, 22);
     camera.lookAt(0,0,0);
 
-    // Resize
+    // ----- RESIZE -----
     addEventListener('resize', () => {
       aspect = innerWidth / innerHeight;
-      camera.left   = -viewHeight*aspect/2;
-      camera.right  =  viewHeight*aspect/2;
-      camera.top    =  viewHeight/2;
-      camera.bottom = -viewHeight/2;
+      camera.aspect = aspect;
       camera.updateProjectionMatrix();
       renderer.setSize(innerWidth, innerHeight);
     });
 
-    // ----- Lighting (soft studio) -----
-    scene.add(new THREE.AmbientLight(0xffffff, 0.7));
-    const key = new THREE.DirectionalLight(0xffffff, 0.9);
+    // ----- 💡 LIGHTING (ADJUSTED FOR 3D-NESS) -----
+    scene.add(new THREE.AmbientLight(0xffffff, 1.0)); // Brighter ambient
+    const key = new THREE.DirectionalLight(0xffffff, 1.5); // Stronger key
     key.position.set(2, 4, 6);
     scene.add(key);
-    const rim = new THREE.DirectionalLight(0xffffff, 0.5);
+    const rim = new THREE.DirectionalLight(0xffffff, 1.0); // Stronger rim
     rim.position.set(-3, 2, -4);
     scene.add(rim);
+    // NEW fill light to show "shades"
+    const fill = new THREE.DirectionalLight(0xffffff, 0.5);
+    fill.position.set(0, -2, 4);
+    scene.add(fill);
 
     // ----- Materials -----
-    const BEIGE = 0xE9DFC8;         // soft beige tint
-    const MAROON = 0x7A1C1C;        // particle color
+    const CAPSULE_TINT = 0xE02020;    // Brighter red for visible tint
+    const PARTICLE_COLOR = 0xFF4040;  // Vibrant red for particles
 
+    // ----- 💊 MATERIAL (ADJUSTED FOR "SHADES") -----
     const shellMat = new THREE.MeshPhysicalMaterial({
-      color: BEIGE,
-      roughness: 0.15,
+      color: CAPSULE_TINT,
+      roughness: 0.02,
       metalness: 0.0,
       transparent: true,
-      opacity: 0.35,
+      opacity: 1.0,
       clearcoat: 1,
       clearcoatRoughness: 0.1,
-      reflectivity: 0.2,
-      transmission: 0.0,            // keep simple; uses opacity for translucency
-      thickness: 0.2
+      reflectivity: 0.8,         // Good reflection
+      transmission: 0.98,        // Very transparent
+      thickness: 0.1,            // Thin walls for hollow look
+      side: THREE.DoubleSide     // Renders the inside face
     });
 
     // ----- Capsule geometry (two halves) -----
-    const r = 1.2;                  // radius
-    const halfCyl = 2.0;            // cylinder height for each half
-    const openDistance = 2.2;       // how far halves separate
+    const r = 1.2;
+    const halfCyl = 2.0;
+    const openDistance = 2.2;
 
     const topGroup = new THREE.Group();
     const botGroup = new THREE.Group();
     scene.add(topGroup, botGroup);
 
-    // top cylinder (rests on the mid-plane)
-    const topCyl = new THREE.Mesh(new THREE.CylinderGeometry(r, r, halfCyl, 48), shellMat);
+    // top cylinder (open-ended)
+    const topCyl = new THREE.Mesh(new THREE.CylinderGeometry(r, r, halfCyl, 48, 1, true), shellMat);
     topCyl.position.y = halfCyl/2;
     topGroup.add(topCyl);
     // top hemisphere
@@ -99,8 +100,8 @@
     topHem.position.y = halfCyl;
     topGroup.add(topHem);
 
-    // bottom cylinder
-    const botCyl = new THREE.Mesh(new THREE.CylinderGeometry(r, r, halfCyl, 48), shellMat);
+    // bottom cylinder (open-ended)
+    const botCyl = new THREE.Mesh(new THREE.CylinderGeometry(r, r, halfCyl, 48, 1, true), shellMat);
     botCyl.position.y = -halfCyl/2;
     botGroup.add(botCyl);
     // bottom hemisphere
@@ -112,39 +113,27 @@
     topGroup.position.y = 0;
     botGroup.position.y = 0;
 
-    // Ensure entire animation fits inside camera vertically
-    // Total height when open:
-    const totalHeight = (halfCyl*2 + r*2) + openDistance*2 + 2.0; // + margin
-    // Adjust ortho view height if needed
-    if (totalHeight > viewHeight) {
-      const scale = totalHeight / viewHeight;
-      camera.zoom = 1/scale;
-      camera.updateProjectionMatrix();
-    }
-
-    // ----- Particle system (maroon powder) -----
+    // ----- Particle system -----
     const particleCount = 1800;
     const pGeo = new THREE.BufferGeometry();
     const positions = new Float32Array(particleCount * 3);
     const velocities = new Float32Array(particleCount * 3);
-    const life = new Float32Array(particleCount);      // 0..1 life progress
+    const life = new Float32Array(particleCount);
     const sizes = new Float32Array(particleCount);
 
-    // initialize pooled at center (sleeping)
     for (let i = 0; i < particleCount; i++) {
       positions[i*3] = positions[i*3+1] = positions[i*3+2] = 0;
       velocities[i*3] = velocities[i*3+1] = velocities[i*3+2] = 0;
-      life[i] = 1; // 1 = dead; spawn sets < 0.0001
-      sizes[i] = 10 + Math.random()*10; // base size; scaled in shader by life
+      life[i] = 1;
+      sizes[i] = 10 + Math.random()*10;
     }
 
     pGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
     pGeo.setAttribute('aSize', new THREE.BufferAttribute(sizes, 1));
     pGeo.setAttribute('aLife', new THREE.BufferAttribute(life, 1));
 
-    // Simple points material with transparency
     const pMat = new THREE.PointsMaterial({
-      color: MAROON,
+      color: PARTICLE_COLOR,
       size: 0.06,
       sizeAttenuation: true,
       transparent: true,
@@ -155,31 +144,29 @@
     const points = new THREE.Points(pGeo, pMat);
     scene.add(points);
 
-    // Particle helpers
-    function spawnBurst(count, radius=0.05, speed=2.2) {
+    // Particle helpers (Modified for more spin)
+    function spawnBurst(count, spawnRadius = 0.2, spawnHeight = 0.2, initialSpeed = 0.5, spinSpeed = 4.0) {
       let spawned = 0;
       for (let i = 0; i < particleCount && spawned < count; i++) {
         if (life[i] >= 1) {
-          // position within tiny sphere around center
-          const u = Math.random(), v = Math.random();
-          const theta = 2*Math.PI*u;
-          const phi = Math.acos(2*v - 1);
-          const rr = radius * Math.cbrt(Math.random());
-          const x = rr*Math.sin(phi)*Math.cos(theta);
-          const y = rr*Math.cos(phi);
-          const z = rr*Math.sin(phi)*Math.sin(theta);
+          const angle = Math.random() * Math.PI * 2;
+          const dist = Math.sqrt(Math.random()) * spawnRadius;
+          const x = dist * Math.cos(angle);
+          const z = dist * Math.sin(angle);
+          const y = (Math.random() - 0.5) * spawnHeight;
 
           positions[i*3] = x;
           positions[i*3+1] = y;
           positions[i*3+2] = z;
 
-          // initial outward velocity (more horizontal so it spreads between halves)
-          const dir = new THREE.Vector3(x, y*0.6, z).normalize().multiplyScalar(speed*(0.6+Math.random()*0.8));
-          velocities[i*3] = dir.x;
-          velocities[i*3+1] = dir.y;
-          velocities[i*3+2] = dir.z;
+          const outwardDir = new THREE.Vector3(x, y, z).normalize().multiplyScalar(initialSpeed * (0.6 + Math.random() * 0.8));
+          const tangentialDir = new THREE.Vector3(-z, 0, x).normalize().multiplyScalar(spinSpeed * (0.5 + Math.random() * 1.0));
 
-          life[i] = 0; // alive and starting
+          velocities[i*3] = outwardDir.x + tangentialDir.x;
+          velocities[i*3+1] = outwardDir.y + (Math.random() * 0.5); // Upward kick
+          velocities[i*3+2] = outwardDir.z + tangentialDir.z;
+
+          life[i] = 0;
           sizes[i] = 10 + Math.random()*14;
           spawned++;
         }
@@ -189,89 +176,151 @@
       pGeo.attributes.aSize.needsUpdate = true;
     }
 
-    // ----- Animation timeline -----
+    // ----- 🌀 ANIMATION (NEW STATE MACHINE) 🌀 -----
     let playing = false;
-    let t = 0;               // seconds
-    const openDelay = 0.6;   // wait closed
-    const openTime  = 0.9;   // time to fully open
-    const holdTime  = 1.0;   // hold open while particles flow
-    const totalTime = openDelay + openTime + holdTime + 0.5;
+    let t = 0; // Timer for each state
+    let animState = 'IDLE'; // IDLE, OPENING, SWIRLING, REVERSING, CLOSING
 
-    // Easing
+    const openDelayTime = 0.5;
+    const openTime = 1.8;
+    const swirlTime = 4.0;   // How long to swirl
+    const reverseTime = 2.0; // Time for particles to go back
+    const closeTime = 1.8;
+
     const easeInOut = (x)=> (x<0.5) ? 2*x*x : 1 - Math.pow(-2*x+2,2)/2;
 
     // Controls
+    document.getElementById('play').onclick = () => {
+      if (animState === 'IDLE') play();
+    };
+    document.getElementById('replay').onclick = () => {
+      if (animState === 'IDLE' || !playing) play();
+    };
+
+    function play() {
+      reset(); // Full reset
+      playing = true;
+      animState = 'OPENING';
+      t = 0; // Reset state timer
+    }
+
     function reset() {
       t = 0;
       topGroup.position.y = 0;
       botGroup.position.y = 0;
       // kill particles
-      for (let i=0;i<particleCount;i++){ life[i]=1; }
+      for (let i=0;i<particleCount;i++){
+        life[i]=1;
+        positions[i*3] = positions[i*3+1] = positions[i*3+2] = 0;
+      }
       pGeo.attributes.aLife.needsUpdate = true;
+      pGeo.attributes.position.needsUpdate = true; // Update positions on reset
+      animState = 'IDLE';
       playing = false;
     }
-    function play() { reset(); playing = true; }
 
-    document.getElementById('play').onclick = () => { play(); };
-    document.getElementById('replay').onclick = () => { play(); };
-
-    // Auto-play once after load
+    // Auto-play
     setTimeout(play, 400);
 
-    // ----- Render loop -----
+    // ----- Render loop (NEW STATE-BASED PHYSICS) -----
     let last = performance.now();
     function loop(now){
       requestAnimationFrame(loop);
-      const dt = Math.min((now-last)/1000, 0.033); // clamp
+      const dt = Math.min((now-last)/1000, 0.033);
       last = now;
 
       if (playing) {
         t += dt;
 
-        // 1) Opening motion
-        if (t > openDelay) {
-          const k = Math.min((t - openDelay)/openTime, 1);
+        // --- State Machine ---
+        if (animState === 'OPENING') {
+          if (t > openDelayTime) {
+            const k = Math.min((t - openDelayTime) / openTime, 1);
+            const e = easeInOut(k);
+            topGroup.position.y = e * openDistance;
+            botGroup.position.y = -e * openDistance;
+            
+            if (k > 0.1) { spawnBurst(80); } // Start spawning
+            if (k >= 1) { t = 0; animState = 'SWIRLING'; }
+          }
+        } 
+        else if (animState === 'SWIRLING') {
+          spawnBurst(80); // Keep spawning
+          if (t > swirlTime) { t = 0; animState = 'REVERSING'; }
+        } 
+        else if (animState === 'REVERSING') {
+          // No spawning
+          if (t > reverseTime) {
+            t = 0;
+            animState = 'CLOSING';
+            // Hard kill any stray particles
+            for (let i=0; i<particleCount; i++) { life[i] = 1; }
+          }
+        } 
+        else if (animState === 'CLOSING') {
+          const k = Math.min(t / closeTime, 1);
           const e = easeInOut(k);
-          topGroup.position.y = e * openDistance;
-          botGroup.position.y = -e * openDistance;
-
-          // 2) Emit particles during opening & early hold
-          if (k > 0.15 && t < (openDelay + openTime + 0.7)) {
-            spawnBurst(140); // per frame burst while opening
+          topGroup.position.y = openDistance * (1 - e); // Animate from openDistance to 0
+          botGroup.position.y = -openDistance * (1 - e); // Animate from -openDistance to 0
+          
+          if (k >= 1) {
+            playing = false;
+            reset(); // Final reset
           }
         }
-
-        // 3) Stop after totalTime (hold a bit)
-        if (t >= totalTime) playing = false;
       }
 
-      // Particle integration
-      const drag = 0.985;
+      // --- Particle Integration (Physics changes based on state) ---
+      const drag = 0.96;
+      const swirlForce = 2.0;
+      const pullStrength = 2.0;
+
       for (let i = 0; i < particleCount; i++) {
         if (life[i] < 1) {
-          // update position
-          positions[i*3]   += velocities[i*3]   * dt;
-          positions[i*3+1] += velocities[i*3+1] * dt;
-          positions[i*3+2] += velocities[i*3+2] * dt;
-
-          // gentle turbulence + gravity fade
-          velocities[i*3]   += (Math.random()-0.5)*0.1*dt;
-          velocities[i*3+1] += -0.35*dt + (Math.random()-0.5)*0.08*dt;
-          velocities[i*3+2] += (Math.random()-0.5)*0.1*dt;
-          velocities[i*3]   *= drag;
-          velocities[i*3+1] *= drag;
-          velocities[i*3+2] *= drag;
-
-          life[i] += dt * 0.35; // fade over ~3s
-          if (life[i] >= 1) { life[i]=1; } // dead
+          let x = positions[i*3];
+          let y = positions[i*3+1];
+          let z = positions[i*3+2];
+          let vx = velocities[i*3];
+          let vy = velocities[i*3+1];
+          let vz = velocities[i*3+2];
+          
+          if (animState === 'REVERSING') {
+            // Strong pull to origin
+            vx -= x * pullStrength * dt;
+            vy -= y * pullStrength * dt; // Pull to y=0
+            vz -= z * pullStrength * dt;
+            
+            if (x*x + y*y + z*z < 0.01) { life[i] = 1; } // Kill if close
+          } 
+          else if (animState === 'OPENING' || animState === 'SWIRLING') {
+            // "Legit" Swirl physics
+            const radius = Math.sqrt(x*x + z*z);
+            if (radius > 0.01) {
+              vx += (-z / radius) * swirlForce * dt; // Tangential force
+              vz += (x / radius) * swirlForce * dt;
+            }
+            vy += -0.1 * dt; // Gentle gravity
+            
+            life[i] += dt * 0.20; // Slower fade
+            if (life[i] >= 1) { life[i]=1; } 
+          }
+          
+          vx *= drag;
+          vy *= drag;
+          vz *= drag;
+          
+          positions[i*3] = x + vx * dt;
+          positions[i*3+1] = y + vy * dt;
+          positions[i*3+2] = z + vz * dt;
+          
+          velocities[i*3] = vx;
+          velocities[i*3+1] = vy;
+          velocities[i*3+2] = vz;
         }
       }
       pGeo.attributes.position.needsUpdate = true;
-
-      // fade particles with life via material opacity
-      // (simple: overall opacity scales with average life)
-      // Optional: could use custom shader for per-particle fade.
-
+      pGeo.attributes.aLife.needsUpdate = true;
+      
       renderer.render(scene, camera);
     }
     loop(performance.now());
