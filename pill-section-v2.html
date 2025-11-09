@@ -256,7 +256,7 @@
     observer.observe(counterElement);
 
     // =================================================================
-    // START: NEW ANIMATION CODE FROM reviewsoftware.html
+    // START: NEW ANIMATION CODE (REDDER PILL)
     // =================================================================
 
     // ---------- Renderer ----------
@@ -265,7 +265,7 @@
 
     const renderer = new THREE.WebGLRenderer({ antialias:true, alpha:true, powerPreference:'high-performance' });
     renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
-    renderer.setSize(host.clientWidth, host.clientHeight); // Use host size
+    renderer.setSize(host.clientWidth, host.clientHeight); // MOD: Use host size
     renderer.setClearColor(0x000000, 0);
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
@@ -274,7 +274,7 @@
     host.appendChild(renderer.domElement);
 
     // ---------- Camera ----------
-    const camera = new THREE.PerspectiveCamera(28, host.clientWidth/host.clientHeight, 0.1, 200); // Use host aspect
+    const camera = new THREE.PerspectiveCamera(28, host.clientWidth/host.clientHeight, 0.1, 200); // MOD: Use host aspect
     scene.add(camera);
     function fitCameraToHeight(worldHeight, margin=1.12){
       const h = worldHeight*margin;
@@ -283,95 +283,87 @@
       camera.lookAt(0,0,0);
       camera.updateProjectionMatrix();
     }
-    
+    // MOD: Deleted window 'resize' event listener
+
     // ---------- Lights ----------
     scene.add(new THREE.HemisphereLight(0xffffff, 0x141414, 0.7));
     const key = new THREE.DirectionalLight(0xffffff, 1.25); key.position.set(2.6,3.8,6.3); scene.add(key);
     const fill= new THREE.DirectionalLight(0xffffff, 0.55); fill.position.set(-3.6,1.2,3.4); scene.add(fill);
     const rim = new THREE.DirectionalLight(0xffffff, 0.75); rim.position.set(-2.2,2.0,-5.6); scene.add(rim);
 
-    // ---------- Materials (slightly redder, very see-through for clear overlap) ----------
-    // Top a bit brighter red than bottom; inner/lip darker for depth.
-    const RED_TOP    = 0xb63030;
-    const RED_BOTTOM = 0xa32424;
-    const RED_INNER  = 0x6a1616;
+    // ---------- Materials (REDDER, still see-through) ----------
+    // Deeper reds + slightly higher opacity for stronger tint.
+    const RED_TOP    = 0xcf2323; // redder/brighter top
+    const RED_BOTTOM = 0xbf1717; // redder bottom
+    const RED_INNER  = 0x7a1010; // darker inner/lip
 
-    // Classic transparent blending (not transmission) to make the overlap VERY obvious.
+    // Use transparent blending (not transmission) so overlap is very clear.
     function layeredMat(hex, extra={}) {
       return new THREE.MeshPhysicalMaterial({
         color: hex,
         roughness: 0.2,
         metalness: 0.0,
         transparent: true,
-        opacity: 0.24,        // strong see-through (raise to 0.3 if you want more tint)
-        transmission: 0.0,    // use blending instead of refraction
+        opacity: 0.34,        // was 0.24 — redder but still see-through
+        transmission: 0.0,
         ior: 1.45,
         clearcoat: 0.6,
         clearcoatRoughness: 0.18,
         reflectivity: 0.45,
         side: THREE.DoubleSide,
-        depthWrite: false,    // helps show layered overlap cleanly
+        depthWrite: false,    // keeps layered overlap readable
         ...extra
       });
     }
     const matTopOuter = layeredMat(RED_TOP);
     const matBotOuter = layeredMat(RED_BOTTOM);
-    const matInner    = layeredMat(RED_INNER, { opacity: 0.28 });
+    const matInner    = layeredMat(RED_INNER, { opacity: 0.40 });
 
     // ---------- Capsule geometry (hollow + rounded lips + sleeve overlap) ----------
-    // Top sleeves OVER bottom (bottom slightly smaller radius). We start closed in overlapped pose.
     const rTop = 1.20;     // top outer radius
-    const rBot = 1.18;     // bottom outer radius (slightly smaller so it slides in)
-    const wall = 0.08;     // wall thickness (geometry)
+    const rBot = 1.18;     // bottom slightly smaller so it slides into top
+    const wall = 0.08;     // wall thickness
     const halfCyl = 2.0;
     const openDistance = 2.8;
     const sleeveDepth = 0.26; // how much the top overlaps the bottom when closed
 
     const topGroup = new THREE.Group();
     const botGroup = new THREE.Group();
-    botGroup.renderOrder = 0; // render order helps visual stacking
+    botGroup.renderOrder = 0;
     topGroup.renderOrder = 1;
     scene.add(topGroup, botGroup);
 
     const segs = 80;
 
-    // Top half — outer
+    // Top outer/inner + rounded lip
     const topOuterCyl = new THREE.Mesh(new THREE.CylinderGeometry(rTop, rTop, halfCyl, segs, 1, true), matTopOuter);
     topOuterCyl.position.y = halfCyl/2; topGroup.add(topOuterCyl);
     const topOuterHem = new THREE.Mesh(new THREE.SphereGeometry(rTop, segs, 48, 0, Math.PI*2, 0, Math.PI/2), matTopOuter);
     topOuterHem.position.y = halfCyl; topGroup.add(topOuterHem);
-
-    // Top half — inner
     const topInnerCyl = new THREE.Mesh(new THREE.CylinderGeometry(rTop-wall, rTop-wall, halfCyl, segs, 1, true), matInner);
     topInnerCyl.position.y = halfCyl/2; topGroup.add(topInnerCyl);
     const topInnerHem = new THREE.Mesh(new THREE.SphereGeometry(rTop-wall, segs, 48, 0, Math.PI*2, 0, Math.PI/2), matInner);
     topInnerHem.position.y = halfCyl; topGroup.add(topInnerHem);
-
-    // Rounded lip (torus bevel)
     const lipTop = new THREE.Mesh(new THREE.TorusGeometry(rTop - wall*0.5, wall*0.46, 14, 88), matInner);
     lipTop.rotation.x = Math.PI/2; lipTop.position.y = 0.0 + 0.001; topGroup.add(lipTop);
 
-    // Bottom half — outer (slightly smaller so it fits into top)
+    // Bottom outer/inner + rounded lip
     const botOuterCyl = new THREE.Mesh(new THREE.CylinderGeometry(rBot, rBot, halfCyl, segs, 1, true), matBotOuter);
     botOuterCyl.position.y = -halfCyl/2; botGroup.add(botOuterCyl);
     const botOuterHem = new THREE.Mesh(new THREE.SphereGeometry(rBot, segs, 48, 0, Math.PI*2, Math.PI/2, Math.PI/2), matBotOuter);
     botOuterHem.position.y = -halfCyl; botGroup.add(botOuterHem);
-
-    // Bottom half — inner
     const botInnerCyl = new THREE.Mesh(new THREE.CylinderGeometry(rBot-wall, rBot-wall, halfCyl, segs, 1, true), matInner);
     botInnerCyl.position.y = -halfCyl/2; botGroup.add(botInnerCyl);
     const botInnerHem = new THREE.Mesh(new THREE.SphereGeometry(rBot-wall, segs, 48, 0, Math.PI*2, Math.PI/2, Math.PI/2), matInner);
     botInnerHem.position.y = -halfCyl; botGroup.add(botInnerHem);
-
-    // Bottom rounded lip
     const lipBot = new THREE.Mesh(new THREE.TorusGeometry(rBot - wall*0.5, wall*0.46, 14, 88), matInner);
     lipBot.rotation.x = Math.PI/2; lipBot.position.y = -0.0 - 0.001; botGroup.add(lipBot);
 
-    // Start CLOSED in overlapped pose (top sleeves over bottom)
+    // Start CLOSED in overlapped pose
     topGroup.position.y = -sleeveDepth/2;
     botGroup.position.y =  sleeveDepth/2;
 
-    // Fit camera to action height (use top radius)
+    // Fit camera
     const totalHeight = (halfCyl*2 + rTop*2) + openDistance*2 + 2.0;
 
     // MODIFICATION: Use ResizeObserver from original file for robust layout resizing
@@ -474,11 +466,10 @@
     }
     function play(){ reset(); playing = true; }
 
-    // MODIFICATION: Removed button listeners as buttons are hidden
+    // MOD: Removed button listeners as buttons are hidden
     // document.getElementById('play').onclick = play;
     // document.getElementById('replay').onclick = play;
-    
-    setTimeout(play, 400); // Autoplay (from original script)
+    setTimeout(play, 400);
 
     // ---------- Loop ----------
     let last = performance.now();
@@ -515,7 +506,7 @@
           botGroup.position.y = -openDistance*(1-kC) + (sleeveDepth/2)*kC;
         }
 
-        // MODIFICATION: Auto-replay at the end to loop the animation
+        // MOD: Auto-replay at the end to loop the animation
         if (t >= tCloseEnd || t >= totalTime) {
           play();
         }
