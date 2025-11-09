@@ -17,7 +17,43 @@
       color: #333; /* Darker text for contrast */
       font-family: 'Inter', sans-serif;
       overflow-x: hidden; /* Prevent horizontal scrolling */
+      position: relative; /* --- POLISH: For background --- */
     }
+
+    /* --- POLISH: Add Aurora Background --- */
+    body::before,
+    body::after {
+      content: '';
+      position: absolute;
+      z-index: -1; /* Behind all content */
+      border-radius: 50%;
+      filter: blur(120px); /* Strong blur */
+      opacity: 0.45;
+    }
+
+    /* Top-left red shape */
+    body::before {
+      width: 50vw;
+      height: 50vw;
+      min-width: 400px;
+      min-height: 400px;
+      background: #ff6a6a; /* From h1 gradient */
+      top: -15%;
+      left: -15%;
+    }
+
+    /* Bottom-right dark red shape */
+    body::after {
+      width: 60vw;
+      height: 60vw;
+      min-width: 500px;
+      min-height: 500px;
+      background: #a00000; /* From h1 gradient */
+      bottom: -20%;
+      right: -20%;
+    }
+    /* --- END POLISH --- */
+
 
     /* ---------- Layout ---------- */
     
@@ -29,6 +65,10 @@
       padding: 3rem;
       gap: 3rem; /* Gap between text and right column */
       box-sizing: border-box; /* Include padding in height/width */
+      
+      /* --- POLISH: Stacking context for aurora --- */
+      position: relative;
+      z-index: 1;
     }
 
     .text-content {
@@ -36,7 +76,8 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
-      padding-right: 2rem;
+      /* --- POLISH: Added padding for glass container --- */
+      padding: 2.5rem; 
     }
 
     /* New container for the right column (animation + 30x) */
@@ -66,15 +107,15 @@
       max-width: 55ch;
     }
 
-    /* Shared style for glass containers */
+    /* --- POLISH: Refined "Liquid Glass" Style --- */
     .glass-container {
       border-radius: 25px;
       overflow: hidden;
-      background: rgba(255, 255, 255, 0.3);
+      background: rgba(255, 255, 255, 0.25); /* Was 0.3 */
       box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      border: 1px solid rgba(255, 255, 255, 0.4);
+      backdrop-filter: blur(12px); /* Was 8px */
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.3); /* Was 0.4 */
     }
 
     .animation-container {
@@ -145,7 +186,8 @@
       /* --- NEW MOBILE ORDER --- */
       .text-content {
         order: 3; /* Text is last */
-        padding-right: 0;
+        /* --- POLISH: Adjusted padding for mobile glass --- */
+        padding: 2rem; 
         text-align: center;
       }
       
@@ -195,7 +237,7 @@
 
   <main class="layout-container">
     
-    <div class="text-content">
+    <div class="text-content glass-container">
       <h1>The Power of Deer Placenta</h1>
       <p>Discover the rejuvenating properties of one of nature's most potent ingredients. Deer placenta is rich in nutrients and growth factors that support cellular regeneration.</p>
       <p>Experience a new level of wellness and anti-aging, enhancing vitality and promoting radiant, youthful-looking skin.</p>
@@ -256,7 +298,7 @@
     observer.observe(counterElement);
 
     // =================================================================
-    // START: NEW ANIMATION CODE (REDDER PILL)
+    // START: ANIMATION CODE (Unchanged)
     // =================================================================
 
     // ---------- Renderer ----------
@@ -283,8 +325,7 @@
       camera.lookAt(0,0,0);
       camera.updateProjectionMatrix();
     }
-    // MOD: Deleted window 'resize' event listener
-
+    
     // ---------- Lights ----------
     scene.add(new THREE.HemisphereLight(0xffffff, 0x141414, 0.7));
     const key = new THREE.DirectionalLight(0xffffff, 1.25); key.position.set(2.6,3.8,6.3); scene.add(key);
@@ -292,26 +333,24 @@
     const rim = new THREE.DirectionalLight(0xffffff, 0.75); rim.position.set(-2.2,2.0,-5.6); scene.add(rim);
 
     // ---------- Materials (REDDER, still see-through) ----------
-    // Deeper reds + slightly higher opacity for stronger tint.
-    const RED_TOP    = 0xcf2323; // redder/brighter top
-    const RED_BOTTOM = 0xbf1717; // redder bottom
-    const RED_INNER  = 0x7a1010; // darker inner/lip
+    const RED_TOP    = 0xcf2323; 
+    const RED_BOTTOM = 0xbf1717; 
+    const RED_INNER  = 0x7a1010; 
 
-    // Use transparent blending (not transmission) so overlap is very clear.
     function layeredMat(hex, extra={}) {
       return new THREE.MeshPhysicalMaterial({
         color: hex,
         roughness: 0.2,
         metalness: 0.0,
         transparent: true,
-        opacity: 0.34,        // was 0.24 — redder but still see-through
+        opacity: 0.34,        
         transmission: 0.0,
         ior: 1.45,
         clearcoat: 0.6,
         clearcoatRoughness: 0.18,
         reflectivity: 0.45,
         side: THREE.DoubleSide,
-        depthWrite: false,    // keeps layered overlap readable
+        depthWrite: false,    
         ...extra
       });
     }
@@ -320,12 +359,12 @@
     const matInner    = layeredMat(RED_INNER, { opacity: 0.40 });
 
     // ---------- Capsule geometry (hollow + rounded lips + sleeve overlap) ----------
-    const rTop = 1.20;     // top outer radius
-    const rBot = 1.18;     // bottom slightly smaller so it slides into top
-    const wall = 0.08;     // wall thickness
+    const rTop = 1.20;     
+    const rBot = 1.18;     
+    const wall = 0.08;     
     const halfCyl = 2.0;
     const openDistance = 2.8;
-    const sleeveDepth = 0.26; // how much the top overlaps the bottom when closed
+    const sleeveDepth = 0.26; 
 
     const topGroup = new THREE.Group();
     const botGroup = new THREE.Group();
@@ -366,7 +405,7 @@
     // Fit camera
     const totalHeight = (halfCyl*2 + rTop*2) + openDistance*2 + 2.0;
 
-    // MODIFICATION: Use ResizeObserver from original file for robust layout resizing
+    // Use ResizeObserver from original file for robust layout resizing
     function onResize() {
       const width = host.clientWidth;
       const height = host.clientHeight;
@@ -443,17 +482,16 @@
     let playing = false, t = 0;
 
     const openDelay = 0.8;
-    const openTime  = 2.2;  // slower & smoother
-    const flowTime  = 3.0;  // swirl time
-    const suckTime  = 2.2;  // suction active
-    const closeTime = 2.2;  // smooth close
+    const openTime  = 2.2;  
+    const flowTime  = 3.0;  
+    const suckTime  = 2.2;  
+    const closeTime = 2.2;  
     const totalTime = openDelay + openTime + flowTime + suckTime + closeTime + 0.5;
 
     const smooth = x => (x<=0?0:x>=1?1:(x*x*x*(x*(x*6-15)+10))); // quintic
 
     function reset(){
       t = 0;
-      // back to overlapped closed pose
       topGroup.position.y = -sleeveDepth/2;
       botGroup.position.y =  sleeveDepth/2;
 
@@ -466,9 +504,6 @@
     }
     function play(){ reset(); playing = true; }
 
-    // MOD: Removed button listeners as buttons are hidden
-    // document.getElementById('play').onclick = play;
-    // document.getElementById('replay').onclick = play;
     setTimeout(play, 400);
 
     // ---------- Loop ----------
@@ -487,28 +522,24 @@
         const tSuckEnd   = tFlowEnd + suckTime;
         const tCloseEnd  = tSuckEnd + closeTime;
 
-        // Opening — from overlapped closed -> fully open
         if (t >= tOpenStart){
           const kO = smooth(Math.min((t - tOpenStart)/openTime, 1));
           topGroup.position.y = (-sleeveDepth/2) + kO*(openDistance + sleeveDepth/2);
           botGroup.position.y = ( sleeveDepth/2) - kO*(openDistance + sleeveDepth/2);
         }
 
-        // Emit while opening + flow
         if (t > tOpenStart + 0.2 && t < tFlowEnd){
           spawnBurst(520);
         }
 
-        // Closing (starts after flow; suction overlaps) — back to overlapped pose
         if (t > tFlowEnd){
           const kC = smooth(Math.min((t - tFlowEnd)/closeTime, 1));
           topGroup.position.y = openDistance*(1-kC) - (sleeveDepth/2)*kC;
           botGroup.position.y = -openDistance*(1-kC) + (sleeveDepth/2)*kC;
         }
 
-        // MOD: Auto-replay at the end to loop the animation
         if (t >= tCloseEnd || t >= totalTime) {
-          play();
+          play(); // Auto-replay
         }
       }
 
@@ -524,18 +555,14 @@
           const ix = i*3;
           let x=positions[ix], y=positions[ix+1], z=positions[ix+2];
 
-          // Swirl around Y axis (vortex)
           const rXZ = Math.max(0.0001, Math.hypot(x,z));
           const tx = (-z / rXZ);
           const tz = ( x / rXZ);
           const swirl = swirlGain*(0.85 + 0.15*Math.random());
           velocities[ix]   += tx*swirl*dt;
           velocities[ix+2] += tz*swirl*dt;
-
-          // Mild gravity
           velocities[ix+1] += -0.24*dt;
 
-          // Suction towards center (return)
           if (suction){
             const toX=-x, toY=-y, toZ=-z;
             const dist = Math.max(0.0001, Math.hypot(toX,toY,toZ));
@@ -544,7 +571,6 @@
             velocities[ix+1] += (toY/dist)*s;
             velocities[ix+2] += (toZ/dist)*s;
 
-            // Absorb back inside
             if (dist < 0.12){
               life[i] = 1;
               velocities[ix]=velocities[ix+1]=velocities[ix+2]=0;
@@ -552,15 +578,12 @@
             }
           }
 
-          // Integrate + turbulence + drag
           positions[ix]   += velocities[ix]*dt;
           positions[ix+1] += velocities[ix+1]*dt;
           positions[ix+2] += velocities[ix+2]*dt;
-
           velocities[ix]   += (Math.random()-0.5)*0.06*dt;
           velocities[ix+1] += (Math.random()-0.5)*0.05*dt;
           velocities[ix+2] += (Math.random()-0.5)*0.06*dt;
-
           velocities[ix]*=drag; velocities[ix+1]*=drag; velocities[ix+2]*=drag;
 
           if (!suction){ life[i] += dt*0.18; if (life[i] >= 1) life[i]=1; }
@@ -573,7 +596,7 @@
     loop(performance.now());
     
     // =================================================================
-    // END: NEW ANIMATION CODE
+    // END: ANIMATION CODE
     // =================================================================
 
   })();
