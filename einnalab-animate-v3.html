@@ -1,493 +1,329 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Einnalab Ingredient Arc</title>
-    <style>
-        /* --- 1. Base & Body Styling --- */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Einnalab Ingredients – Halo Showcase</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    /* =====================
+       Einnalab Ingredients Halo Section
+       (Drop-in component; fully scoped)
+       ===================== */
+    :root { --einna-brand:#8A1C1C; --einna-ink:#0D0F12; --einna-text:#EAECEF; --einna-muted:#A9B0BA; --einna-panel:rgba(255,255,255,.06); --einna-outline:rgba(255,255,255,.12); }
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: #0a0a0a; /* Very dark background */
-            color: #eee;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow-x: hidden;
-            padding: 2rem;
-        }
+    /* Scope everything to avoid leaking styles */
+    #einna-ingredients * { box-sizing:border-box; }
 
-        /* --- 2. Main Layout Container --- */
-        .product-showcase {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            max-width: 1200px; /* Wider container for split layout */
-            margin: 0 auto;
-        }
+    body { margin:0; background:#0b0d10; } /* safe fallback when used as a standalone file */
 
-        /* --- 3. Left & Right Panels --- */
-        .left-panel {
-            flex: 1.2; /* Give arc slightly more space */
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 70vh;
-        }
+    #einna-ingredients {
+      --ring-size: clamp(360px, 42vw, 560px);    /* overall diameter of the orbit ring */
+      --node: clamp(64px, 7vw, 96px);            /* ingredient chip size */
+      --bottle: clamp(220px, 28vw, 360px);       /* bottle height */
+      --gap: 28px;                                /* column gap */
+      --r: calc(var(--ring-size) * 0.42);        /* orbit radius (auto from ring size) */
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+      color: var(--einna-text);
+      padding: clamp(28px, 4vw, 56px);
+      position: relative;
+      overflow: hidden; /* for background glow */
+      isolation:isolate;
+    }
 
-        .right-panel {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding-left: 3rem;
-        }
+    /* Soft radial glow background */
+    #einna-ingredients::before {
+      content:"";
+      position:absolute; inset:-40% -20% auto -20%;
+      height:160%;
+      background:
+        radial-gradient(60% 60% at 30% 30%, rgba(138,28,28,.32), transparent 60%),
+        radial-gradient(50% 50% at 70% 20%, rgba(255,255,255,.08), transparent 60%),
+        radial-gradient(65% 55% at 50% 85%, rgba(138,28,28,.18), transparent 70%);
+      filter: blur(28px);
+      z-index: -1;
+      pointer-events:none;
+    }
 
-        /* --- 4. Bottle Styling --- */
-        .bottle-container {
-            position: relative; /* Sits in the flex center */
-            z-index: 10;
-        }
+    /* Two-column responsive layout */
+    .einna-grid {
+      display:grid; align-items:center;
+      grid-template-columns: 1.1fr .9fr;
+      gap: var(--gap);
+      max-width: 1200px; margin:0 auto;
+    }
 
-        .bottle-image {
-            width: 170px; /* Smaller bottle */
-            height: auto;
-            filter: drop-shadow(0 4px 15px rgba(0, 0, 0, 0.4));
-            transition: transform 0.5s ease; /* Transition for scaling */
-        }
-        
-        .bottle-image.scale-up {
-            transform: scale(1.1); /* Scale up effect */
-        }
-        
-        .bottle-image:hover {
-            transform: scale(1.03); /* Maintain subtle hover effect */
-        }
+    @media (max-width: 980px) {
+      .einna-grid { grid-template-columns: 1fr; gap: 40px; }
+      /* Order: show visual first, then copy */
+      .col-copy { order: 2; }
+      .col-visual { order: 1; }
+    }
 
-        /* --- 5. Ingredient Arc Container --- */
-        .ingredient-arc {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%); /* Centered on the panel */
-            width: 1px;
-            height: 1px;
-            z-index: 5;
-        }
+    /* =====================
+       LEFT: Bottle + Halo Orbit
+       ===================== */
+    .halo-wrap {
+      position: relative; width: var(--ring-size); height: var(--ring-size);
+      margin-inline:auto;
+    }
 
-        /* --- 6. Individual Ingredient Item --- */
-        .ingredient-item {
-            position: absolute;
-            top: 0; 
-            left: 0;
-            width: 90px; /* Larger ingredients */
-            height: 90px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            z-index: 5;
-            
-            /* Animation setup */
-            opacity: 0;
-            transform: translate(-50%, -50%) scale(0.5); /* Start centered, small, and translated */
-            animation: fadeIn 0.8s ease-out forwards;
-        }
-        
-        /* Specific size for Aloe Vera */
-        .ingredient-item--center {
-            width: 120px;
-            height: 120px;
-            z-index: 15; /* Ensure it's on top */
-        }
+    /* Rotating ring (GPU accelerated) */
+    .orbit {
+      position:absolute; inset:0; border-radius:50%;
+      animation: spin 80s linear infinite;
+      will-change: transform;
+    }
+    /* Pause rotation on hover/focus for usability */
+    .halo-wrap:hover .orbit, .halo-wrap:focus-within .orbit { animation-play-state: paused; }
 
-        .ingredient-item:hover {
-            transform: var(--transform-base) scale(1.15) !important; /* Use var for base pos */
-            z-index: 20;
-        }
+    /* Subtle ring visuals */
+    .orbit::before {
+      content:""; position:absolute; inset:0; border-radius:50%;
+      border:1px dashed var(--einna-outline);
+      box-shadow: 0 0 0 1px rgba(255,255,255,.03) inset;
+    }
 
-        .ingredient-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 50%;
-            transition: box-shadow 0.3s ease, transform 0.3s ease;
-            /* No default border, shadow, or background */
-        }
-        
-        .ingredient-item:hover img {
-            box-shadow: 0 6px 25px rgba(178, 34, 34, 0.5); /* Maroon glow on hover */
-            transform: scale(1.05);
-        }
+    .bottle {
+      position:absolute; inset:0; display:grid; place-items:center;
+      pointer-events:none; /* bottle is decorative */
+    }
+    .bottle img {
+      height: var(--bottle); width:auto; object-fit:contain; filter: drop-shadow(0 22px 40px rgba(0,0,0,.55));
+      transform: translateZ(0);
+    }
 
-        /* --- 7. Tooltip (Modal) Styling --- */
-        .ingredient-tooltip {
-            position: absolute;
-            bottom: 100%; /* Position above the item */
-            left: 50%;
-            transform: translateX(-50%) translateY(-10px); /* Move 10px up */
-            background-color: #fff;
-            color: #111;
-            padding: 6px 12px;
-            border-radius: 5px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            white-space: nowrap;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-            
-            /* Hidden by default */
-            visibility: hidden;
-            opacity: 0;
-            transition: all 0.3s ease;
-            z-index: 30;
-        }
+    /* Ingredient chip (orbiting node) */
+    .node {
+      position:absolute; left:50%; top:50%;
+      width: var(--node); height: var(--node);
+      transform: translate(-50%, -50%);
+      border-radius: 18px; padding:10px;
+      background: linear-gradient(180deg, rgba(255,255,255,.16), rgba(255,255,255,.06));
+      border:1px solid var(--einna-outline);
+      box-shadow: 0 8px 26px rgba(0,0,0,.30), inset 0 1px 0 rgba(255,255,255,.08);
+      backdrop-filter: blur(6px);
+      display:grid; place-items:center;
+      transition: transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s;
+      will-change: transform;
+    }
+    .node img { width: 100%; height:100%; object-fit: contain; display:block; }
 
-        .ingredient-item:hover .ingredient-tooltip {
-            visibility: visible;
-            opacity: 1;
-            transform: translateX(-50%) translateY(-15px); /* Animate up */
-        }
+    .node:hover { transform: translate(-50%, -50%) scale(1.08); box-shadow: 0 12px 36px rgba(0,0,0,.42), inset 0 1px 0 rgba(255,255,255,.10); }
 
-        /* --- 8. Text Styling --- */
-        .text-content {
-            text-align: left;
-        }
-        
-        .text-content h2 {
-            font-size: 3rem;
-            font-weight: 800;
-            /* Maroon Red Linear Gradient */
-            background: linear-gradient(90deg, #d32f2f, #800000);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            text-fill-color: transparent;
-            margin-bottom: 0.5rem;
-        }
+    /* Tooltip (pure CSS via data-name) */
+    .node::after {
+      content: attr(data-name);
+      position:absolute; left:50%; bottom: calc(100% + 10px);
+      transform: translateX(-50%);
+      background: rgba(12,14,18,.9);
+      color: #fff; font-size: 12px; letter-spacing:.2px; white-space: nowrap;
+      padding:6px 10px; border-radius: 10px; opacity:0; pointer-events:none;
+      border:1px solid rgba(255,255,255,.12);
+      box-shadow: 0 10px 22px rgba(0,0,0,.35);
+      transition: opacity .25s ease, transform .25s ease;
+    }
+    .node:hover::after, .node:focus-visible::after { opacity:1; transform: translateX(-50%) translateY(-3px); }
 
-        .text-content .subtitle {
-            font-size: 1rem;
-            color: #888;
-            letter-spacing: 0.5px;
-            margin-bottom: 2rem;
-        }
+    /* =====================
+       Mobile fallback: smooth marquee strip
+       ===================== */
+    .marquee {
+      display:none; gap:14px; align-items:center;
+      overflow:auto; scroll-snap-type: x mandatory; padding: 10px 4px 2px; margin-top:14px;
+      -webkit-overflow-scrolling: touch; scrollbar-width: none;
+    }
+    .marquee::-webkit-scrollbar { display:none; }
+    .marq-item { flex:0 0 auto; width: 92px; height:92px; border-radius:18px; padding:10px; scroll-snap-align:center;
+      background: linear-gradient(180deg, rgba(255,255,255,.16), rgba(255,255,255,.06));
+      border:1px solid var(--einna-outline); display:grid; place-items:center; }
+    .marq-item img { width:100%; height:100%; object-fit:contain; }
 
-        .text-content .description {
-            font-size: 1.1rem;
-            color: #aaa;
-            line-height: 1.6;
-            max-width: 450px;
-            margin-bottom: 2rem; /* Space before images */
-        }
+    @media (max-width: 820px) {
+      .halo-wrap { display:none; }
+      .marquee { display:flex; }
+    }
 
-        /* --- 9. Image Hover Container --- */
-        .image-hover-container {
-            position: relative;
-            width: 100%; /* Scale to width of text content */
-            max-width: 450px; /* Match description max-width */
-            height: 200px; /* Fixed height, adjust as needed based on image aspect ratio */
-            border-radius: 15px; /* Rounded corners */
-            overflow: hidden; /* Ensures images are clipped by border-radius */
-            cursor: pointer;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
-            transition: box-shadow 0.3s ease;
-        }
+    /* =====================
+       RIGHT: Copy / Bullets
+       ===================== */
+    .copy {
+      background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+      border:1px solid var(--einna-outline);
+      border-radius: 20px; padding: clamp(18px, 3vw, 28px);
+      box-shadow: 0 14px 34px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.06);
+    }
+    .eyebrow { color: var(--einna-muted); font-size:13px; letter-spacing:.28em; text-transform:uppercase; display:block; margin-bottom:10px; }
+    .h1 { font-size:clamp(28px, 4vw, 44px); line-height:1.1; font-weight:800; margin:0 0 10px; }
+    .sub { color: var(--einna-muted); font-size: clamp(14px, 1.9vw, 16px); line-height:1.7; margin: 0 0 16px; }
 
-        .image-hover-container:hover {
-            box-shadow: 0 8px 30px rgba(178, 34, 34, 0.7); /* Stronger glow on hover */
-        }
+    .bullets { display:flex; flex-wrap:wrap; gap:10px; margin: 16px 0 4px; }
+    .pill { font-size:14px; color:#F7F8FA; background: rgba(255,255,255,.06); border:1px solid var(--einna-outline); padding:10px 12px; border-radius:999px; }
 
-        .image-hover-container img {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: contain; /* Ensures full image is visible */
-            background-color: #1a1a1a; /* Dark background if image doesn't fill */
-            transition: opacity 0.5s ease-in-out;
-        }
+    .why {
+      margin-top: 18px; padding-top: 16px; border-top:1px dashed var(--einna-outline);
+    }
+    .why h3 { margin: 0 0 8px; font-size: clamp(18px, 2.6vw, 22px); }
+    .why p { margin:0; color: var(--einna-muted); line-height:1.7; }
 
-        .image-hover-container img.bottom-img {
-            opacity: 0; /* Hidden by default */
-        }
+    /* =====================
+       Motion preferences
+       ===================== */
+    @media (prefers-reduced-motion: reduce) {
+      .orbit { animation: none; }
+      .node, .node::after { transition: none; }
+    }
 
-        .image-hover-container:hover img.top-img {
-            opacity: 0; /* Fade out top image */
-        }
-
-        .image-hover-container:hover img.bottom-img {
-            opacity: 1; /* Fade in bottom image */
-        }
-
-
-        /* --- 10. Animation Keyframes --- */
-        @keyframes fadeIn {
-            to {
-                opacity: 1;
-                transform: var(--transform-final) scale(1);
-            }
-        }
-
-        /* --- 11. Mobile Responsiveness --- */
-        @media (max-width: 768px) {
-            body {
-                padding: 1rem 0;
-            }
-            
-            /* Stack them vertically */
-            .product-showcase {
-                flex-direction: column;
-                padding: 1rem;
-                margin-top: 2rem;
-            }
-
-            .left-panel, .right-panel {
-                flex: none;
-                width: 100%;
-                min-height: auto;
-                padding-left: 0;
-            }
-
-            /* --- MOBILE CIRCLE LAYOUT --- */
-            .left-panel {
-                position: relative;
-                /* Height to contain the circle (300px) + items (80px) */
-                height: 400px; 
-            }
-
-            .bottle-container {
-                /* Center bottle *inside* the left panel */
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                z-index: 10;
-            }
-            
-            .bottle-image {
-                width: 140px; /* Smaller bottle on mobile */
-            }
-
-            .ingredient-arc {
-                /* Center the arc *inside* the left panel */
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                z-index: 5;
-            }
-            /* --- END MOBILE CIRCLE LAYOUT --- */
-
-
-            .ingredient-item {
-                width: 60px;
-                height: 60px;
-            }
-            
-            .ingredient-item--center {
-                width: 80px;
-                height: 80px;
-            }
-
-            .right-panel {
-                margin-top: 2rem; /* Space above text */
-            }
-
-            .text-content {
-                text-align: center;
-            }
-            
-            .text-content h2 {
-                font-size: 2.2rem;
-            }
-            
-            .text-content .subtitle {
-                font-size: 0.9rem;
-                margin-bottom: 1.5rem;
-            }
-            
-            .text-content .description {
-                font-size: 1rem;
-                max-width: 100%;
-                padding: 0 1rem;
-            }
-
-            .image-hover-container {
-                width: 90%; /* Make it responsive on mobile */
-                height: 180px; /* Adjust height for mobile */
-                margin: 0 auto; /* Center on mobile */
-            }
-        }
-
-    </style>
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
 </head>
 <body>
-
-    <div class="product-showcase" id="product-showcase">
-
-        <div class="left-panel">
-            <div class="bottle-container" id="bottle-container">
-                <img src="https://einnalab.com/wp-content/uploads/2025/07/EiNNALAB-Deer-Placenta-30000mg-DarkRed-TRANSPARENT-Front-scaled-e1751113638955.png" alt="Einnalab Deer Placenta" class="bottle-image" id="main-bottle-image">
-            </div>
-
-            <div class="ingredient-arc" id="ingredient-arc">
-                </div>
-        </div>
-        
-        <div class="right-panel">
-            <div class="text-content" id="text-content">
-                <h2>Natural Ingredients</h2>
-                <p class="subtitle">Hover to explore</p>
-                <p class="description">
-                    Our formula is enriched with highly-prized <strong>Deer Placenta</strong>, a potent source of nutrients and growth factors to support cellular rejuvenation and youthful vitality, blended with 10 other powerful natural extracts.
-                </p>
-
-                <div class="image-hover-container">
-                    <img src="https://einnalab.com/wp-content/uploads/2025/11/WhatsApp-Image-2025-11-09-at-5.33.17-PM-1.jpeg" alt="Before Image" class="top-img">
-                    <img src="https://einnalab.com/wp-content/uploads/2025/11/WhatsApp-Image-2025-11-09-at-5.33.17-PM.jpeg" alt="After Image" class="bottom-img">
-                </div>
-            </div>
+  <section id="einna-ingredients" aria-label="Einnalab Natural Ingredients Showcase">
+    <div class="einna-grid">
+      <!-- LEFT: Bottle + Orbit (desktop) / marquee (mobile) -->
+      <div class="col-visual">
+        <div class="halo-wrap" aria-hidden="true">
+          <div class="bottle">
+            <img src="https://einnalab.com/wp-content/uploads/2025/07/EiNNALAB-Deer-Placenta-30000mg-DarkRed-TRANSPARENT-Front-scaled-e1751113638955.png" alt="Einnalab Deer Placenta Bottle" />
+          </div>
+          <div class="orbit" id="orbit-ring"></div>
         </div>
 
+        <!-- Mobile smooth marquee fallback -->
+        <div class="marquee" id="marquee" aria-label="Ingredient images carousel" role="list"></div>
+      </div>
+
+      <!-- RIGHT: Copy / Bullets -->
+      <div class="col-copy">
+        <div class="copy">
+          <span class="eyebrow">Ingredient Matrix</span>
+          <h2 class="h1">Natural Ingredients, Thoughtfully Blended</h2>
+          <p class="sub">Each extract complements premium deer placenta to support radiant skin and overall vitality. Hover over the halo to explore each ingredient.</p>
+
+          <div class="bullets" id="bullet-list" aria-live="polite"></div>
+
+          <div class="why">
+            <h3>Why Deer Placenta?</h3>
+            <p>
+              Deer placenta is prized for its rich profile of peptides and bioactive nutrients. In combination with marine collagen, antioxidants (like Vitamin&nbsp;E and Lycopene), and lipid complexes (Squalene, Avocado, Grape Seed, Evening Primrose, and Borage oils), this formula is designed to nourish from within and support skin elasticity and renewal. *No medical claims—individual results may vary.*
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
+  </section>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
+  <script>
+    // ========= Data =========
+    const INGREDIENTS = [
+      { name: "Vitamin E", src: "https://einnalab.com/wp-content/uploads/2025/11/Vitamin-E.png" },
+      { name: "Squalene", src: "https://einnalab.com/wp-content/uploads/2025/11/Squalene.png" },
+      { name: "Fucoidan", src: "https://einnalab.com/wp-content/uploads/2025/11/Fucoidan.png" },
+      { name: "Lycopene", src: "https://einnalab.com/wp-content/uploads/2025/11/lycopene.png" },
+      { name: "Aloe Vera", src: "https://einnalab.com/wp-content/uploads/2025/11/Aloe-Vera-scaled.png" },
+      { name: "Avocado Oil", src: "https://einnalab.com/wp-content/uploads/2025/11/Avocado-Oil.png" },
+      { name: "Grape Seed", src: "https://einnalab.com/wp-content/uploads/2025/11/Grape-Seed.png" },
+      { name: "Evening Primrose Oil", src: "https://einnalab.com/wp-content/uploads/2025/11/Evening-Primrose-Oil.png" },
+      { name: "Borage Oil", src: "https://einnalab.com/wp-content/uploads/2025/11/borage-oil.png" },
+      { name: "Marine Collagen Extract", src: "https://einnalab.com/wp-content/uploads/2025/11/Marine-Collagen-Extract.png" },
+      { name: "Turmeric", src: "https://einnalab.com/wp-content/uploads/2025/11/Tumeric.png" },
+    ];
 
-            // --- 1. Data & Configuration ---
-            
-            const ingredients = [
-                { name: 'Vitamin E', img: 'https://einnalab.com/wp-content/uploads/2025/11/Vitamin-E.png' },
-                { name: 'Squalene', img: 'https://einnalab.com/wp-content/uploads/2025/11/Squalene.png' },
-                { name: 'Fucoidan', img: 'https://einnalab.com/wp-content/uploads/2025/11/Fucoidan.png' },
-                { name: 'Lycopene', img: 'https://einnalab.com/wp-content/uploads/2025/11/lycopene.png' },
-                { name: 'Avocado Oil', img: 'https://einnalab.com/wp-content/uploads/2025/11/Avocado-Oil.png' }, 
-                { name: 'Aloe Vera', img: 'https://einnalab.com/wp-content/uploads/2025/11/Aloe-Vera-scaled.png' }, // The point of symmetry
-                { name: 'Grape Seed', img: 'https://einnalab.com/wp-content/uploads/2025/11/Grape-Seed.png' },
-                { name: 'Evening Primrose Oil', img: 'https://einnalab.com/wp-content/uploads/2025/11/Evening-Primrose-Oil.png' },
-                { name: 'Borage Oil', img: 'https://einnalab.com/wp-content/uploads/2025/11/borage-oil.png' },
-                { name: 'Marine Collagen', img: 'https://einnalab.com/wp-content/uploads/2025/11/Marine-Collagen-Extract.png' },
-                { name: 'Turmeric', img: 'https://einnalab.com/wp-content/uploads/2025/11/Tumeric.png' }
-            ];
+    // Build orbiting nodes dynamically & position around circle
+    const orbit = document.getElementById('orbit-ring');
+    const marquee = document.getElementById('marquee');
+    const bullets = document.getElementById('bullet-list');
 
-            const arcContainer = document.getElementById('ingredient-arc');
-            const mainBottleImage = document.getElementById('main-bottle-image');
-            const totalIngredientAnimationTime = ingredients.length * 100 + 800; // Total delay + fadeIn duration
+    function createNode(item, idx, total) {
+      const el = document.createElement('button');
+      el.className = 'node';
+      el.type = 'button';
+      el.setAttribute('aria-label', item.name);
+      el.dataset.name = item.name;
 
-            // --- 2. Dynamic HTML Generation ---
-            
-            function createIngredientElements() {
-                arcContainer.innerHTML = ''; // Clear for resize
-                ingredients.forEach((ingredient, index) => {
-                    const item = document.createElement('div');
-                    item.className = 'ingredient-item';
-                    
-                    // Add special class for Aloe Vera
-                    if (ingredient.name === 'Aloe Vera') {
-                        item.classList.add('ingredient-item--center');
-                    }
-                    
-                    const img = document.createElement('img');
-                    img.src = ingredient.img;
-                    img.alt = ingredient.name;
-                    
-                    const tooltip = document.createElement('span');
-                    tooltip.className = 'ingredient-tooltip';
-                    tooltip.textContent = ingredient.name;
-                    
-                    item.appendChild(img);
-                    item.appendChild(tooltip);
-                    
-                    arcContainer.appendChild(item);
-                });
-            }
+      const img = document.createElement('img');
+      img.loading = 'lazy';
+      img.decoding = 'async';
+      img.src = item.src;
+      img.alt = item.name;
+      img.onerror = () => { el.style.display = 'none'; };
+      el.appendChild(img);
 
-            // --- 3. Layout & Positioning Function ---
-            
-            function positionElements() {
-                const items = arcContainer.querySelectorAll('.ingredient-item');
-                const totalItems = items.length;
-                const isMobile = window.innerWidth <= 768;
+      // Position around ring
+      const angle = (idx / total) * Math.PI * 2; // radians
+      const r = getComputedStyle(document.getElementById('einna-ingredients')).getPropertyValue('--r').trim();
+      const radius = parseFloat(r) || 220; // fallback px
+      const x = Math.cos(angle) * radius;
+      const y = Math.sin(angle) * radius;
+      // translate to coordinates while keeping hover scale origin centered
+      el.style.left = '50%';
+      el.style.top = '50%';
+      el.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`;
 
-                // Arc parameters
-                let radius, startAngle, endAngle;
+      return el;
+    }
 
-                if (isMobile) {
-                    // Mobile: Full circle
-                    radius = 150; // Radius for the circle
-                } else {
-                    // Desktop: Full 180-degree semi-circle
-                    radius = 260; 
-                    startAngle = 90; // Bottom of the circle
-                    endAngle = 270;   // Top of the circle (180 deg sweep)
-                }
+    function buildOrbit() {
+      orbit.innerHTML = '';
+      INGREDIENTS.forEach((it, i) => orbit.appendChild(createNode(it, i, INGREDIENTS.length)));
+    }
 
-                // Position items
-                items.forEach((item, index) => {
-                    let angleDeg;
+    function buildMarquee() {
+      marquee.innerHTML = '';
+      INGREDIENTS.forEach(it => {
+        const card = document.createElement('div');
+        card.className = 'marq-item';
+        card.role = 'listitem';
+        const img = document.createElement('img');
+        img.loading = 'lazy'; img.decoding = 'async'; img.alt = it.name; img.src = it.src;
+        img.onerror = () => { card.style.display = 'none'; };
+        card.appendChild(img);
+        marquee.appendChild(card);
+      });
 
-                    if (isMobile) {
-                        // Calculate angle for a full *clockwise* circle
-                        const angleStep = 360 / totalItems;
-                        angleDeg = -(index * angleStep); // Negative for clockwise
-                        
-                        // Set *clockwise* animation delay
-                        item.style.animationDelay = `${index * 100}ms`;
-                        
-                    } else {
-                        // Calculate angle for the "C" arc
-                        // Note: 90deg is bottom, 270deg is top
-                        const angleStep = (endAngle - startAngle) / (totalItems - 1);
-                        angleDeg = startAngle + (index * angleStep);
-                        
-                        // Set *up-to-down* animation delay (reverse of index)
-                        // (totalItems - 1 - index) makes index 10 (top) start first
-                        item.style.animationDelay = `${(totalItems - 1 - index) * 100}ms`;
-                    }
-                    
-                    const angleRad = angleDeg * (Math.PI / 180);
-                    
-                    // Calculate (x, y) coordinates from the center of the arc container
-                    const x = radius * Math.cos(angleRad);
-                    const y = radius * Math.sin(angleRad);
-                    
-                    // Base transform for hover
-                    const baseTransform = `translate(-50%, -50%) translate(${x}px, ${y}px)`;
-                    // Final transform for animation
-                    const finalTransform = `translate(-50%, -50%) translate(${x}px, ${y}px)`;
+      // Gentle auto-scroll that respects user interaction
+      let autoScroll; let paused = false;
+      const start = () => {
+        if (autoScroll) return;
+        autoScroll = setInterval(() => {
+          if (paused) return;
+          marquee.scrollBy({ left: 1.2, behavior: 'auto' });
+          // loop
+          if (Math.ceil(marquee.scrollLeft + marquee.clientWidth) >= marquee.scrollWidth) {
+            marquee.scrollTo({ left: 0, behavior: 'auto' });
+          }
+        }, 16); // ~60fps tiny nudge
+      };
+      const stop = () => { clearInterval(autoScroll); autoScroll = null; };
+      // Pause on hover/touch/keyboard focus
+      ['mouseenter','touchstart','focusin'].forEach(ev => marquee.addEventListener(ev, () => { paused = true; }));
+      ['mouseleave','touchend','focusout'].forEach(ev => marquee.addEventListener(ev, () => { paused = false; }));
+      // Respect reduced motion
+      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) start();
+      window.addEventListener('visibilitychange', () => document.hidden ? stop() : start());
+    }
 
-                    item.style.setProperty('--transform-base', baseTransform);
-                    item.style.setProperty('--transform-final', finalTransform);
-                });
-            }
+    function buildBullets() {
+      bullets.innerHTML = '';
+      INGREDIENTS.forEach(it => {
+        const p = document.createElement('span');
+        p.className = 'pill';
+        p.textContent = it.name;
+        bullets.appendChild(p);
+      });
+    }
 
-            // --- 4. Bottle Animation Function ---
-            function animateBottleScale() {
-                mainBottleImage.classList.add('scale-up');
-            }
+    // Initialize
+    buildOrbit();
+    buildMarquee();
+    buildBullets();
 
-            // --- 5. Initial Run & Event Listeners ---
-            
-            createIngredientElements();
-            positionElements();
-
-            // Animate bottle after all ingredients have finished appearing
-            setTimeout(animateBottleScale, totalIngredientAnimationTime);
-
-            // Reposition on window resize
-            window.addEventListener('resize', positionElements);
-
-        });
-    </script>
-
+    // Reposition nodes on resize (ring size changes)
+    let resizeRaf;
+    window.addEventListener('resize', () => {
+      cancelAnimationFrame(resizeRaf);
+      resizeRaf = requestAnimationFrame(buildOrbit);
+    });
+  </script>
 </body>
 </html>
