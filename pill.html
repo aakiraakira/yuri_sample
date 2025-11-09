@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Capsule Open — Transparent Background</title>
+  <style>
+    html,body{height:100%;margin:0;background:transparent}
+    #scene{position:fixed;inset:0;background:transparent;pointer-events:none;}
+    /* Optional play button (first tap/scroll can auto-start if you want) */
+    .ui {position:fixed; inset:auto 0 24px 0; display:flex; justify-content:center; gap:10px; pointer-events:auto;}
+    .btn{font:600 14px/1.1 Inter,system-ui,Arial; padding:12px 16px; border-radius:12px; border:0;
+         background:#151515; color:#fff; box-shadow:0 6px 20px rgba(0,0,0,.25); cursor:pointer}
+    .btn:active{transform:translateY(1px)}
+  </style>
+</head>
+<body>
+  <div id="scene"></div>
+  <div class="ui">
+    <button id="play" class="btn">Play once</button>
+    <button id="replay" class="btn">Replay</button>
+  </div>
+
+  <!-- Three.js CDN -->
+  <script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
+
+  <script>
+  (() => {
+    // ----- Core -----
+    const host = document.getElementById('scene');
+    const scene = new THREE.Scene();
+
+    // Transparent canvas
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference:'high-performance' });
+    renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+    renderer.setSize(innerWidth, innerHeight);
+    renderer.setClearColor(0x000000, 0);           // alpha = 0 (transparent)
+    host.appendChild(renderer.domElement);
+
+    // Orthographic camera to GUARANTEE no crop (fixed framing)
+    const viewHeight = 10; // world units visible vertically
+    let aspect = innerWidth / innerHeight;
+    let camera = new THREE.OrthographicCamera(-viewHeight*aspect/2, viewHeight*aspect/2, viewHeight/2, -viewHeight/2, 0.1, 100);
+    camera.position.set(0,0,20);
+    camera.lookAt(0,0,0);
+
+    // Resize
+    addEventListener('resize', () => {
+      aspect = innerWidth / innerHeight;
+      camera.left   = -viewHeight*aspect/2;
+      camera.right  =  viewHeight*aspect/2;
+      camera.top    =  viewHeight/2;
+      camera.bottom = -viewHeight/2;
+      camera.updateProjectionMatrix();
+      renderer.setSize(innerWidth, innerHeight);
+    });
+
+    // ----- Lighting (soft studio) -----
+    scene.add(new THREE.AmbientLight(0xffffff, 0.7));
+    const key = new THREE.DirectionalLight(0xffffff, 0.9);
+    key.position.set(2, 4, 6);
+    scene.add(key);
+    const rim = new THREE.DirectionalLight(0xffffff, 0.5);
+    rim.position.set(-3, 2, -4);
+    scene.add(rim);
+
+    // ----- Materials -----
+    const BEIGE = 0xE9DFC8;         // soft beige tint
+    const MAROON = 0x7A1C1C;        // particle color
+
+    const shellMat = new THREE.MeshPhysicalMaterial({
+      color: BEIGE,
+      roughness: 0.15,
+      metalness: 0.0,
+      transparent: true,
+      opacity: 0.35,
+      clearcoat: 1,
+      clearcoatRoughness: 0.1,
+      reflectivity: 0.2,
+      transmission: 0.0,            // keep simple; uses opacity for translucency
+      thickness: 0.2
+    });
+
+    // ----- Capsule geometry (two halves) -----
+    const r = 1.2;                  // radius
+    const halfCyl = 2.0;            // cylinder height for each half
+    const openDistance = 2.2;       // how far halves separate
+
+    const topGroup = new THREE.Group();
+    const botGroup = new THREE.Group();
+    scene.add(topGroup, botGroup);
+
+    // top cylinder (rests on the mid-plane)
+    const topCyl = new THREE.Mesh(new THREE.CylinderGeometry(r, r, halfCyl, 48), shellMat);
+    topCyl.position.y = halfCyl/2;
+    topGroup.add(topCyl);
+    // top hemisphere
+    const topHem = new THREE.Mesh(new THREE.SphereGeometry(r, 48, 32, 0, Math.PI*2, 0, Math.PI/2), shellMat);
+    topHem.position.y = halfCyl;
+    topGroup.add(topHem);
+
+    // bottom cylinder
+    const botCyl = new THREE.Mesh(new THREE.CylinderGeometry(r, r, halfCyl, 48), shellMat);
+    botCyl.position.y = -halfCyl/2;
+    botGroup.add(botCyl);
+    // bottom hemisphere
+    const botHem = new THREE.Mesh(new THREE.SphereGeometry(r, 48, 32, 0, Math.PI*2, Math.PI/2, Math.PI/2), shellMat);
+    botHem.position.y = -halfCyl;
+    botGroup.add(botHem);
+
+    // start closed at mid-plane
+    topGroup.position.y = 0;
+    botGroup.position.y = 0;
+
+    // Ensure entire animation fits inside camera vertically
+    // Total height when open:
+    const totalHeight = (halfCyl*2 + r*2) + openDistance*2 + 2.0; // + margin
+    // Adjust ortho view height if needed
+    if (totalHeight > viewHeight) {
+      const scale = totalHeight / viewHeight;
+      camera.zoom = 1/scale;
+      camera.updateProjectionMatrix();
+    }
+
+    // ----- Particle system (maroon powder) -----
+    const particleCount = 1800;
+    const pGeo = new THREE.BufferGeometry();
+    const positions = new Float32Array(particleCount * 3);
+    const velocities = new Float32Array(particleCount * 3);
+    const life = new Float32Array(particleCount);      // 0..1 life progress
+    const sizes = new Float32Array(particleCount);
+
+    // initialize pooled at center (sleeping)
+    for (let i = 0; i < particleCount; i++) {
+      positions[i*3] = positions[i*3+1] = positions[i*3+2] = 0;
+      velocities[i*3] = velocities[i*3+1] = velocities[i*3+2] = 0;
+      life[i] = 1; // 1 = dead; spawn sets < 0.0001
+      sizes[i] = 10 + Math.random()*10; // base size; scaled in shader by life
+    }
+
+    pGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    pGeo.setAttribute('aSize', new THREE.BufferAttribute(sizes, 1));
+    pGeo.setAttribute('aLife', new THREE.BufferAttribute(life, 1));
+
+    // Simple points material with transparency
+    const pMat = new THREE.PointsMaterial({
+      color: MAROON,
+      size: 0.06,
+      sizeAttenuation: true,
+      transparent: true,
+      opacity: 1.0,
+      depthWrite: false
+    });
+
+    const points = new THREE.Points(pGeo, pMat);
+    scene.add(points);
+
+    // Particle helpers
+    function spawnBurst(count, radius=0.05, speed=2.2) {
+      let spawned = 0;
+      for (let i = 0; i < particleCount && spawned < count; i++) {
+        if (life[i] >= 1) {
+          // position within tiny sphere around center
+          const u = Math.random(), v = Math.random();
+          const theta = 2*Math.PI*u;
+          const phi = Math.acos(2*v - 1);
+          const rr = radius * Math.cbrt(Math.random());
+          const x = rr*Math.sin(phi)*Math.cos(theta);
+          const y = rr*Math.cos(phi);
+          const z = rr*Math.sin(phi)*Math.sin(theta);
+
+          positions[i*3] = x;
+          positions[i*3+1] = y;
+          positions[i*3+2] = z;
+
+          // initial outward velocity (more horizontal so it spreads between halves)
+          const dir = new THREE.Vector3(x, y*0.6, z).normalize().multiplyScalar(speed*(0.6+Math.random()*0.8));
+          velocities[i*3] = dir.x;
+          velocities[i*3+1] = dir.y;
+          velocities[i*3+2] = dir.z;
+
+          life[i] = 0; // alive and starting
+          sizes[i] = 10 + Math.random()*14;
+          spawned++;
+        }
+      }
+      pGeo.attributes.position.needsUpdate = true;
+      pGeo.attributes.aLife.needsUpdate = true;
+      pGeo.attributes.aSize.needsUpdate = true;
+    }
+
+    // ----- Animation timeline -----
+    let playing = false;
+    let t = 0;               // seconds
+    const openDelay = 0.6;   // wait closed
+    const openTime  = 0.9;   // time to fully open
+    const holdTime  = 1.0;   // hold open while particles flow
+    const totalTime = openDelay + openTime + holdTime + 0.5;
+
+    // Easing
+    const easeInOut = (x)=> (x<0.5) ? 2*x*x : 1 - Math.pow(-2*x+2,2)/2;
+
+    // Controls
+    function reset() {
+      t = 0;
+      topGroup.position.y = 0;
+      botGroup.position.y = 0;
+      // kill particles
+      for (let i=0;i<particleCount;i++){ life[i]=1; }
+      pGeo.attributes.aLife.needsUpdate = true;
+      playing = false;
+    }
+    function play() { reset(); playing = true; }
+
+    document.getElementById('play').onclick = () => { play(); };
+    document.getElementById('replay').onclick = () => { play(); };
+
+    // Auto-play once after load
+    setTimeout(play, 400);
+
+    // ----- Render loop -----
+    let last = performance.now();
+    function loop(now){
+      requestAnimationFrame(loop);
+      const dt = Math.min((now-last)/1000, 0.033); // clamp
+      last = now;
+
+      if (playing) {
+        t += dt;
+
+        // 1) Opening motion
+        if (t > openDelay) {
+          const k = Math.min((t - openDelay)/openTime, 1);
+          const e = easeInOut(k);
+          topGroup.position.y = e * openDistance;
+          botGroup.position.y = -e * openDistance;
+
+          // 2) Emit particles during opening & early hold
+          if (k > 0.15 && t < (openDelay + openTime + 0.7)) {
+            spawnBurst(140); // per frame burst while opening
+          }
+        }
+
+        // 3) Stop after totalTime (hold a bit)
+        if (t >= totalTime) playing = false;
+      }
+
+      // Particle integration
+      const drag = 0.985;
+      for (let i = 0; i < particleCount; i++) {
+        if (life[i] < 1) {
+          // update position
+          positions[i*3]   += velocities[i*3]   * dt;
+          positions[i*3+1] += velocities[i*3+1] * dt;
+          positions[i*3+2] += velocities[i*3+2] * dt;
+
+          // gentle turbulence + gravity fade
+          velocities[i*3]   += (Math.random()-0.5)*0.1*dt;
+          velocities[i*3+1] += -0.35*dt + (Math.random()-0.5)*0.08*dt;
+          velocities[i*3+2] += (Math.random()-0.5)*0.1*dt;
+          velocities[i*3]   *= drag;
+          velocities[i*3+1] *= drag;
+          velocities[i*3+2] *= drag;
+
+          life[i] += dt * 0.35; // fade over ~3s
+          if (life[i] >= 1) { life[i]=1; } // dead
+        }
+      }
+      pGeo.attributes.position.needsUpdate = true;
+
+      // fade particles with life via material opacity
+      // (simple: overall opacity scales with average life)
+      // Optional: could use custom shader for per-particle fade.
+
+      renderer.render(scene, camera);
+    }
+    loop(performance.now());
+  })();
+  </script>
+</body>
+</html>
