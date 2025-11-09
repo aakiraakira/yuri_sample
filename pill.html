@@ -3,13 +3,12 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Capsule Open — Transparent Background</title>
+  <title>Capsule — Transparent, Swirl & Return</title>
   <style>
     html,body{height:100%;margin:0;background:transparent}
     #scene{position:fixed;inset:0;background:transparent;pointer-events:none;}
-    .ui {position:fixed; inset:auto 0 24px 0; display:flex; justify-content:center; gap:10px; pointer-events:auto;}
-    .btn{font:600 14px/1.1 Inter,system-ui,Arial; padding:12px 16px; border-radius:12px; border:0;
-         background:#151515; color:#fff; box-shadow:0 6px 20px rgba(0,0,0,.25); cursor:pointer}
+    .ui{position:fixed;inset:auto 0 24px 0;display:flex;justify-content:center;gap:10px;pointer-events:auto}
+    .btn{font:600 14px/1.1 Inter,system-ui,Arial;padding:12px 16px;border-radius:12px;border:0;background:#151515;color:#fff;box-shadow:0 6px 20px rgba(0,0,0,.25);cursor:pointer}
     .btn:active{transform:translateY(1px)}
   </style>
 </head>
@@ -20,37 +19,33 @@
     <button id="replay" class="btn">Replay</button>
   </div>
 
-  <!-- Three.js -->
   <script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
-
   <script>
   (() => {
-    // ---------- Core ----------
+    // ---------- Renderer ----------
     const host = document.getElementById('scene');
     const scene = new THREE.Scene();
 
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference:'high-performance' });
+    const renderer = new THREE.WebGLRenderer({ antialias:true, alpha:true, powerPreference:'high-performance' });
     renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
     renderer.setSize(innerWidth, innerHeight);
     renderer.setClearColor(0x000000, 0);
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.05;
+    renderer.toneMappingExposure = 1.15;
     renderer.physicallyCorrectLights = true;
     host.appendChild(renderer.domElement);
 
-    // Perspective camera for real depth
+    // ---------- Camera ----------
     const camera = new THREE.PerspectiveCamera(28, innerWidth/innerHeight, 0.1, 200);
     scene.add(camera);
-
-    function fitCameraToHeight(worldHeight, margin = 1.12) {
-      const targetH = worldHeight * margin;
-      const dist = (targetH * 0.5) / Math.tan(THREE.MathUtils.degToRad(camera.fov * 0.5));
+    function fitCameraToHeight(worldHeight, margin=1.12){
+      const h = worldHeight*margin;
+      const dist = (h*0.5)/Math.tan(THREE.MathUtils.degToRad(camera.fov*0.5));
       camera.position.set(0, 0.25, dist);
       camera.lookAt(0,0,0);
       camera.updateProjectionMatrix();
     }
-
     addEventListener('resize', () => {
       camera.aspect = innerWidth/innerHeight;
       camera.updateProjectionMatrix();
@@ -58,100 +53,105 @@
       fitCameraToHeight(totalHeight);
     });
 
-    // ---------- Lighting (studio-ish) ----------
-    scene.add(new THREE.HemisphereLight(0xffffff, 0x1a1a1a, 0.6));
-    const key = new THREE.DirectionalLight(0xffffff, 1.15); key.position.set(2.4,3.8,6.2); scene.add(key);
-    const fill= new THREE.DirectionalLight(0xffffff, 0.45); fill.position.set(-3.8,1.2,3.0); scene.add(fill);
-    const rim = new THREE.DirectionalLight(0xffffff, 0.7);  rim.position.set(-2.0,2.2,-5.5); scene.add(rim);
+    // ---------- Lights ----------
+    scene.add(new THREE.HemisphereLight(0xffffff, 0x141414, 0.7));
+    const key = new THREE.DirectionalLight(0xffffff, 1.25); key.position.set(2.6,3.8,6.3); scene.add(key);
+    const fill= new THREE.DirectionalLight(0xffffff, 0.55); fill.position.set(-3.6,1.2,3.4); scene.add(fill);
+    const rim = new THREE.DirectionalLight(0xffffff, 0.75); rim.position.set(-2.2,2.0,-5.6); scene.add(rim);
 
     // ---------- Materials (shades of #8b0000) ----------
-    // base: #8b0000
-    const RED_BASE   = 0x8b0000; // outer top
-    const RED_DARK   = 0x5c0000; // inner + rims
-    const RED_MID    = 0x780000; // outer bottom (slightly darker for contrast)
+    const RED_BASE = 0x8b0000; // outer top
+    const RED_MID  = 0x780000; // outer bottom
+    const RED_DARK = 0x5c0000; // inner + bevel
 
-    function makeShellMat(hex, opts={}) {
-      return new THREE.MeshPhysicalMaterial(Object.assign({
+    function makeShellMat(hex, extra={}) {
+      return new THREE.MeshPhysicalMaterial({
         color: hex,
-        roughness: 0.35,
+        roughness: 0.18,
         metalness: 0.0,
         transparent: true,
         opacity: 1.0,
-        transmission: 0.62,
-        ior: 1.33,
-        thickness: 0.9,
-        clearcoat: 0.6,
-        clearcoatRoughness: 0.25,
-        reflectivity: 0.35,
-        side: THREE.DoubleSide
-      }, opts));
+        transmission: 0.93,           // very transparent
+        ior: 1.45,
+        thickness: 0.35,              // thinner glass feel
+        attenuationColor: new THREE.Color(0x8b0000),
+        attenuationDistance: 7.5,     // less color absorption through the wall
+        clearcoat: 0.9,
+        clearcoatRoughness: 0.08,
+        reflectivity: 0.55,
+        side: THREE.DoubleSide,
+        ...extra
+      });
     }
 
-    const matTopOuter  = makeShellMat(RED_BASE);
-    const matBotOuter  = makeShellMat(RED_MID);
-    const matInner     = makeShellMat(RED_DARK, { transmission:0.45, thickness:1.1, roughness:0.42 });
-    const matRim       = makeShellMat(RED_DARK, { transmission:0.35, roughness:0.48 });
+    const matTopOuter = makeShellMat(RED_BASE);
+    const matBotOuter = makeShellMat(RED_MID);
+    const matInner    = makeShellMat(RED_DARK, { roughness:0.24, transmission:0.96, thickness:0.28 });
 
-    // ---------- Capsule geometry (HOLLOW) ----------
-    const r = 1.2;            // outer radius
-    const wall = 0.12;        // wall thickness
+    // ---------- Capsule geometry (hollow with rounded lip; NO flat rings) ----------
+    const r = 1.2;           // outer radius
+    const wall = 0.08;       // thinner wall to avoid heavy banding
     const halfCyl = 2.0;
-    const openDistance = 2.6; // a hair more so the swirl shows nicely
+    const openDistance = 2.8;
 
     const topGroup = new THREE.Group();
     const botGroup = new THREE.Group();
     scene.add(topGroup, botGroup);
 
-    const segs = 72;
+    const segs = 80;
 
-    // top outer
+    // Top half — outer
     const topOuterCyl = new THREE.Mesh(new THREE.CylinderGeometry(r, r, halfCyl, segs, 1, true), matTopOuter);
     topOuterCyl.position.y = halfCyl/2; topGroup.add(topOuterCyl);
     const topOuterHem = new THREE.Mesh(new THREE.SphereGeometry(r, segs, 48, 0, Math.PI*2, 0, Math.PI/2), matTopOuter);
-    topOuterHem.position.y = halfCyl;   topGroup.add(topOuterHem);
+    topOuterHem.position.y = halfCyl; topGroup.add(topOuterHem);
 
-    // top inner
+    // Top half — inner
     const topInnerCyl = new THREE.Mesh(new THREE.CylinderGeometry(r-wall, r-wall, halfCyl, segs, 1, true), matInner);
     topInnerCyl.position.y = halfCyl/2; topGroup.add(topInnerCyl);
     const topInnerHem = new THREE.Mesh(new THREE.SphereGeometry(r-wall, segs, 48, 0, Math.PI*2, 0, Math.PI/2), matInner);
-    topInnerHem.position.y = halfCyl;   topGroup.add(topInnerHem);
+    topInnerHem.position.y = halfCyl; topGroup.add(topInnerHem);
 
-    // top rim lip
-    const rimTop = new THREE.Mesh(new THREE.RingGeometry(r-wall, r, segs), matRim);
-    rimTop.rotation.x = -Math.PI/2; rimTop.position.y = 0.0005; topGroup.add(rimTop);
+    // Rounded lip (torus bevel) – avoids the flat “disc” look
+    const lipTop = new THREE.Mesh(new THREE.TorusGeometry(r - wall*0.5, wall*0.46, 14, 88), matInner);
+    lipTop.rotation.x = Math.PI/2;
+    lipTop.position.y = 0.0 + 0.001;
+    topGroup.add(lipTop);
 
-    // bottom outer
+    // Bottom half — outer
     const botOuterCyl = new THREE.Mesh(new THREE.CylinderGeometry(r, r, halfCyl, segs, 1, true), matBotOuter);
     botOuterCyl.position.y = -halfCyl/2; botGroup.add(botOuterCyl);
     const botOuterHem = new THREE.Mesh(new THREE.SphereGeometry(r, segs, 48, 0, Math.PI*2, Math.PI/2, Math.PI/2), matBotOuter);
-    botOuterHem.position.y = -halfCyl;   botGroup.add(botOuterHem);
+    botOuterHem.position.y = -halfCyl; botGroup.add(botOuterHem);
 
-    // bottom inner
+    // Bottom half — inner
     const botInnerCyl = new THREE.Mesh(new THREE.CylinderGeometry(r-wall, r-wall, halfCyl, segs, 1, true), matInner);
     botInnerCyl.position.y = -halfCyl/2; botGroup.add(botInnerCyl);
     const botInnerHem = new THREE.Mesh(new THREE.SphereGeometry(r-wall, segs, 48, 0, Math.PI*2, Math.PI/2, Math.PI/2), matInner);
-    botInnerHem.position.y = -halfCyl;   botGroup.add(botInnerHem);
+    botInnerHem.position.y = -halfCyl; botGroup.add(botInnerHem);
 
-    // bottom rim lip
-    const rimBot = new THREE.Mesh(new THREE.RingGeometry(r-wall, r, segs), matRim);
-    rimBot.rotation.x = -Math.PI/2; rimBot.position.y = -0.0005; botGroup.add(rimBot);
+    // Bottom rounded lip
+    const lipBot = new THREE.Mesh(new THREE.TorusGeometry(r - wall*0.5, wall*0.46, 14, 88), matInner);
+    lipBot.rotation.x = Math.PI/2;
+    lipBot.position.y = -0.0 - 0.001;
+    botGroup.add(lipBot);
 
-    // start closed
+    // Closed start
     topGroup.position.y = 0;
     botGroup.position.y = 0;
 
-    // camera fit
+    // Fit camera
     const totalHeight = (halfCyl*2 + r*2) + openDistance*2 + 2.0;
     fitCameraToHeight(totalHeight);
 
-    // ---------- Particle system (dense + swirl + suck-back) ----------
-    const particleCount = 7000; // many more
+    // ---------- Particles (dense swirl + return) ----------
+    const particleCount = 12000;
     const pGeo = new THREE.BufferGeometry();
-    const positions = new Float32Array(particleCount * 3);
-    const velocities = new Float32Array(particleCount * 3);
-    const life = new Float32Array(particleCount); // 0..1 dead when >=1
+    const positions = new Float32Array(particleCount*3);
+    const velocities = new Float32Array(particleCount*3);
+    const life = new Float32Array(particleCount);
 
-    for (let i = 0; i < particleCount; i++) {
+    for (let i=0;i<particleCount;i++){
       positions[i*3] = positions[i*3+1] = positions[i*3+2] = 0;
       velocities[i*3] = velocities[i*3+1] = velocities[i*3+2] = 0;
       life[i] = 1; // dead
@@ -160,10 +160,9 @@
     pGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
     pGeo.setAttribute('aLife', new THREE.BufferAttribute(life, 1));
 
-    // maroon points
     const pMat = new THREE.PointsMaterial({
-      color: 0x7A1C1C,          // slightly lighter than shell for contrast
-      size: 0.055,
+      color: 0x7A1C1C,
+      size: 0.05,
       sizeAttenuation: true,
       transparent: true,
       opacity: 0.95,
@@ -173,33 +172,29 @@
     const points = new THREE.Points(pGeo, pMat);
     scene.add(points);
 
-    function spawnBurst(count, radius=0.06, speed=2.1) {
+    function spawnBurst(count, radius=0.06, speed=2.0){
       let spawned = 0;
-      for (let i = 0; i < particleCount && spawned < count; i++) {
-        if (life[i] >= 1) {
-          // in a small sphere around center
+      for (let i=0;i<particleCount && spawned<count;i++){
+        if (life[i] >= 1){
           const u = Math.random(), v = Math.random();
           const theta = 2*Math.PI*u;
           const phi = Math.acos(2*v - 1);
-          const rr = radius * Math.cbrt(Math.random());
+          const rr = radius*Math.cbrt(Math.random());
           const x = rr*Math.sin(phi)*Math.cos(theta);
           const y = rr*Math.cos(phi);
           const z = rr*Math.sin(phi)*Math.sin(theta);
+          const dir = new THREE.Vector3(x, y*0.42, z).normalize();
 
           positions[i*3]   = x;
           positions[i*3+1] = y;
           positions[i*3+2] = z;
 
-          // outward + slight upward (so it billows between halves)
-          const dir = new THREE.Vector3(x, y*0.45, z).normalize();
-          const vmag = speed*(0.65+Math.random()*0.9);
-          const vel = dir.multiplyScalar(vmag);
+          const vmag = speed*(0.7+Math.random()*0.9);
+          velocities[i*3]   = dir.x*vmag;
+          velocities[i*3+1] = dir.y*vmag;
+          velocities[i*3+2] = dir.z*vmag;
 
-          velocities[i*3]   = vel.x;
-          velocities[i*3+1] = vel.y;
-          velocities[i*3+2] = vel.z;
-
-          life[i] = 0; // alive
+          life[i] = 0;
           spawned++;
         }
       }
@@ -208,134 +203,126 @@
     }
 
     // ---------- Timeline ----------
-    let playing = false;
-    let t = 0; // seconds
+    let playing = false, t = 0;
 
     const openDelay = 0.8;
-    const openTime  = 1.8;  // slower open
-    const flowTime  = 2.8;  // emit & swirl strongly
-    const suckTime  = 2.0;  // pull dust back while beginning to close
-    const closeTime = 1.8;  // smooth close overlapping suction
+    const openTime  = 2.2;  // slower & smoother
+    const flowTime  = 3.0;  // swirl time
+    const suckTime  = 2.2;  // suction active
+    const closeTime = 2.2;  // smooth close
     const totalTime = openDelay + openTime + flowTime + suckTime + closeTime + 0.5;
 
-    // very smooth S-curve easing (quintic smoothstep)
-    const smooth = (x)=> (x<=0?0:x>=1?1:(x*x*x*(x*(x*6-15)+10)));
+    const smooth = x => (x<=0?0:x>=1?1:(x*x*x*(x*(x*6-15)+10))); // quintic
 
-    function reset() {
+    function reset(){
       t = 0;
       topGroup.position.y = 0;
       botGroup.position.y = 0;
-      for (let i=0;i<particleCount;i++){ life[i]=1; velocities[i*3]=velocities[i*3+1]=velocities[i*3+2]=0; }
+      for (let i=0;i<particleCount;i++){
+        life[i]=1;
+        velocities[i*3]=velocities[i*3+1]=velocities[i*3+2]=0;
+      }
       pGeo.attributes.aLife.needsUpdate = true;
       playing = false;
     }
-    function play() { reset(); playing = true; }
+    function play(){ reset(); playing = true; }
 
-    document.getElementById('play').onclick = () => { play(); };
-    document.getElementById('replay').onclick = () => { play(); };
-
+    document.getElementById('play').onclick = play;
+    document.getElementById('replay').onclick = play;
     setTimeout(play, 400);
 
-    // ---------- Render / Physics ----------
+    // ---------- Loop ----------
     let last = performance.now();
-
     function loop(now){
       requestAnimationFrame(loop);
       const dt = Math.min((now-last)/1000, 0.033);
       last = now;
 
-      if (playing) {
+      if (playing){
         t += dt;
 
-        // PHASES
-        const tOpenStart  = openDelay;
-        const tOpenEnd    = tOpenStart + openTime;
-        const tFlowEnd    = tOpenEnd + flowTime;
-        const tSuckEnd    = tFlowEnd + suckTime;
-        const tCloseEnd   = tSuckEnd + closeTime;
+        const tOpenStart = openDelay;
+        const tOpenEnd   = tOpenStart + openTime;
+        const tFlowEnd   = tOpenEnd + flowTime;
+        const tSuckEnd   = tFlowEnd + suckTime;
+        const tCloseEnd  = tSuckEnd + closeTime;
 
-        // Opening progress
-        if (t >= tOpenStart) {
-          const kOpen = smooth( Math.min( (t - tOpenStart) / openTime, 1 ) );
-          topGroup.position.y = kOpen * openDistance;
-          botGroup.position.y = -kOpen * openDistance;
+        // Opening
+        if (t >= tOpenStart){
+          const kO = smooth(Math.min((t - tOpenStart)/openTime, 1));
+          topGroup.position.y = kO*openDistance;
+          botGroup.position.y = -kO*openDistance;
         }
 
-        // Particle emission during opening + flow
-        if (t > tOpenStart + 0.2 && t < tFlowEnd) {
-          // large continuous bursts
-          spawnBurst(320);
+        // Emit while opening + flow
+        if (t > tOpenStart + 0.2 && t < tFlowEnd){
+          spawnBurst(520); // denser
         }
 
-        // Start closing while suction happens
-        if (t > tFlowEnd) {
-          const kClose = smooth( Math.min( (t - tFlowEnd) / closeTime, 1 ) );
-          const openAtClose = (1 - kClose) * openDistance;
-          topGroup.position.y = openAtClose;
-          botGroup.position.y = -openAtClose;
+        // Closing (starts after flow; suction overlaps)
+        if (t > tFlowEnd){
+          const kC = smooth(Math.min((t - tFlowEnd)/closeTime, 1));
+          const d = (1 - kC)*openDistance;
+          topGroup.position.y = d;
+          botGroup.position.y = -d;
         }
 
         if (t >= tCloseEnd || t >= totalTime) playing = false;
       }
 
-      // Particle motion: swirl field + gravity + suction (when active)
-      const drag = 0.985;
-      const strongSwirl = (t > openDelay && t < (openDelay+openTime+flowTime)) ? 1.0 : 0.5; // stronger while open/flowing
-      const suctionOn   = (t > (openDelay+openTime+flowTime));                                // during suck & close
-      const suctionStrength = suctionOn ? 2.4 : 0.0;
+      // Particle dynamics
+      const drag = 0.986;
+      const inFlow   = (t > openDelay) && (t < (openDelay+openTime+flowTime));
+      const suction  = (t >= (openDelay+openTime+flowTime)); // during suck+close
+      const swirlGain = inFlow ? 1.15 : 0.55;
+      const suctionGain = suction ? 2.6 : 0.0;
 
-      for (let i = 0; i < particleCount; i++) {
-        if (life[i] < 1) {
+      for (let i=0;i<particleCount;i++){
+        if (life[i] < 1){
           const ix = i*3;
-          let x = positions[ix], y = positions[ix+1], z = positions[ix+2];
+          let x=positions[ix], y=positions[ix+1], z=positions[ix+2];
 
-          // --- swirl around Y-axis (vortex) ---
-          // tangent in XZ: [-z, 0, x]
-          const rXZ = Math.max(0.0001, Math.hypot(x, z));
-          const swirlX = (-z / rXZ);
-          const swirlZ = ( x / rXZ);
-          const swirlStrength = strongSwirl * (0.75 + 0.25*Math.random()); // small noise
-          velocities[ix]   += swirlX * swirlStrength * dt;
-          velocities[ix+2] += swirlZ * swirlStrength * dt;
+          // Swirl around Y axis (vortex)
+          const rXZ = Math.max(0.0001, Math.hypot(x,z));
+          const tx = (-z / rXZ);
+          const tz = ( x / rXZ);
+          const swirl = swirlGain*(0.85 + 0.15*Math.random());
+          velocities[ix]   += tx*swirl*dt;
+          velocities[ix+2] += tz*swirl*dt;
 
-          // --- mild gravity + buoyancy feel ---
-          velocities[ix+1] += -0.28 * dt;
+          // Mild gravity
+          velocities[ix+1] += -0.24*dt;
 
-          // --- suction toward center for return phase ---
-          if (suctionOn) {
-            const toC_x = -x, toC_y = -y, toC_z = -z;
-            const dist  = Math.max(0.0001, Math.hypot(toC_x, toC_y, toC_z));
-            const s = (suctionStrength * dt);
-            velocities[ix]   += (toC_x / dist) * s;
-            velocities[ix+1] += (toC_y / dist) * s;
-            velocities[ix+2] += (toC_z / dist) * s;
+          // Suction towards center (return)
+          if (suction){
+            const toX=-x, toY=-y, toZ=-z;
+            const dist = Math.max(0.0001, Math.hypot(toX,toY,toZ));
+            const s = suctionGain*dt;
+            velocities[ix]   += (toX/dist)*s;
+            velocities[ix+1] += (toY/dist)*s;
+            velocities[ix+2] += (toZ/dist)*s;
 
-            // when close to center, "absorb" back into capsule
-            if (dist < 0.12) {
-              life[i] = 1; // dead (back inside)
+            // Absorb back inside
+            if (dist < 0.12){
+              life[i] = 1;
               velocities[ix]=velocities[ix+1]=velocities[ix+2]=0;
               continue;
             }
           }
 
-          // integrate + drag + extra small turbulence
-          positions[ix]   += velocities[ix]   * dt;
-          positions[ix+1] += velocities[ix+1] * dt;
-          positions[ix+2] += velocities[ix+2] * dt;
+          // Integrate + turbulence + drag
+          positions[ix]   += velocities[ix]*dt;
+          positions[ix+1] += velocities[ix+1]*dt;
+          positions[ix+2] += velocities[ix+2]*dt;
 
           velocities[ix]   += (Math.random()-0.5)*0.06*dt;
           velocities[ix+1] += (Math.random()-0.5)*0.05*dt;
           velocities[ix+2] += (Math.random()-0.5)*0.06*dt;
 
-          velocities[ix]   *= drag;
-          velocities[ix+1] *= drag;
-          velocities[ix+2] *= drag;
+          velocities[ix]*=drag; velocities[ix+1]*=drag; velocities[ix+2]*=drag;
 
-          // optional slow fade-out if still lingering long after close
-          if (!suctionOn) {
-            life[i] += dt * 0.22;
-            if (life[i] >= 1) life[i] = 1;
-          }
+          // safety fade if lingering long after
+          if (!suction){ life[i] += dt*0.18; if (life[i] >= 1) life[i]=1; }
         }
       }
       pGeo.attributes.position.needsUpdate = true;
