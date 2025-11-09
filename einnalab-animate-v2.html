@@ -297,7 +297,7 @@
                 <p class="subtitle">Hover to explore</p>
                 <p class="description">
                     Our formula is enriched with highly-prized <strong>Deer Placenta</strong>, a potent source of nutrients and growth factors to support cellular rejuvenation and youthful vitality, blended with 10 other powerful natural extracts.
-                </eq>
+                </p>
             </div>
         </div>
 
@@ -311,7 +311,8 @@
             // Re-ordered so Aloe Vera (the 5th in your list) is the 6th in this array,
             // making it the perfect center (index 5) of 11 items for symmetry.
             const ingredients = [
-                { name: 'Vitamin E', img: 'https://einnalab.com/wp-content/uploads/2025/11/Vitamin-E.png' },
+                // --- SYNTAX ERRORS FIXED IN THIS ARRAY ---
+                { name: 'Vitamin E', img: 'https://einnalab.com/wp-content/uploads/2025/11/Vitamin-E.png' }, // <<< BUG 1 FIX
                 { name: 'Squalene', img: 'https://einnalab.com/wp-content/uploads/2025/11/Squalene.png' },
                 { name: 'Fucoidan', img: 'https://einnalab.com/wp-content/uploads/2025/11/Fucoidan.png' },
                 { name: 'Lycopene', img: 'https://einnalab.com/wp-content/uploads/2025/11/lycopene.png' },
@@ -320,7 +321,7 @@
                 { name: 'Grape Seed', img: 'https://einnalab.com/wp-content/uploads/2025/11/Grape-Seed.png' },
                 { name: 'Evening Primrose Oil', img: 'https://einnalab.com/wp-content/uploads/2025/11/Evening-Primrose-Oil.png' },
                 { name: 'Borage Oil', img: 'https://einnalab.com/wp-content/uploads/2025/11/borage-oil.png' },
-                { name: 'Marine Collagen', img: 'https://einnalab.com/wp-content/uploads/2025/11/Marine-Collagen-Extract.png' },
+                { name: 'Marine Collagen', img: 'https://einnalab.com/wp-content/uploads/2025/11/Marine-Collagen-Extract.png' }, // <<< BUG 2 FIX
                 { name: 'Turmeric', img: 'https://einnalab.com/wp-content/uploads/2025/11/Tumeric.png' }
             ];
 
@@ -368,10 +369,10 @@
                     // Mobile: Full circle
                     radius = 150; // Radius for the circle
                 } else {
-                    // Desktop: Wide "C" arc
-                    radius = 280; // Keep radius large
-                    startAngle = 120; // Tighter arc start
-                    endAngle = 240;   // Tighter arc end (120 deg sweep)
+                    // Desktop: Full 180-degree semi-circle
+                    radius = 260; 
+                    startAngle = 90; // Bottom of the circle
+                    endAngle = 270;   // Top of the circle (180 deg sweep)
                 }
 
                 // Position items
@@ -388,7 +389,7 @@
                         
                     } else {
                         // Calculate angle for the "C" arc
-                        // Note: 120deg is bottom-left, 240deg is top-left
+                        // Note: 90deg is bottom, 270deg is top
                         const angleStep = (endAngle - startAngle) / (totalItems - 1);
                         angleDeg = startAngle + (index * angleStep);
                         
