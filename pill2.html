@@ -54,7 +54,8 @@
       display: flex;
       flex-direction: row;
       width: 100%;
-      max-width: 1350px; /* Wider */
+      /* CHANGED: Made even wider */
+      max-width: 1500px; 
       min-height: 600px; 
       padding: 3.5rem;
       gap: 3rem; 
@@ -281,11 +282,11 @@
         order: 2; /* Animation area comes second */
         position: static;
         
-        /* CHANGED: 50/50 split */
         display: grid;
         grid-template-columns: 1fr 1fr; /* Left half | Right half */
         grid-template-rows: 1fr 1fr; /* Two rows */
-        gap: 0 0.5rem; /* Tighter gap */
+        /* CHANGED: Added vertical gap for spacing */
+        gap: 1.5rem 0.5rem; 
         align-items: center;
         min-height: 350px;
       }
@@ -305,7 +306,6 @@
         width: 100%;
         gap: 0.5rem;
         align-items: center;
-        /* CHANGED: Justify to the end (right) */
         justify-content: flex-end;
       }
       
@@ -323,13 +323,11 @@
       }
 
       .label-line {
-        /* Line is now on the RIGHT of the text */
         order: 2; /* Puts line after text */
       }
       
       .label-text {
         order: 1; /* Text is on the left */
-        /* CHANGED: Align text to the right */
         text-align: right;
       }
     }
