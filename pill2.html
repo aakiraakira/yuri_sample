@@ -10,10 +10,22 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap" rel="stylesheet">
   
   <style>
+    /* --- KEYFRAMES FOR ANIMATIONS --- */
+    @keyframes shimmer {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+    
+    @keyframes dot-wave {
+      0% { background-position: 0 0; }
+      100% { background-position: 6px 0; } /* 6px = 3px dot + 3px gap */
+    }
+  
     html, body {
       height: 100%;
       margin: 0;
-      background-image: url('https://media.istockphoto.com/id/607280514/photo/lupins-of-lake-tekapo.jpg?s=612x612&w=0&k=20&c=TLqHmSwcHKT1wR6U7H1KCJMmIq3SrgqHNOEyvziSCSg=');
+      /* CHANGED: New background image */
+      background-image: url('https://4kwallpapers.com/images/wallpapers/fiordland-new-zealand-sunrise-mountain-view-mountain-range-3840x2160-4255.jpg');
       background-size: cover;
       background-position: center;
       background-attachment: fixed;
@@ -54,7 +66,7 @@
       display: flex;
       flex-direction: row;
       width: 100%;
-      max-width: 1500px; /* Wider */
+      max-width: 1200px; /* Reverted to original width */
       min-height: 600px; 
       padding: 3.5rem;
       gap: 3rem; 
@@ -74,7 +86,8 @@
       font-weight: 700;
       letter-spacing: 0.5px;
       text-transform: uppercase;
-      color: #ff8c8c;
+      /* CHANGED: Match pill red */
+      color: #ff3333; 
       opacity: 0.9;
       margin-bottom: 0.5rem;
     }
@@ -84,8 +97,15 @@
       font-weight: 800;
       margin-bottom: 1.5rem;
       line-height: 1.2;
-      color: #fff;
-      text-shadow: 0 0 15px rgba(0,0,0,0.3);
+      
+      /* CHANGED: Shimmer effect */
+      background: linear-gradient(90deg, #ff3333 0%, #ff9999 50%, #ff3333 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-fill-color: transparent;
+      background-size: 200% auto;
+      animation: shimmer 4s linear infinite;
     }
 
     .text-header p {
@@ -148,7 +168,15 @@
       font-size: 2.5rem;
       font-weight: 800;
       line-height: 1;
-      color: #ff8c8c;
+      
+      /* CHANGED: Shimmer effect */
+      background: linear-gradient(90deg, #ff3333 0%, #ff9999 50%, #ff3333 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-fill-color: transparent;
+      background-size: 200% auto;
+      animation: shimmer 4s linear infinite;
     }
     
     .stat-box-value span.multiplier-unit {
@@ -218,6 +246,8 @@
         transparent 3px, 
         transparent 6px
       );
+      /* CHANGED: Added dot wave animation */
+      animation: dot-wave 1s linear infinite;
     }
     
     .label-text h3 {
