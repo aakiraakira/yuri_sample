@@ -332,10 +332,10 @@
     const fill= new THREE.DirectionalLight(0xffffff, 0.55); fill.position.set(-3.6,1.2,3.4); scene.add(fill);
     const rim = new THREE.DirectionalLight(0xffffff, 0.75); rim.position.set(-2.2,2.0,-5.6); scene.add(rim);
 
-    // ---------- Materials (BRIGHTER RED, still see-through) ----------
-    const RED_TOP    = 0xd92a2a; /* CHANGED: Was 0xcf2323 */
-    const RED_BOTTOM = 0xcc2222; /* CHANGED: Was 0xbf1717 */
-    const RED_INNER  = 0x8a1515; /* CHANGED: Was 0x7a1010 */
+    // ---------- Materials (EVEN BRIGHTER RED + 10% LESS TRANSPARENT) ----------
+    const RED_TOP    = 0xff3333; /* Kept */
+    const RED_BOTTOM = 0xee2222; /* Kept */
+    const RED_INNER  = 0xaa1a1a; /* Kept */
 
     function layeredMat(hex, extra={}) {
       return new THREE.MeshPhysicalMaterial({
@@ -343,7 +343,7 @@
         roughness: 0.2,
         metalness: 0.0,
         transparent: true,
-        opacity: 0.34,        
+        opacity: 0.44, /* Kept (Was 0.34) */       
         transmission: 0.0,
         ior: 1.45,
         clearcoat: 0.6,
@@ -356,15 +356,15 @@
     }
     const matTopOuter = layeredMat(RED_TOP);
     const matBotOuter = layeredMat(RED_BOTTOM);
-    const matInner    = layeredMat(RED_INNER, { opacity: 0.40 });
+    const matInner    = layeredMat(RED_INNER, { opacity: 0.50 }); /* Kept (Was 0.40) */
 
     // ---------- Capsule geometry (hollow + rounded lips + NO overlap) ----------
     const rTop = 1.20;     
-    const rBot = 1.20;     /* CHANGED: Was 1.18 - To make halves meet flush */
+    const rBot = 1.20;     /* Kept */
     const wall = 0.08;     
     const halfCyl = 2.0;
     const openDistance = 2.8;
-    const sleeveDepth = 0.0; /* CHANGED: Was 0.26 - To remove overlap */
+    const sleeveDepth = 0.0; /* Kept */
 
     const topGroup = new THREE.Group();
     const botGroup = new THREE.Group();
@@ -383,7 +383,9 @@
     topInnerCyl.position.y = halfCyl/2; topGroup.add(topInnerCyl);
     const topInnerHem = new THREE.Mesh(new THREE.SphereGeometry(rTop-wall, segs, 48, 0, Math.PI*2, 0, Math.PI/2), matInner);
     topInnerHem.position.y = halfCyl; topGroup.add(topInnerHem);
-    const lipTop = new THREE.Mesh(new THREE.TorusGeometry(rTop - wall*0.5, wall*0.46, 14, 88), matInner);
+    
+    /* Kept: Use matTopOuter to hide the seam */
+    const lipTop = new THREE.Mesh(new THREE.TorusGeometry(rTop - wall*0.5, wall*0.46, 14, 88), matTopOuter); 
     lipTop.rotation.x = Math.PI/2; lipTop.position.y = 0.0 + 0.001; topGroup.add(lipTop);
 
     // Bottom outer/inner + rounded lip
@@ -395,7 +397,9 @@
     botInnerCyl.position.y = -halfCyl/2; botGroup.add(botInnerCyl);
     const botInnerHem = new THREE.Mesh(new THREE.SphereGeometry(rBot-wall, segs, 48, 0, Math.PI*2, Math.PI/2, Math.PI/2), matInner);
     botInnerHem.position.y = -halfCyl; botGroup.add(botInnerHem);
-    const lipBot = new THREE.Mesh(new THREE.TorusGeometry(rBot - wall*0.5, wall*0.46, 14, 88), matInner);
+    
+    /* Kept: Use matBotOuter to hide the seam */
+    const lipBot = new THREE.Mesh(new THREE.TorusGeometry(rBot - wall*0.5, wall*0.46, 14, 88), matBotOuter);
     lipBot.rotation.x = Math.PI/2; lipBot.position.y = -0.0 - 0.001; botGroup.add(lipBot);
 
     // Start CLOSED in flush pose (no overlap)
@@ -545,7 +549,7 @@
         }
       }
 
-      // Particle dynamics — unchanged
+      // Particle dynamics
       const drag = 0.986;
       const inFlow   = (t > openDelay) && (t < (openDelay+openTime+flowTime));
       const suction  = (t >= (openDelay+openTime+flowTime));
@@ -573,7 +577,10 @@
             velocities[ix+1] += (toY/dist)*s;
             velocities[ix+2] += (toZ/dist)*s;
 
-            if (dist < 0.12){
+            /* CHANGED: Reverted to old effect. 
+               Particles are only killed if they reach the center. 
+            */
+            if (dist < 0.12){ 
               life[i] = 1;
               velocities[ix]=velocities[ix+1]=velocities[ix+2]=0;
               continue;
@@ -588,7 +595,10 @@
           velocities[ix+2] += (Math.random()-0.5)*0.06*dt;
           velocities[ix]*=drag; velocities[ix+1]*=drag; velocities[ix+2]*=drag;
 
-          if (!suction){ life[i] += dt*0.18; if (life[i] >= 1) life[i]=1; }
+          /* CHANGED: Reverted.
+             This line handles particles fading out during the "flow" phase. 
+          */
+          if (!suction){ life[i] += dt*0.18; if (life[i] >= 1) life[i]=1; } 
         }
       }
       pGeo.attributes.position.needsUpdate = true;
