@@ -13,115 +13,168 @@
     html, body {
       height: 100%;
       margin: 0;
-      background: #f8f8f8; /* Bright background */
-      color: #333; /* Darker text for contrast */
-      font-family: 'Inter', sans-serif;
-      overflow-x: hidden; /* Prevent horizontal scrolling */
-      position: relative; /* --- POLISH: For background --- */
-    }
-
-    /* --- POLISH: Add Aurora Background --- */
-    body::before,
-    body::after {
-      content: '';
-      position: absolute;
-      z-index: -1; /* Behind all content */
-      border-radius: 50%;
-      filter: blur(120px); /* Strong blur */
-      opacity: 0.45;
-    }
-
-    /* Top-left red shape */
-    body::before {
-      width: 50vw;
-      height: 50vw;
-      min-width: 400px;
-      min-height: 400px;
-      background: #ff6a6a; /* From h1 gradient */
-      top: -15%;
-      left: -15%;
-    }
-
-    /* Bottom-right dark red shape */
-    body::after {
-      width: 60vw;
-      height: 60vw;
-      min-width: 500px;
-      min-height: 500px;
-      background: #a00000; /* From h1 gradient */
-      bottom: -20%;
-      right: -20%;
-    }
-    /* --- END POLISH --- */
-
-
-    /* ---------- Layout ---------- */
-    
-    .layout-container {
-      display: flex;
-      flex-direction: row; /* Default to row for desktop */
-      width: 100%;
-      min-height: 100vh; /* Minimum viewport height */
-      padding: 3rem;
-      gap: 3rem; /* Gap between text and right column */
-      box-sizing: border-box; /* Include padding in height/width */
+      /* CHANGED: Added background image */
+      background-image: url('https://media.istockphoto.com/id/607280514/photo/lupins-of-lake-tekapo.jpg?s=612x612&w=0&k=20&c=TLqHmSwcHKT1wR6U7H1KCJMmIq3SrgqHNOEyvziSCSg=');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
       
-      /* --- POLISH: Stacking context for aurora --- */
-      position: relative;
-      z-index: 1;
+      color: #fff; /* CHANGED: Default text color to white */
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+      position: relative; 
     }
 
-    .text-content {
-      flex: 1; /* Take up 50% of the space */
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      /* --- POLISH: Added padding for glass container --- */
-      padding: 2.5rem; 
-    }
-
-    /* New container for the right column (animation + 30x) */
-    .right-column-container {
-      flex: 1; /* Take up 50% of the space */
-      display: flex;
-      flex-direction: column;
-      gap: 2rem; /* Gap between animation and 30x containers */
-    }
-
-    .text-content h1 {
-      font-size: 3.8rem;
-      font-weight: 800;
-      margin-bottom: 1.5rem;
-      line-height: 1.2;
-      background: linear-gradient(45deg, #a00000, #e00000, #ff6a6a);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      text-fill-color: transparent;
-    }
-
-    .text-content p {
-      font-size: 1.15rem;
-      line-height: 1.7;
-      color: #555;
-      max-width: 55ch;
-    }
-
-    /* --- POLISH: Refined "Liquid Glass" Style --- */
+    /* --- "Liquid Glass" Style (Applied to main layout container) --- */
     .glass-container {
       border-radius: 25px;
       overflow: hidden;
-      background: rgba(255, 255, 255, 0.25); /* Was 0.3 */
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
-      backdrop-filter: blur(12px); /* Was 8px */
-      -webkit-backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.3); /* Was 0.4 */
+      /* CHANGED: Made more transparent */
+      background: rgba(0, 0, 0, 0.25);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    /* ---------- NEW LAYOUT WRAPPER (FULLSCREEN) ---------- */
+    .main-wrapper {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      min-height: 100vh;
+      padding: 2rem; /* Padding for mobile */
+      box-sizing: border-box;
+      position: relative;
+      z-index: 1;
+    }
+    
+    /* This is the new main container */
+    .layout-container {
+      display: flex;
+      flex-direction: row; /* Row for desktop */
+      width: 100%;
+      max-width: 1200px; /* CHANGED: Wider for new layout */
+      min-height: 600px; 
+      padding: 3.5rem; /* Padding inside the glass */
+      gap: 3rem; 
+      box-sizing: border-box; 
+    }
+
+    /* ---------- LEFT COLUMN (TEXT) ---------- */
+    .text-content {
+      flex: 1; 
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    
+    .tech-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: #ff8c8c; /* CHANGED: Brighter red for contrast */
+      opacity: 0.9;
+      margin-bottom: 0.5rem;
+    }
+
+    .text-content h1 {
+      font-size: 3rem;
+      font-weight: 800;
+      margin-bottom: 1.5rem;
+      line-height: 1.2;
+      /* CHANGED: Using white text as gradient is hard to read */
+      color: #fff;
+      text-shadow: 0 0 15px rgba(0,0,0,0.3);
+    }
+
+    .text-content p {
+      font-size: 1.05rem;
+      line-height: 1.7;
+      color: #eee; /* CHANGED: Light gray/white */
+      max-width: 45ch;
+      margin-bottom: 1.5rem;
+    }
+
+    .disclaimer {
+      font-size: 0.75rem;
+      line-height: 1.5;
+      color: #ccc; /* CHANGED */
+      margin-top: 1.5rem;
+      max-width: 45ch;
+    }
+
+    /* ---------- NEW STAT BOX (was multiplier) ---------- */
+    .stat-box-container {
+      padding: 1rem 1.25rem;
+      text-align: left;
+      border-radius: 15px;
+      background: rgba(0, 0, 0, 0.2); /* CHANGED: Darker inner box */
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 1rem;
+      max-width: 400px;
+    }
+    
+    .stat-box-label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #c00000;
+      background: rgba(255, 255, 255, 0.9);
+      padding: 0.3rem 0.5rem;
+      border-radius: 5px;
+    }
+
+    .stat-box-text p {
+      font-size: 1rem;
+      color: #eee; /* CHANGED */
+      margin: 0;
+      line-height: 1.3;
+      font-weight: 500;
+    }
+    
+    .stat-box-value {
+      display: flex;
+      align-items: baseline;
+      gap: 0.25rem;
+      margin-left: auto; /* Pushes to the right */
+    }
+    
+    .stat-box-value span#counter {
+      font-size: 2.5rem;
+      font-weight: 800;
+      line-height: 1;
+      color: #ff8c8c; /* CHANGED */
+    }
+    
+    .stat-box-value span.multiplier-unit {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: #ccc; /* CHANGED */
+    }
+
+
+    /* ---------- RIGHT COLUMN (ANIMATION) ---------- */
+    .right-column-container {
+      flex: 1.4; /* CHANGED: More space */
+      /* CHANGED: New 3-column grid layout */
+      display: grid;
+      grid-template-columns: 1fr auto 1fr; /* Label | Anim | Label */
+      align-items: center;
+      gap: 1rem;
+      position: relative;
     }
 
     .animation-container {
-      flex: 1; /* Make it take up available space */
-      position: relative; /* Anchor for scene */
-      min-height: 400px; /* Give it a minimum height */
+      position: relative; 
+      min-height: 400px; 
+      width: 200px; /* Give anim a defined width */
+      margin: 0 auto;
     }
 
     #scene {
@@ -132,135 +185,177 @@
       background: transparent;
       pointer-events: none;
     }
-
-    /* New container for the multiplier */
-    .multiplier-container {
-      padding: 2.5rem;
-      text-align: center;
-    }
     
-    .multiplier-container .multiplier-label {
+    /* ---------- NEW ANIMATION LABELS (L/R) ---------- */
+    .label-group {
       display: flex;
-      align-items: baseline;
-      justify-content: center;
-      gap: 0.5rem;
+      align-items: center;
+      gap: 1rem;
     }
     
-    .multiplier-container span#counter {
-      font-size: 4.5rem;
-      font-weight: 800;
-      line-height: 1;
-      display: inline-block;
-      color: #c00000;
-      -webkit-text-stroke: 1px rgba(0,0,0,0.1);
-      text-stroke: 1px rgba(0,0,0,0.1);
+    /* Right-side label */
+    #label-outer {
+      width: 100%;
     }
     
-    .multiplier-container span.multiplier-unit {
-      font-size: 3rem;
+    /* Left-side label */
+    #label-inner {
+      width: 100%;
+      /* CHANGED: Reverses line/text order */
+      flex-direction: row-reverse; 
+      text-align: right;
+    }
+    
+    .label-line {
+      flex-shrink: 0;
+      width: 50px;
+      height: 1px;
+      /* CHANGED: Dotted line color for contrast */
+      background-image: repeating-linear-gradient(
+        to right, 
+        rgba(255,255,255,0.5) 0, 
+        rgba(255,255,255,0.5) 3px, 
+        transparent 3px, 
+        transparent 6px
+      );
+    }
+    
+    .label-text h3 {
+      font-size: 0.8rem;
       font-weight: 700;
-      color: #666;
+      text-transform: uppercase;
+      color: #fff; /* CHANGED */
+      margin: 0 0 0.25rem 0;
     }
     
-    .multiplier-container .label {
-      font-size: 1.2rem;
-      margin: 0.5rem 0 0 0;
-      line-height: 1.3;
-      color: #666;
+    .label-text p {
+      font-size: 0.8rem;
+      line-height: 1.5;
+      color: #ccc; /* CHANGED */
+      margin: 0;
     }
 
-    /* Hide the original UI buttons */
-    .ui {
-      display: none;
-    }
 
     /* ---------- Mobile Optimization ---------- */
     @media (max-width: 900px) {
-      .layout-container {
-        flex-direction: column; /* Stack vertically on mobile */
-        padding: 2rem 1.5rem;
-        gap: 2.5rem;
-        min-height: auto;
+      .main-wrapper {
+        padding: 1rem; /* Tighter padding */
+        min-height: 100vh; /* Ensure it still tries to fill */
       }
       
-      /* --- NEW MOBILE ORDER --- */
+      .layout-container {
+        flex-direction: column; /* Stack vertically */
+        padding: 2rem 1.5rem;
+        gap: 2.5rem;
+        min-height: 0;
+        width: 100%;
+        max-width: 100%;
+      }
+      
       .text-content {
-        order: 3; /* Text is last */
-        /* --- POLISH: Adjusted padding for mobile glass --- */
-        padding: 2rem; 
+        order: 2; /* Text is second */
         text-align: center;
       }
       
-      .right-column-container {
-        order: 1; /* This whole column (Anim + 30x) is first */
-        gap: 1.5rem; /* Reduce gap on mobile */
-      }
-      /* --- END NEW MOBILE ORDER --- */
-
-
-      .text-content h1 {
-        font-size: 2.5rem;
-        margin-bottom: 1rem;
-      }
-
       .text-content p {
-        font-size: 1rem;
         max-width: 100%;
+      }
+      
+      .stat-box-container {
+        flex-direction: column;
+        gap: 0.75rem;
+        max-width: 100%;
+        align-items: center;
+      }
+      
+      .stat-box-value {
+        margin-left: 0;
+      }
+      
+      .right-column-container {
+        order: 1; /* Animation is first */
+        /* CHANGED: Revert grid layout */
+        display: block; 
       }
 
       .animation-container {
-        min-height: 350px; /* Adjust height for mobile */
-        border-radius: 15px;
-      }
-
-      .glass-container {
-        border-radius: 15px;
+        min-height: 350px;
+        width: 100%;
       }
       
-      .multiplier-container {
-        padding: 1.5rem;
+      /* Replicates previous mobile layout */
+      .label-group {
+        position: static;
+        width: 100%;
+        margin-bottom: 1.5rem;
+        justify-content: center;
+        text-align: center;
+        gap: 0.5rem;
+        /* CHANGED: Revert direction for stacking */
+        flex-direction: column;
       }
-
-      .multiplier-container span#counter {
-        font-size: 3.5rem;
+      
+      #label-inner {
+        text-align: center;
       }
-      .multiplier-container span.multiplier-unit {
-        font-size: 2.5rem;
-      }
-      .multiplier-container .label {
-        font-size: 1rem;
+      
+      .label-line {
+        display: none; /* Hide line on mobile */
       }
     }
   </style>
 </head>
 <body>
 
-  <main class="layout-container">
-    
-    <div class="text-content glass-container">
-      <h1>The Power of Deer Placenta</h1>
-      <p>Discover the rejuvenating properties of one of nature's most potent ingredients. Deer placenta is rich in nutrients and growth factors that support cellular regeneration.</p>
-      <p>Experience a new level of wellness and anti-aging, enhancing vitality and promoting radiant, youthful-looking skin.</p>
-    </div>
+  <div class="main-wrapper">
 
-    <div class="right-column-container">
-    
-      <div class="animation-container glass-container">
-        <div id="scene"></div>
-      </div>
+    <main class="layout-container glass-container">
       
-      <div class="multiplier-container glass-container">
-        <div class="multiplier-label">
-          <span id="counter">0</span><span class="multiplier-unit">X</span>
+      <div class="text-content">
+        <span class="tech-label">REJUVENATION TECHNOLOGY</span>
+        <h1>The Power of Deer Placenta</h1>
+        <p>Discover the rejuvenating properties of one of nature's most potent ingredients, rich in nutrients and growth factors that support cellular regeneration.</p>
+        
+        <div class="stat-box-container">
+          <div class="stat-box-label">PLACENTA</div>
+          <div class="stat-box-text">
+            <p class="label">Cellular Regeneration</p>
+          </div>
+          <div class="stat-box-value">
+            <span id="counter">0</span><span class="multiplier-unit">X</span>
+          </div>
         </div>
-        <p class="label">Cellular Regeneration</p>
+
+        <p class="disclaimer">*Based on the known properties of deer placenta growth factors and their role in cellular support.</p>
       </div>
+  
+      <div class="right-column-container">
+      
+        <div class="label-group" id="label-inner">
+          <div class="label-line"></div>
+          <div class="label-text">
+            <h3>INNER CAPSULE</h3>
+            <p>Delivers regenerative growth factors.</p>
+          </div>
+        </div>
+      
+        <div class="animation-container">
+          <div id="scene"></div>
+        </div>
+        
+        <div class="label-group" id="label-outer">
+          <div class="label-line"></div>
+          <div class="label-text">
+            <h3>OUTER CAPSULE</h3>
+            <p>Shields potent nutrients from digestion.</p>
+          </div>
+        </div>
 
-    </div>
+      </div>
+  
+    </main>
 
-  </main>
-
-  <script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
+  </div> <script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
   <script>
   (() => {
     // Counter animation logic
@@ -298,7 +393,7 @@
     observer.observe(counterElement);
 
     // =================================================================
-    // START: ANIMATION CODE
+    // START: ANIMATION CODE (Unchanged)
     // =================================================================
 
     // ---------- Renderer ----------
@@ -333,9 +428,9 @@
     const rim = new THREE.DirectionalLight(0xffffff, 0.75); rim.position.set(-2.2,2.0,-5.6); scene.add(rim);
 
     // ---------- Materials (EVEN BRIGHTER RED + 10% LESS TRANSPARENT) ----------
-    const RED_TOP    = 0xff3333; /* Kept */
-    const RED_BOTTOM = 0xee2222; /* Kept */
-    const RED_INNER  = 0xaa1a1a; /* Kept */
+    const RED_TOP    = 0xff3333; 
+    const RED_BOTTOM = 0xee2222; 
+    const RED_INNER  = 0xaa1a1a; 
 
     function layeredMat(hex, extra={}) {
       return new THREE.MeshPhysicalMaterial({
@@ -343,7 +438,7 @@
         roughness: 0.2,
         metalness: 0.0,
         transparent: true,
-        opacity: 0.44, /* Kept (Was 0.34) */       
+        opacity: 0.44,       
         transmission: 0.0,
         ior: 1.45,
         clearcoat: 0.6,
@@ -356,15 +451,15 @@
     }
     const matTopOuter = layeredMat(RED_TOP);
     const matBotOuter = layeredMat(RED_BOTTOM);
-    const matInner    = layeredMat(RED_INNER, { opacity: 0.50 }); /* Kept (Was 0.40) */
+    const matInner    = layeredMat(RED_INNER, { opacity: 0.50 }); 
 
     // ---------- Capsule geometry (hollow + rounded lips + NO overlap) ----------
     const rTop = 1.20;     
-    const rBot = 1.20;     /* Kept */
+    const rBot = 1.20;     
     const wall = 0.08;     
     const halfCyl = 2.0;
     const openDistance = 2.8;
-    const sleeveDepth = 0.0; /* Kept */
+    const sleeveDepth = 0.0; 
 
     const topGroup = new THREE.Group();
     const botGroup = new THREE.Group();
@@ -384,7 +479,6 @@
     const topInnerHem = new THREE.Mesh(new THREE.SphereGeometry(rTop-wall, segs, 48, 0, Math.PI*2, 0, Math.PI/2), matInner);
     topInnerHem.position.y = halfCyl; topGroup.add(topInnerHem);
     
-    /* Kept: Use matTopOuter to hide the seam */
     const lipTop = new THREE.Mesh(new THREE.TorusGeometry(rTop - wall*0.5, wall*0.46, 14, 88), matTopOuter); 
     lipTop.rotation.x = Math.PI/2; lipTop.position.y = 0.0 + 0.001; topGroup.add(lipTop);
 
@@ -398,7 +492,6 @@
     const botInnerHem = new THREE.Mesh(new THREE.SphereGeometry(rBot-wall, segs, 48, 0, Math.PI*2, Math.PI/2, Math.PI/2), matInner);
     botInnerHem.position.y = -halfCyl; botGroup.add(botInnerHem);
     
-    /* Kept: Use matBotOuter to hide the seam */
     const lipBot = new THREE.Mesh(new THREE.TorusGeometry(rBot - wall*0.5, wall*0.46, 14, 88), matBotOuter);
     lipBot.rotation.x = Math.PI/2; lipBot.position.y = -0.0 - 0.001; botGroup.add(lipBot);
 
@@ -549,7 +642,7 @@
         }
       }
 
-      // Particle dynamics
+      // Particle dynamics — (Unchanged)
       const drag = 0.986;
       const inFlow   = (t > openDelay) && (t < (openDelay+openTime+flowTime));
       const suction  = (t >= (openDelay+openTime+flowTime));
@@ -577,9 +670,6 @@
             velocities[ix+1] += (toY/dist)*s;
             velocities[ix+2] += (toZ/dist)*s;
 
-            /* CHANGED: Reverted to old effect. 
-               Particles are only killed if they reach the center. 
-            */
             if (dist < 0.12){ 
               life[i] = 1;
               velocities[ix]=velocities[ix+1]=velocities[ix+2]=0;
@@ -595,9 +685,6 @@
           velocities[ix+2] += (Math.random()-0.5)*0.06*dt;
           velocities[ix]*=drag; velocities[ix+1]*=drag; velocities[ix+2]*=drag;
 
-          /* CHANGED: Reverted.
-             This line handles particles fading out during the "flow" phase. 
-          */
           if (!suction){ life[i] += dt*0.18; if (life[i] >= 1) life[i]=1; } 
         }
       }
