@@ -18,21 +18,21 @@
       background-position: center;
       background-attachment: fixed;
       
-      color: #fff; /* Default text color to white */
+      color: #fff;
       font-family: 'Inter', sans-serif;
       overflow-x: hidden;
       position: relative; 
     }
 
-    /* --- "Liquid Glass" Style (Applied to main layout container) --- */
+    /* --- "Liquid Glass" Style (Polished) --- */
     .glass-container {
       border-radius: 25px;
       overflow: hidden;
-      background: rgba(0, 0, 0, 0.25);
+      background: rgba(0, 0, 0, 0.3); 
       box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
     }
 
     /* ---------- LAYOUT WRAPPER (FULLSCREEN) ---------- */
@@ -43,7 +43,7 @@
       align-items: center;
       width: 100%;
       min-height: 100vh;
-      padding: 2rem; /* Padding for mobile */
+      padding: 2rem;
       box-sizing: border-box;
       position: relative;
       z-index: 1;
@@ -52,9 +52,9 @@
     /* This is the main glass container */
     .layout-container {
       display: flex;
-      flex-direction: row; /* Row for desktop */
+      flex-direction: row;
       width: 100%;
-      max-width: 1200px;
+      max-width: 1350px; /* Wider */
       min-height: 600px; 
       padding: 3.5rem;
       gap: 3rem; 
@@ -94,6 +94,7 @@
       color: #eee;
       max-width: 45ch;
       margin-bottom: 1.5rem;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.3);
     }
 
     .disclaimer {
@@ -102,15 +103,16 @@
       color: #ccc;
       margin-top: 1.5rem;
       max-width: 45ch;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.3);
     }
 
-    /* ---------- STAT BOX ---------- */
+    /* ---------- STAT BOX (Polished) ---------- */
     .stat-box-container {
       padding: 1rem 1.25rem;
       text-align: left;
       border-radius: 15px;
-      background: rgba(0, 0, 0, 0.2);
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: rgba(0, 0, 0, 0.25);
+      border: 1px solid rgba(255, 255, 255, 0.15);
       display: flex;
       align-items: center;
       justify-content: flex-start;
@@ -231,10 +233,11 @@
       line-height: 1.5;
       color: #ccc;
       margin: 0;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.3);
     }
 
 
-    /* ---------- Mobile Optimization (NEW LAYOUT) ---------- */
+    /* ---------- Mobile Optimization (FIXED 50/50 LAYOUT) ---------- */
     @media (max-width: 900px) {
       .main-wrapper {
         padding: 1rem;
@@ -278,20 +281,20 @@
         order: 2; /* Animation area comes second */
         position: static;
         
-        /* NEW: Mobile Grid Layout (like Seed screenshot) */
+        /* CHANGED: 50/50 split */
         display: grid;
-        grid-template-columns: 1fr auto; /* Text | Anim */
+        grid-template-columns: 1fr 1fr; /* Left half | Right half */
         grid-template-rows: 1fr 1fr; /* Two rows */
-        gap: 0 1rem;
+        gap: 0 0.5rem; /* Tighter gap */
         align-items: center;
         min-height: 350px;
       }
 
       .animation-container {
-        grid-column: 2;
+        grid-column: 2; /* Right half */
         grid-row: 1 / span 2; /* Span both rows */
         position: relative;
-        width: 100%; /* Fill its grid space */
+        width: 100%; /* Fill its 50% column */
         min-height: 350px;
         margin: 0;
       }
@@ -301,24 +304,22 @@
         display: flex;
         width: 100%;
         gap: 0.5rem;
-        
-        /* NEW: Pointing to the right */
-        flex-direction: row;
-        text-align: left;
+        align-items: center;
+        /* CHANGED: Justify to the end (right) */
+        justify-content: flex-end;
       }
       
       #label-outer {
-        grid-column: 1;
+        grid-column: 1; /* Left half */
         grid-row: 1;
         align-self: end; /* Align to bottom of its grid cell */
       }
       
       #label-inner {
-        grid-column: 1;
+        grid-column: 1; /* Left half */
         grid-row: 2;
         align-self: start; /* Align to top of its grid cell */
-        flex-direction: row; /* Override desktop reverse */
-        text-align: left; /* Override desktop right */
+        flex-direction: row; 
       }
 
       .label-line {
@@ -327,7 +328,9 @@
       }
       
       .label-text {
-        order: 1;
+        order: 1; /* Text is on the left */
+        /* CHANGED: Align text to the right */
+        text-align: right;
       }
     }
   </style>
@@ -420,7 +423,7 @@
     observer.observe(counterElement);
 
     // =================================================================
-    // START: ANIMATION CODE (TYPOS FIXED)
+    // START: ANIMATION CODE (Unchanged from working version)
     // =================================================================
 
     // ---------- Renderer ----------
@@ -669,7 +672,7 @@
         }
       }
 
-      // Particle dynamics — (TYPOS FIXED)
+      // Particle dynamics — (Unchanged)
       const drag = 0.986;
       const inFlow   = (t > openDelay) && (t < (openDelay+openTime+flowTime));
       const suction  = (t >= (openDelay+openTime+flowTime));
@@ -682,8 +685,8 @@
           let x=positions[ix], y=positions[ix+1], z=positions[ix+2];
 
           const rXZ = Math.max(0.0001, Math.hypot(x,z));
-          const tx = (-z / rXZ); /* <-- FIXED (was RXZ) */
-          const tz = ( x / rXZ); /* <-- FIXED (was RXZ) */
+          const tx = (-z / rXZ);
+          const tz = ( x / rXZ);
           const swirl = swirlGain*(0.85 + 0.15*Math.random());
           velocities[ix]   += tx*swirl*dt;
           velocities[ix+2] += tz*swirl*dt;
@@ -708,7 +711,7 @@
           positions[ix+1] += velocities[ix+1]*dt;
           positions[ix+2] += velocities[ix+2]*dt;
           velocities[ix]   += (Math.random()-0.5)*0.06*dt;
-          velocities[ix+1] += (Math.random()-0.5)*0.05*dt; /* <-- FIXED (was Math.Doma) */
+          velocities[ix+1] += (Math.random()-0.5)*0.05*dt; 
           velocities[ix+2] += (Math.random()-0.5)*0.06*dt;
           velocities[ix]*=drag; velocities[ix+1]*=drag; velocities[ix+2]*=drag;
 
