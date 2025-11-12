@@ -54,8 +54,7 @@
       display: flex;
       flex-direction: row;
       width: 100%;
-      /* CHANGED: Made even wider */
-      max-width: 1500px; 
+      max-width: 1500px; /* Wider */
       min-height: 600px; 
       padding: 3.5rem;
       gap: 3rem; 
@@ -238,7 +237,7 @@
     }
 
 
-    /* ---------- Mobile Optimization (FIXED 50/50 LAYOUT) ---------- */
+    /* ---------- Mobile Optimization (NEW LAYOUT) ---------- */
     @media (max-width: 900px) {
       .main-wrapper {
         padding: 1rem;
@@ -254,10 +253,15 @@
         max-width: 100%;
       }
 
+      /* CHANGED: Use display:contents to re-order children */
       .left-content-column {
         flex: none;
-        order: 1; /* Text content (header, stat, disclaimer) comes first */
-        text-align: center;
+        display: contents; /* Allows children to be re-ordered */
+      }
+      
+      .text-header {
+        order: 1; /* Header first */
+        text-align: left; /* Text left-aligned */
       }
       
       .text-header p {
@@ -265,28 +269,37 @@
       }
 
       .stat-box-container {
-        flex-direction: column;
-        gap: 0.75rem;
+        order: 3; /* Stat box third */
         max-width: 100%;
-        align-items: center;
         margin-top: 1.5rem;
+        /* Keep flex, but align text left */
+        flex-direction: row;
+        align-items: center;
       }
       
-      .stat-box-value { margin-left: 0; }
-      .disclaimer { margin: 1rem auto 0 auto; }
+      .stat-box-text p {
+        text-align: left; /* Text left-aligned */
+      }
+      
+      .stat-box-value { margin-left: auto; }
+      
+      .disclaimer { 
+        order: 4; /* Disclaimer last */
+        margin: 1rem 0 0 0; 
+        text-align: left; /* Text left-aligned */
+      }
 
 
-      /* --- NEW Mobile Animation Area --- */
+      /* --- Mobile Animation Area --- */
       .right-content-column {
         flex: none;
-        order: 2; /* Animation area comes second */
+        order: 2; /* Animation area second */
         position: static;
         
         display: grid;
         grid-template-columns: 1fr 1fr; /* Left half | Right half */
         grid-template-rows: 1fr 1fr; /* Two rows */
-        /* CHANGED: Added vertical gap for spacing */
-        gap: 1.5rem 0.5rem; 
+        gap: 1.5rem 0.5rem; /* Vertical gap for spacing */
         align-items: center;
         min-height: 350px;
       }
@@ -343,7 +356,7 @@
         <div class="text-header">
           <span class="tech-label">REJUVENATION TECHNOLOGY</span>
           <h1>The Power of Deer Placenta</h1>
-          <p>Discover the rejuvenating properties of one of nature's most potent ingredients, rich in nutrients and growth factors that support cellular regeneration.</p>
+          <p>Rich in nutrients and growth factors, our potent, natural formula supports cellular regeneration.</p>
         </div>
         
         <div class="stat-box-container">
