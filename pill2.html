@@ -11,11 +11,6 @@
   
   <style>
     /* --- KEYFRAMES FOR ANIMATIONS --- */
-    @keyframes shimmer {
-      0% { background-position: -200% 0; }
-      100% { background-position: 200% 0; }
-    }
-    
     @keyframes dot-wave {
       0% { background-position: 0 0; }
       100% { background-position: 6px 0; } /* 6px = 3px dot + 3px gap */
@@ -24,8 +19,7 @@
     html, body {
       height: 100%;
       margin: 0;
-      /* CHANGED: New background image */
-      background-image: url('https://4kwallpapers.com/images/wallpapers/fiordland-new-zealand-sunrise-mountain-view-mountain-range-3840x2160-4255.jpg');
+      background-image: url('https://img.freepik.com/premium-photo/lake-tekapo-new-zealand-landscape-with-lake-flowers-new-zealand_1028938-177590.jpg');
       background-size: cover;
       background-position: center;
       background-attachment: fixed;
@@ -66,7 +60,7 @@
       display: flex;
       flex-direction: row;
       width: 100%;
-      max-width: 1200px; /* Reverted to original width */
+      max-width: 1200px; /* Original width */
       min-height: 600px; 
       padding: 3.5rem;
       gap: 3rem; 
@@ -86,8 +80,7 @@
       font-weight: 700;
       letter-spacing: 0.5px;
       text-transform: uppercase;
-      /* CHANGED: Match pill red */
-      color: #ff3333; 
+      color: #fff; 
       opacity: 0.9;
       margin-bottom: 0.5rem;
     }
@@ -97,15 +90,7 @@
       font-weight: 800;
       margin-bottom: 1.5rem;
       line-height: 1.2;
-      
-      /* CHANGED: Shimmer effect */
-      background: linear-gradient(90deg, #ff3333 0%, #ff9999 50%, #ff3333 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      text-fill-color: transparent;
-      background-size: 200% auto;
-      animation: shimmer 4s linear infinite;
+      color: #fff;
     }
 
     .text-header p {
@@ -168,15 +153,7 @@
       font-size: 2.5rem;
       font-weight: 800;
       line-height: 1;
-      
-      /* CHANGED: Shimmer effect */
-      background: linear-gradient(90deg, #ff3333 0%, #ff9999 50%, #ff3333 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      text-fill-color: transparent;
-      background-size: 200% auto;
-      animation: shimmer 4s linear infinite;
+      color: #ff3333;
     }
     
     .stat-box-value span.multiplier-unit {
@@ -246,7 +223,7 @@
         transparent 3px, 
         transparent 6px
       );
-      /* CHANGED: Added dot wave animation */
+      /* Kept dot wave animation */
       animation: dot-wave 1s linear infinite;
     }
     
@@ -561,7 +538,7 @@
     const botInnerCyl = new THREE.Mesh(new THREE.CylinderGeometry(rBot-wall, rBot-wall, halfCyl, segs, 1, true), matInner);
     botInnerCyl.position.y = -halfCyl/2; botGroup.add(botInnerCyl);
     const botInnerHem = new THREE.Mesh(new THREE.SphereGeometry(rBot-wall, segs, 48, 0, Math.PI*2, Math.PI/2, Math.PI/2), matInner);
-    botInnerHem.position.y = -halfCyl; botGroup.add(botInnerHem);
+    botInnerHem.position.y = -halfCyl; botGroup.add(botInnerCyl);
     
     const lipBot = new THREE.Mesh(new THREE.TorusGeometry(rBot - wall*0.5, wall*0.46, 14, 88), matBotOuter);
     lipBot.rotation.x = Math.PI/2; lipBot.position.y = -0.0 - 0.001; botGroup.add(lipBot);
@@ -606,7 +583,8 @@
     pGeo.setAttribute('aLife', new THREE.BufferAttribute(life, 1));
 
     const pMat = new THREE.PointsMaterial({
-      color: 0x7A1C1C,
+      /* CHANGED: Back to original dark red */
+      color: 0x7A1C1C, 
       size: 0.05,
       sizeAttenuation: true,
       transparent: true,
