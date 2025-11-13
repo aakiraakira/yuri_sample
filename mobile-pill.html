@@ -19,7 +19,7 @@
     html, body {
       height: 100%;
       margin: 0;
-      background-image: url('https://img.freepik.com/premium-photo/lake-tekapo-new-zealand-landscape-with-lake-flowers-new-zealand_1028938-177590.jpg');
+      background-image: url('https://img.freepik.com/free-photo/white-brush-stroke-texture-background_53876-132775.jpg?semt=ais_hybrid&w=740&q=80');
       background-size: cover;
       background-position: center;
       background-attachment: fixed;
@@ -260,7 +260,8 @@
       width: 100%;
       /* --- CHANGE: Made line thicker --- */
       height: 2px;
-      background-color: rgba(255, 255, 255, 0.5); /* Solid line */
+      /* --- CHANGE: Made line solid white --- */
+      background-color: #fff; /* Solid line */
       /* --- CHANGE: Increased bottom margin for spacing --- */
       margin: 0.75rem 0 1.25rem 0; 
       position: relative; /* For the dot */
@@ -274,7 +275,8 @@
       /* --- CHANGE: Made dot slightly larger --- */
       width: 6px; /* Dot size */
       height: 6px; /* Dot size */
-      background-color: rgba(255, 255, 255, 0.5); /* Dot color */
+      /* --- CHANGE: Made dot solid white --- */
+      background-color: #fff; /* Dot color */
       border-radius: 50%;
       transform: translateY(-50%);
     }
@@ -443,7 +445,6 @@
         <div class="text-header">
           <span class="tech-label">REJUVENATION TECHNOLOGY</span>
           <h1>The Power of Deer Placenta</h1>
-          <p>Rich in nutrients and growth factors, our potent, natural formula supports cellular regeneration.</p>
         </div>
         
         <div class="stat-box-container">
@@ -452,9 +453,9 @@
             <p class="label">Cellular Regeneration</p>
           </div>
           <div class="stat-box-value">
-            <span id="counter">0</span><span class="multiplier-unit">X</span>
-            <!-- --- NEW: Added icon --- -->
+            <!-- --- CHANGE: Moved icon before text --- -->
             <div class="up-arrow-icon"></div>
+            <span id="counter">0</span><span class="multiplier-unit">X</span>
           </div>
         </div>
 
