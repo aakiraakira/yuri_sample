@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Deer Placenta Animation</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&family=Poppins:wght@500;600&display=swap" rel="stylesheet">
+  
+  <style>
+    /* --- KEYFRAMES FOR ANIMATIONS --- */
+    @keyframes dot-wave {
+      0% { background-position: 0 0; }
+      100% { background-position: 6px 0; } /* 6px = 3px dot + 3px gap */
+    }
+  
+    html, body {
+      height: 100%;
+      margin: 0;
+      background-image: url('https://img.freepik.com/premium-photo/lake-tekapo-new-zealand-landscape-with-lake-flowers-new-zealand_1028938-177590.jpg');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+      position: relative; 
+    }
+
+    /* --- "Liquid Glass" Style (Polished) --- */
+    .glass-container {
+      border-radius: 25px;
+      overflow: hidden;
+      background: rgba(0, 0, 0, 0.3); 
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    /* ---------- LAYOUT WRAPPER (FULLSCREEN) ---------- */
+    .main-wrapper {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      min-height: 100vh;
+      padding: 2rem;
+      box-sizing: border-box;
+      position: relative;
+      z-index: 1;
+    }
+    
+    /* This is the main glass container */
+    .layout-container {
+      display: flex;
+      flex-direction: row;
+      width: 100%;
+      max-width: 1200px; /* Original width */
+      min-height: 600px; 
+      padding: 3.5rem;
+      gap: 3rem; 
+      box-sizing: border-box; 
+    }
+
+    /* ---------- LEFT COLUMN (TEXT) ---------- */
+    .left-content-column {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      /* --- CHANGE: Moved content to the top --- */
+      justify-content: flex-start;
+      padding-top: 4rem;
+    }
+    
+    .tech-label {
+      font-size: 0.75rem;
+      /* --- CHANGE: Lighter font weight --- */
+      font-weight: 400;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: #fff; 
+      opacity: 0.9;
+      margin-bottom: 0.5rem;
+    }
+
+    .text-header h1 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 2.5rem;
+      /* --- CHANGE: Lighter font weight --- */
+      font-weight: 500; 
+      margin-bottom: 1.5rem;
+      line-height: 1.2;
+      color: #fff;
+    }
+
+    .text-header p {
+      font-size: 1.05rem;
+      line-height: 1.7;
+      color: #eee;
+      max-width: 45ch;
+      margin-bottom: 1.5rem;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+    }
+
+    .disclaimer {
+      font-size: 0.75rem;
+      line-height: 1.5;
+      color: #ccc;
+      margin-top: 1.5rem;
+      max-width: 45ch;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+    }
+
+    /* ---------- STAT BOX (Polished) ---------- */
+    .stat-box-container {
+      padding: 1rem 1.25rem;
+      text-align: left;
+      border-radius: 15px;
+      background: rgba(0, 0, 0, 0.25);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 1rem;
+      max-width: 400px;
+      margin-top: 1.5rem; /* Added margin for spacing from text */
+    }
+    
+    .stat-box-label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #c00000;
+      background: rgba(255, 255, 255, 0.9);
+      padding: 0.3rem 0.5rem;
+      border-radius: 5px;
+    }
+
+    .stat-box-text p {
+      font-size: 1rem;
+      color: #eee;
+      margin: 0;
+      line-height: 1.3;
+      font-weight: 500;
+    }
+    
+    .stat-box-value {
+      display: flex;
+      /* --- CHANGE: Align center for icon --- */
+      align-items: center;
+      /* --- CHANGE: Increased gap for icon --- */
+      gap: 0.5rem;
+      margin-left: auto;
+    }
+    
+    .stat-box-value span#counter {
+      font-size: 2.5rem;
+      font-weight: 800;
+      line-height: 1;
+      /* --- CHANGE: Color to white --- */
+      color: #ffffff;
+    }
+    
+    .stat-box-value span.multiplier-unit {
+      font-size: 1.75rem;
+      font-weight: 700;
+      /* --- CHANGE: Color to white --- */
+      color: #ffffff;
+    }
+
+    /* --- NEW: Up arrow icon styles --- */
+    .up-arrow-icon {
+      width: 24px;
+      height: 24px;
+      background-color: #ffffff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      flex-shrink: 0; /* Prevent shrinking */
+    }
+    
+    .up-arrow-icon::after {
+      content: '';
+      width: 0;
+      height: 0;
+      border-left: 6px solid transparent;
+      border-right: 6px solid transparent;
+      border-bottom: 8px solid #c00000; /* Red color from label */
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -60%); /* Center and shift up */
+    }
+
+
+    /* ---------- RIGHT COLUMN (ANIMATION) ---------- */
+    .right-content-column {
+      flex: 1.4;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .animation-container {
+      position: relative; 
+      min-height: 400px; 
+      width: 200px;
+      margin: 0 auto;
+    }
+
+    #scene {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      background: transparent;
+      pointer-events: none;
+    }
+    
+    /* ---------- ANIMATION LABELS (DESKTOP) ---------- */
+    .label-group {
+      position: absolute; /* Absolute on desktop */
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      width: 200px;
+    }
+    
+    /* Staggered vertical position */
+    #label-outer {
+      top: 25%;
+      right: 0;
+      flex-direction: row; 
+      text-align: left;
+    }
+    
+    #label-inner {
+      top: 65%; /* Lower */
+      left: 0;
+      flex-direction: row-reverse; 
+      text-align: right;
+    }
+    
+    .label-line-desktop {
+      /* UPDATED: Hide the old dashed line */
+      display: none;
+    }
+    
+    /* This line is for mobile, but we now show it everywhere */
+    .label-line-mobile {
+      /* UPDATED: Show this line style by default */
+      display: block;
+      width: 100%;
+      /* --- CHANGE: Made line thicker --- */
+      height: 2px;
+      background-color: rgba(255, 255, 255, 0.5); /* Solid line */
+      /* --- CHANGE: Increased bottom margin for spacing --- */
+      margin: 0.75rem 0 1.25rem 0; 
+      position: relative; /* For the dot */
+    }
+    
+    .label-line-mobile::after {
+      content: '';
+      position: absolute;
+      right: 0;
+      top: 50%;
+      /* --- CHANGE: Made dot slightly larger --- */
+      width: 6px; /* Dot size */
+      height: 6px; /* Dot size */
+      background-color: rgba(255, 255, 255, 0.5); /* Dot color */
+      border-radius: 50%;
+      transform: translateY(-50%);
+    }
+
+    .label-text h3 {
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: #fff;
+      margin: 0 0 0.25rem 0;
+    }
+    
+    .label-text p {
+      font-size: 0.8rem;
+      line-height: 1.5;
+      color: #ccc;
+      margin: 0;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+    }
+
+
+    /* ========================================================= */
+    /* ---------- Mobile Optimization (CORRECTED LAYOUT) ---------- */
+    /* ========================================================= */
+    @media (max-width: 900px) {
+      .main-wrapper {
+        padding: 1rem;
+        min-height: 100vh;
+      }
+      
+      .layout-container {
+        flex-direction: column; /* Glass box is single column */
+        padding: 2rem 1.5rem;
+        gap: 1.5rem; /* Gap between header, anim, stat box */
+        min-height: 0;
+        width: 100%;
+        max-width: 100%;
+      }
+
+      .left-content-column {
+        flex: none;
+        display: contents; 
+        /* Reset padding for mobile */
+        padding-top: 0;
+      }
+      
+      .text-header {
+        order: 1; 
+        text-align: left; 
+      }
+
+      .text-header h1 {
+        font-size: 2.1rem;
+        line-height: 1.25;
+      }
+      
+      .text-header p {
+        max-width: 100%;
+      }
+
+      .stat-box-container {
+        order: 3; 
+        max-width: 100%;
+        margin-top: 1.5rem;
+        flex-direction: row;
+        align-items: center;
+      }
+      
+      .stat-box-label {
+        font-size: 0.9rem;
+        padding: 0.5rem 0.8rem;
+      }
+      
+      .stat-box-text p {
+        text-align: left; 
+      }
+      
+      .stat-box-value { margin-left: auto; }
+      
+      .disclaimer { 
+        order: 4; 
+        margin: 1rem 0 0 0; 
+        text-align: left; 
+      }
+
+
+      /* --- Mobile Animation Area (GRID LAYOUT) --- */
+      .right-content-column {
+        flex: none;
+        order: 2; 
+        position: static;
+        
+        display: grid;
+        grid-template-columns: 1fr 1fr; /* Left half | Right half */
+        grid-template-rows: auto auto; /* Two rows, content height */
+        gap: 1rem 0.5rem; 
+        align-items: center;
+        min-height: 350px;
+      }
+
+      .animation-container {
+        grid-column: 2; /* Right half */
+        grid-row: 1 / span 2; /* Span both rows */
+        position: relative;
+        width: 100%; 
+        min-height: 350px;
+        margin: 0;
+      }
+
+      .label-group {
+        position: static; 
+        display: flex;
+        flex-direction: column; 
+        width: 100%;
+        gap: 0;
+        grid-column: 1; /* Left half */
+      }
+      
+      #label-outer {
+        grid-row: 1;
+        align-self: end; 
+        /* UPDATED: Removed border and padding */
+      }
+      
+      #label-inner {
+        grid-row: 2;
+        align-self: start; 
+        /* UPDATED: Removed padding-top */
+      }
+
+      .label-line-desktop {
+        display: none; /* This is redundant now but safe */
+      }
+      
+      /* --- UPDATED: Mobile line style --- */
+      .label-line-mobile {
+        /* CSS changes are now applied globally, so no override needed here */
+        /* 'display: block' is now the default, no change needed */
+      }
+      
+      /* (No changes needed to ::after pseudo-element) */
+      /* --- End of update --- */
+      
+      .label-text {
+        order: 1; 
+        text-align: left;
+      }
+      
+      .label-text h3 {
+        margin-bottom: 0; 
+      }
+      
+      .label-text p {
+        margin-top: 0; 
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="main-wrapper">
+
+    <main class="layout-container glass-container">
+      
+      <div class="left-content-column">
+        <div class="text-header">
+          <span class="tech-label">REJUVENATION TECHNOLOGY</span>
+          <h1>The Power of Deer Placenta</h1>
+          <p>Rich in nutrients and growth factors, our potent, natural formula supports cellular regeneration.</p>
+        </div>
+        
+        <div class="stat-box-container">
+          <div class="stat-box-label">PLACENTA</div>
+          <div class="stat-box-text">
+            <p class="label">Cellular Regeneration</p>
+          </div>
+          <div class="stat-box-value">
+            <span id="counter">0</span><span class="multiplier-unit">X</span>
+            <!-- --- NEW: Added icon --- -->
+            <div class="up-arrow-icon"></div>
+          </div>
+        </div>
+
+        <p class="disclaimer">*Based on the known properties of deer placenta growth factors and their role in cellular support.</p>
+      </div>
+  
+      <div class="right-content-column">
+        
+        <div class="label-group" id="label-outer">
+          <div class="label-text">
+            <div class="label-line-mobile"></div>
+            <h3>OUTER CAPSULE - FOR YOU</h3>
+            <p><br>Shields probiotics from stomach acid in the digestive tract.</p>
+          </div>
+        </div>
+
+        <div class="animation-container">
+          <div id="scene"></div>
+        </div>
+        
+        <div class="label-group" id="label-inner">
+          <div class="label-text">
+            <div class="label-line-mobile"></div>
+            <h3>INNER CAPSULE - FOR YOUR MICROBIOME</h3>
+            <p><br>Delivers 24 live strains of probiotics to the colon, where they're needed most.</p>
+          </div>
+        </div>
+      </div>
+  
+    </main>
+
+  </div> 
+  
+  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+  <script>
+  (() => {
+    // Counter animation logic
+    const counterElement = document.getElementById('counter');
+    let animationStarted = false;
+
+    const animateCounter = () => {
+      let currentNumber = 0;
+      const targetNumber = 30;
+      const duration = 2000; // 2 seconds
+      const interval = 50; // milliseconds
+
+      const increment = targetNumber / (duration / interval);
+
+      const timer = setInterval(() => {
+        currentNumber += increment;
+        if (currentNumber >= targetNumber) {
+          currentNumber = targetNumber;
+          clearInterval(timer);
+        }
+        counterElement.textContent = Math.floor(currentNumber);
+      }, interval);
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && !animationStarted) {
+          animateCounter();
+          animationStarted = true;
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.5 });
+
+    observer.observe(counterElement);
+
+    // =================================================================
+    // START: ANIMATION CODE (Unchanged)
+    // =================================================================
+
+    // ---------- Renderer ----------
+    const host = document.getElementById('scene');
+    const scene = new THREE.Scene();
+
+    const renderer = new THREE.WebGLRenderer({ antialias:true, alpha:true, powerPreference:'high-performance' });
+    renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+    renderer.setSize(host.clientWidth, host.clientHeight); // MOD: Use host size
+    renderer.setClearColor(0x000000, 0);
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.15;
+    renderer.physicallyCorrectLights = true;
+    host.appendChild(renderer.domElement);
+
+    // ---------- Camera ----------
+    const camera = new THREE.PerspectiveCamera(28, host.clientWidth/host.clientHeight, 0.1, 200); // MOD: Use host aspect
+    scene.add(camera);
+    
+    // --- CHANGE: Smaller margin to "zoom in" ---
+    function fitCameraToHeight(worldHeight, margin=0.95){
+      const h = worldHeight*margin;
+      const dist = (h*0.5)/Math.tan(THREE.MathUtils.degToRad(camera.fov*0.5));
+      camera.position.set(0, 0.25, dist);
+      camera.lookAt(0,0,0);
+      camera.updateProjectionMatrix();
+    }
+    
+    // ---------- Lights ----------
+    scene.add(new THREE.HemisphereLight(0xffffff, 0x141414, 0.7));
+    const key = new THREE.DirectionalLight(0xffffff, 1.25); key.position.set(2.6,3.8,6.3); scene.add(key);
+    const fill= new THREE.DirectionalLight(0xffffff, 0.55); fill.position.set(-3.6,1.2,3.4); scene.add(fill);
+    const rim = new THREE.DirectionalLight(0xffffff, 0.75); rim.position.set(-2.2,2.0,-5.6); scene.add(rim);
+
+    // ---------- Materials (EVEN BRIGHTER RED + 10% LESS TRANSPARENT) ----------
+    const RED_TOP    = 0xff3333; 
+    const RED_BOTTOM = 0xee2222; 
+    const RED_INNER  = 0xaa1a1a; 
+
+    function layeredMat(hex, extra={}) {
+      return new THREE.MeshPhysicalMaterial({
+        color: hex,
+        roughness: 0.2,
+        metalness: 0.0,
+        transparent: true,
+        opacity: 0.44,       
+        transmission: 0.0,
+        ior: 1.45,
+        clearcoat: 0.6,
+        clearcoatRoughness: 0.18,
+        reflectivity: 0.45,
+        side: THREE.DoubleSide,
+        depthWrite: false,    
+        ...extra
+      });
+    }
+    const matTopOuter = layeredMat(RED_TOP);
+    const matBotOuter = layeredMat(RED_BOTTOM);
+    const matInner    = layeredMat(RED_INNER, { opacity: 0.50 }); 
+
+    // ---------- Capsule geometry (hollow + rounded lips + NO overlap) ----------
+    const rTop = 1.20;     
+    const rBot = 1.20;     
+    const wall = 0.08;     
+    const halfCyl = 2.0;
+    const openDistance = 2.8;
+    const sleeveDepth = 0.0; 
+
+    const topGroup = new THREE.Group();
+    const botGroup = new THREE.Group();
+    botGroup.renderOrder = 0;
+    topGroup.renderOrder = 1;
+    scene.add(topGroup, botGroup);
+
+    const segs = 80;
+
+    // Top outer/inner + rounded lip
+    const topOuterCyl = new THREE.Mesh(new THREE.CylinderGeometry(rTop, rTop, halfCyl, segs, 1, true), matTopOuter);
+    topOuterCyl.position.y = halfCyl/2; topGroup.add(topOuterCyl);
+    const topOuterHem = new THREE.Mesh(new THREE.SphereGeometry(rTop, segs, 48, 0, Math.PI*2, 0, Math.PI/2), matTopOuter);
+    topOuterHem.position.y = halfCyl; topGroup.add(topOuterHem);
+    const topInnerCyl = new THREE.Mesh(new THREE.CylinderGeometry(rTop-wall, rTop-wall, halfCyl, segs, 1, true), matInner);
+    topInnerCyl.position.y = halfCyl/2; topGroup.add(topInnerCyl);
+    const topInnerHem = new THREE.Mesh(new THREE.SphereGeometry(rTop-wall, segs, 48, 0, Math.PI*2, 0, Math.PI/2), matInner);
+    topInnerHem.position.y = halfCyl; topGroup.add(topInnerHem);
+    
+    const lipTop = new THREE.Mesh(new THREE.TorusGeometry(rTop - wall*0.5, wall*0.46, 14, 88), matTopOuter); 
+    lipTop.rotation.x = Math.PI/2; lipTop.position.y = 0.0 + 0.001; topGroup.add(lipTop);
+
+    // Bottom outer/inner + rounded lip
+    const botOuterCyl = new THREE.Mesh(new THREE.CylinderGeometry(rBot, rBot, halfCyl, segs, 1, true), matBotOuter);
+    botOuterCyl.position.y = -halfCyl/2; botGroup.add(botOuterCyl);
+    const botOuterHem = new THREE.Mesh(new THREE.SphereGeometry(rBot, segs, 48, 0, Math.PI*2, Math.PI/2, Math.PI/2), matBotOuter);
+    botOuterHem.position.y = -halfCyl; botGroup.add(botOuterHem);
+    const botInnerCyl = new THREE.Mesh(new THREE.CylinderGeometry(rBot-wall, rBot-wall, halfCyl, segs, 1, true), matInner);
+    botInnerCyl.position.y = -halfCyl/2; botGroup.add(botInnerCyl);
+    const botInnerHem = new THREE.Mesh(new THREE.SphereGeometry(rBot-wall, segs, 48, 0, Math.PI*2, Math.PI/2, Math.PI/2), matInner);
+    botInnerHem.position.y = -halfCyl; botGroup.add(botInnerHem);
+    
+    const lipBot = new THREE.Mesh(new THREE.TorusGeometry(rBot - wall*0.5, wall*0.46, 14, 88), matBotOuter);
+    lipBot.rotation.x = Math.PI/2; lipBot.position.y = -0.0 - 0.001; botGroup.add(lipBot);
+
+    // Start CLOSED in flush pose (no overlap)
+    topGroup.position.y = -sleeveDepth/2;
+    botGroup.position.y =  sleeveDepth/2;
+
+    // Fit camera
+    const totalHeight = (halfCyl*2 + rTop*2) + openDistance*2 + 2.0;
+
+    function onResize() {
+      const width = host.clientWidth;
+      const height = host.clientHeight;
+
+      if (width === 0 || height === 0) return;
+
+      camera.aspect = width / height;
+      camera.updateProjectionMatrix();
+      renderer.setSize(width, height);
+      fitCameraToHeight(totalHeight);
+    }
+    
+    new ResizeObserver(onResize).observe(host);
+    onResize(); // Initial call to fit to container
+
+    // ---------- Particles (swirl + return) ----------
+    const particleCount = 12000;
+    const pGeo = new THREE.BufferGeometry();
+    const positions = new Float32Array(particleCount*3);
+    const velocities = new Float32Array(particleCount*3);
+    const life = new Float32Array(particleCount);
+
+    for (let i=0;i<particleCount;i++){
+      positions[i*3] = positions[i*3+1] = positions[i*3+2] = 0;
+      velocities[i*3] = velocities[i*3+1] = velocities[i*3+2] = 0;
+      life[i] = 1; // dead
+    }
+
+    pGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    pGeo.setAttribute('aLife', new THREE.BufferAttribute(life, 1));
+
+    const pMat = new THREE.PointsMaterial({
+      color: 0x7A1C1C, 
+      size: 0.05,
+      sizeAttenuation: true,
+      transparent: true,
+      opacity: 0.95,
+      depthWrite: false
+    });
+
+    const points = new THREE.Points(pGeo, pMat);
+    scene.add(points);
+
+    function spawnBurst(count, radius=0.06, speed=2.0){
+      let spawned = 0;
+      for (let i=0;i<particleCount && spawned<count;i++){
+        if (life[i] >= 1){
+          const u = Math.random(), v = Math.random();
+          const theta = 2*Math.PI*u;
+          const phi = Math.acos(2*v - 1);
+          const rr = radius*Math.cbrt(Math.random());
+          const x = rr*Math.sin(phi)*Math.cos(theta);
+          const y = rr*Math.cos(phi);
+          const z = rr*Math.sin(phi)*Math.sin(theta);
+          const dir = new THREE.Vector3(x, y*0.42, z).normalize();
+
+          positions[i*3]   = x;
+          positions[i*3+1] = y;
+          positions[i*3+2] = z;
+
+          const vmag = speed*(0.7+Math.random()*0.9);
+          velocities[i*3]   = dir.x*vmag;
+          velocities[i*3+1] = dir.y*vmag;
+          velocities[i*3+2] = dir.z*vmag;
+
+          life[i] = 0; spawned++;
+        }
+      }
+      pGeo.attributes.position.needsUpdate = true;
+      pGeo.attributes.aLife.needsUpdate = true;
+    }
+
+    // ---------- Timeline ----------
+    let playing = false, t = 0;
+
+    const openDelay = 0.8;
+    const openTime  = 2.2;  
+    const flowTime  = 3.0;  
+    const suckTime  = 2.2;  
+    const closeTime = 2.2;  
+    const totalTime = openDelay + openTime + flowTime + suckTime + closeTime + 0.5;
+
+    const smooth = x => (x<=0?0:x>=1?1:(x*x*x*(x*(x*6-15)+10))); // quintic
+
+    function reset(){
+      t = 0;
+      topGroup.position.y = -sleeveDepth/2;
+      botGroup.position.y =  sleeveDepth/2; 
+
+      for (let i=0;i<particleCount;i++){
+        life[i]=1;
+        velocities[i*3]=velocities[i*3+1]=velocities[i*3+2]=0;
+      }
+      pGeo.attributes.aLife.needsUpdate = true;
+      playing = false;
+    }
+    function play(){ reset(); playing = true; }
+
+    setTimeout(play, 400);
+
+    // ---------- Loop ----------
+    let last = performance.now();
+    function loop(now){
+      requestAnimationFrame(loop);
+      const dt = Math.min((now-last)/1000, 0.033);
+      last = now;
+
+      if (playing){
+        t += dt;
+
+        const tOpenStart = openDelay;
+        const tOpenEnd   = tOpenStart + openTime;
+        const tFlowEnd   = tOpenEnd + flowTime;
+        const tSuckEnd   = tFlowEnd + suckTime;
+        const tCloseEnd  = tSuckEnd + closeTime;
+
+        if (t >= tOpenStart){
+          const kO = smooth(Math.min((t - tOpenStart)/openTime, 1));
+          topGroup.position.y = (-sleeveDepth/2) + kO*(openDistance + sleeveDepth/2);
+          botGroup.position.y = ( sleeveDepth/2) - kO*(openDistance + sleeveDepth/2);
+        }
+
+        if (t > tOpenStart + 0.2 && t < tFlowEnd){
+          spawnBurst(520);
+        }
+
+        if (t > tFlowEnd){
+          const kC = smooth(Math.min((t - tFlowEnd)/closeTime, 1));
+          topGroup.position.y = openDistance*(1-kC) - (sleeveDepth/2)*kC;
+          botGroup.position.y = -openDistance*(1-kC) + (sleeveDepth/2)*kC;
+        }
+
+        if (t >= tCloseEnd || t >= totalTime) {
+          play(); // Auto-replay
+        }
+      }
+
+      // Particle dynamics — (Unchanged)
+      const drag = 0.986;
+      const inFlow   = (t > openDelay) && (t < (openDelay+openTime+flowTime));
+      const suction  = (t >= (openDelay+openTime+flowTime));
+      const swirlGain = inFlow ? 1.15 : 0.55;
+      const suctionGain = suction ? 2.6 : 0.0;
+
+      for (let i=0;i<particleCount;i++){
+        if (life[i] < 1){
+          const ix = i*3;
+          let x=positions[ix], y=positions[ix+1], z=positions[ix+2];
+
+          const rXZ = Math.max(0.0001, Math.hypot(x,z));
+          const tx = (-z / rXZ);
+          const tz = ( x / rXZ);
+          const swirl = swirlGain*(0.85 + 0.15*Math.random());
+          velocities[ix]   += tx*swirl*dt;
+          velocities[ix+2] += tz*swirl*dt;
+          velocities[ix+1] += -0.24*dt;
+
+          if (suction){
+            const toX=-x, toY=-y, toZ=-z;
+            const dist = Math.max(0.0001, Math.hypot(toX,toY,toZ));
+            const s = suctionGain*dt;
+            velocities[ix]   += (toX/dist)*s;
+            velocities[ix+1] += (toY/dist)*s;
+            velocities[ix+2] += (toZ/dist)*s;
+
+            if (dist < 0.12){ 
+              life[i] = 1;
+              velocities[ix]=velocities[ix+1]=velocities[ix+2]=0;
+              continue;
+            }
+          }
+
+          positions[ix]   += velocities[ix]*dt;
+          positions[ix+1] += velocities[ix+1]*dt;
+          positions[ix+2] += velocities[ix+2]*dt;
+          velocities[ix]   += (Math.random()-0.5)*0.06*dt;
+          velocities[ix+1] += (Math.random()-0.5)*0.05*dt; 
+          velocities[ix+2] += (Math.random()-0.5)*0.06*dt;
+          velocities[ix]*=drag; velocities[ix+1]*=drag; velocities[ix+2]*=drag;
+
+          if (!suction){ life[i] += dt*0.18; if (life[i] >= 1) life[i]=1; } 
+        }
+      }
+      pGeo.attributes.position.needsUpdate = true;
+
+      renderer.render(scene, camera);
+    }
+    loop(performance.now());
+    
+    // =================================================================
+    // END: ANIMATION CODE
+    // =================================================================
+
+  })();
+  </script>
+</body>
+</html>
