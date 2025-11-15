@@ -16,7 +16,7 @@
     
     <!-- 3. Custom Styles & Animations -->
     <style>
-        /* Define custom fonts for Tailwind */
+        /* --- Root Variables --- */
         :root {
             --font-poppins: 'Poppins', sans-serif;
             --font-inter: 'Inter', sans-serif;
@@ -25,18 +25,20 @@
             --color-brand-light: #fdedf0;
         }
 
+        /* --- Base & Typography --- */
         body {
             font-family: var(--font-inter);
-            background-color: #f8fafc; /* Bright theme bg */
+            background-color: #f8fafc;
+            /* Subtle gradient for the "glass" to sit on */
+            background-image: radial-gradient(circle at top, #ffffff 0%, #f0f4f8 100%);
+            min-height: 100vh;
         }
-
         .font-poppins { font-family: var(--font-poppins); }
         .font-satoshi { font-family: var(--font-satoshi); }
 
-        /* Custom accent color */
+        /* --- Colors --- */
         .text-brand { color: var(--color-brand); }
         .bg-brand { background-color: var(--color-brand); }
-        .bg-brand-light { background-color: var(--color-brand-light); }
         .border-brand { border-color: var(--color-brand); }
         
         /* Gradient text */
@@ -48,16 +50,39 @@
             text-fill-color: transparent;
         }
 
+        /* --- "Liquid Glass" Card Styles --- */
+        .glass-card {
+            background-color: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            box-shadow: 0 8px 24px 0 rgba(0, 0, 0, 0.05);
+            border-radius: 1rem; /* 16px */
+        }
+        
+        .glass-card-brand {
+            background-color: rgba(253, 237, 240, 0.85); /* 85% opacity of --color-brand-light */
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--color-brand);
+            box-shadow: 0 8px 24px 0 rgba(123, 2, 29, 0.1); /* Brand shadow */
+            border-radius: 1rem; /* 16px */
+        }
+
+        /* --- Animations & Transitions --- */
+
         /* Ingredient list hover effect */
         .ingredient-item {
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0.7; /* Make non-active items dimmer */
         }
         .ingredient-item:hover,
         .ingredient-item.active {
             background-color: white;
             color: var(--color-brand);
-            transform: translateX(10px);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            transform: translateX(10px) scale(1.02); /* Add slight scale */
+            opacity: 1; /* Full opacity */
+            box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.07);
         }
 
         /* Active ingredient image transition */
@@ -69,15 +94,15 @@
             opacity: 0.5;
         }
 
-        /* 3D Tilt Effect */
+        /* 3D Tilt Effect (Smoother) */
         .tilt-card {
             transform-style: preserve-3d;
-            transition: transform 0.1s linear;
+            transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
         /* Button Glow Animation */
         .button-glow {
-            animation: pulse-shadow 2s infinite;
+            animation: pulse-shadow 2.5s infinite;
         }
         @keyframes pulse-shadow {
             0% {
@@ -89,6 +114,16 @@
             100% {
                 box-shadow: 0 0 0 0 rgba(123, 2, 29, 0);
             }
+        }
+        
+        /* Page Load Fade-in Animation */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in-up {
+            opacity: 0; /* Start hidden */
+            animation: fadeInUp 0.7s ease-out forwards;
         }
         
         /* Custom scrollbar for ingredient list */
@@ -114,7 +149,7 @@
         <div class="container mx-auto max-w-7xl">
             
             <!-- Header -->
-            <header class="text-center mb-12 md:mb-16">
+            <header class="text-center mb-12 md:mb-16 fade-in-up">
                 <h1 class="font-poppins text-3xl md:text-5xl font-bold text-gray-900 mb-3">
                     The Price of Perfection
                 </h1>
@@ -127,11 +162,12 @@
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 md:gap-12">
 
                 <!-- Col 1: Ingredient List -->
-                <div class="lg:col-span-1 bg-white/60 backdrop-blur-sm rounded-2xl shadow-sm border border-gray-100 p-6">
+                <div class="lg:col-span-1 glass-card p-6 fade-in-up" style="animation-delay: 0.2s;">
                     <h3 class="font-poppins text-xl font-semibold text-gray-800 mb-4">
                         13 Potent Ingredients
                     </h3>
-                    <ul id="ingredient-list" class="space-y-2 h-[400px] md:h-[500px] lg:h-[600px] overflow-y-auto pr-2 ingredient-scroll">
+                    <!-- Added max-h for better mobile control -->
+                    <ul id="ingredient-list" class="space-y-2 max-h-[50vh] md:max-h-full lg:h-[600px] overflow-y-auto pr-2 ingredient-scroll">
                         <!-- Ingredient items will be injected by JS -->
                     </ul>
                 </div>
@@ -141,9 +177,9 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
 
                         <!-- Active Ingredient Display -->
-                        <div id="active-ingredient-card" class="bg-white rounded-2xl shadow-lg p-6 md:p-8 flex flex-col items-center justify-center text-center min-h-[300px] md:min-h-0 tilt-card">
+                        <div id="active-ingredient-card" class="glass-card p-6 md:p-8 flex flex-col items-center justify-center text-center min-h-[350px] md:min-h-0 tilt-card fade-in-up" style="animation-delay: 0.4s;">
                             <!-- Placeholder -->
-                            <div id="ingredient-placeholder" class="text-center">
+                            <div id="ingredient-placeholder" class="text-center transition-opacity duration-300">
                                 <svg class="w-16 h-16 text-gray-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                                 <p class="font-satoshi text-gray-500">
                                     Hover over an ingredient to see its details.
@@ -151,7 +187,7 @@
                             </div>
                             
                             <!-- Active Content (hidden by default) -->
-                            <div id="ingredient-content" class="hidden flex flex-col items-center">
+                            <div id="ingredient-content" class="hidden flex-col items-center transition-opacity duration-300">
                                 <img id="active-ingredient-image" src="" alt="" class="w-40 h-40 md:w-56 md:h-56 object-contain mb-5" 
                                      onerror="this.src='https://placehold.co/400x400/eeeeee/cccccc?text=Image+Error'">
                                 <h4 id="active-ingredient-name" class="font-poppins text-2xl font-bold text-gray-900"></h4>
@@ -160,10 +196,10 @@
                         </div>
 
                         <!-- Summary Cards -->
-                        <div class="space-y-8">
+                        <div class="space-y-8 fade-in-up" style="animation-delay: 0.6s;">
                             
                             <!-- Card 1: Total Cost -->
-                            <div class="bg-white rounded-2xl shadow-lg p-6 md:p-8 text-center tilt-card">
+                            <div class="glass-card p-6 md:p-8 text-center tilt-card">
                                 <h3 class="font-poppins text-lg font-semibold text-gray-700 mb-2">
                                     Cost of Individual Ingredients
                                 </h3>
@@ -175,8 +211,8 @@
                                 </p>
                             </div>
                             
-                            <!-- Card 2: Our Product -->
-                            <div class="bg-brand-light border-2 border-brand rounded-2xl shadow-lg p-6 md:p-8 text-center tilt-card">
+                            <!-- Card 2: Our Product (High-Converting CTA) -->
+                            <div class="glass-card-brand p-6 md:p-8 text-center tilt-card">
                                 <h3 class="font-poppins text-lg font-semibold text-brand mb-3">
                                     The All-in-One Solution
                                 </h3>
@@ -192,7 +228,7 @@
                                 <p class="font-satoshi text-gray-700 text-sm mb-5">
                                     Get the synergistic benefits of all 13 ingredients in one advanced formula.
                                 </p>
-                                <button class="bg-brand text-white font-poppins font-semibold py-3 px-8 rounded-full shadow-lg transition-transform duration-300 hover:scale-105 button-glow">
+                                <button class="bg-brand text-white font-poppins font-semibold py-3 px-8 rounded-full shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl button-glow">
                                     Discover Einnalab
                                 </button>
                             </div>
@@ -220,9 +256,10 @@
                 { name: 'Borage Oil', price: 33, image: 'https://einnalab.com/wp-content/uploads/2025/11/borage-oil.png' },
                 { name: 'Lycopene', price: 20, image: 'https://einnalab.com/wp-content/uploads/2025/11/lycopene.png' },
                 { name: 'Vitamin E', price: 26, image: 'https://einnalab.com/wp-content/uploads/2025/11/Vitamin-E.png' },
-                { name: 'Astaxanthin', price: 27, image: 'https://placehold.co/400x400/eeeeee/cccccc?text=Astaxanthin' },
-                { name: 'Flax Seed Oil', price: 26, image: 'https://placehold.co/400x400/eeeeee/cccccc?text=Flax+Seed+Oil' },
-                { name: 'Olive Oil', price: 20, image: 'https://placehold.co/400x400/eeeeee/cccccc?text=Olive+Oil' }
+                // Using placeholders for missing images
+                { name: 'Astaxanthin', price: 27, image: 'https://placehold.co/400x400/f0f0f0/cccccc?text=Astaxanthin' },
+                { name: 'Flax Seed Oil', price: 26, image: 'https://placehold.co/400x400/f0f0f0/cccccc?text=Flax+Seed+Oil' },
+                { name: 'Olive Oil', price: 20, image: 'https://placehold.co/400x400/f0f0f0/cccccc?text=Olive+Oil' }
             ];
 
             const totalCost = ingredients.reduce((sum, item) => sum + item.price, 0);
@@ -265,6 +302,7 @@
                     // Show content, hide placeholder
                     placeholderEl.style.display = 'none';
                     contentEl.style.display = 'flex';
+                    contentEl.style.opacity = '1';
 
                     // Add loading state for image
                     activeImageEl.classList.add('loading');
@@ -295,8 +333,12 @@
                 const step = (timestamp) => {
                     if (!startTime) startTime = timestamp;
                     const progress = Math.min((timestamp - startTime) / duration, 1);
-                    const currentVal = Math.floor(progress * (end - start) + start);
+                    // Ease-out quad easing function
+                    const easeOutProgress = progress * (2 - progress);
+                    const currentVal = Math.floor(easeOutProgress * (end - start) + start);
+                    
                     el.textContent = `$${currentVal}`;
+                    
                     if (progress < 1) {
                         window.requestAnimationFrame(step);
                     } else {
@@ -316,14 +358,14 @@
                     const x = e.clientX - rect.left - rect.width / 2;
                     const y = e.clientY - rect.top - rect.height / 2;
                     
-                    const rotateX = (y / (rect.height / 2)) * -5; // Max 5deg tilt
-                    const rotateY = (x / (rect.width / 2)) * 5;  // Max 5deg tilt
+                    const rotateX = (y / (rect.height / 2)) * -4; // Reduced max tilt for subtlety
+                    const rotateY = (x / (rect.width / 2)) * 4;
                     
-                    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+                    card.style.transform = `perspective(1500px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.03)`; // Increased perspective
                 });
                 
                 card.addEventListener('mouseleave', () => {
-                    card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
+                    card.style.transform = 'perspective(1500px) rotateX(0) rotateY(0) scale(1)';
                 });
             });
 
