@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The EiNNALAB Deer Placenta Formula | Incredible Value</title>
+    <meta name="description" content="Discover the advanced EiNNALAB formula. 13+ premium ingredients like NZ Marine Collagen in one blend, offering over $482 in value for just $140.">
+    
+    <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            /* Bright Theme Color Palette */
+            --bg-color: #f8f9fa;
+            --card-bg-color: #ffffff;
+            --text-color-dark: #212529;
+            --text-color-muted: #6c757d;
+            --brand-red: #7b021d;
+            --brand-red-light: #c9184a;
+            --link-color: var(--brand-red);
+            
+            /* Bright Theme Pill Colors */
+            --pill-bg: #ffffff;
+            --pill-bg-active: #ffffff;
+            --pill-border: #e9ecef;
+            --pill-border-active: rgba(123, 2, 29, 0.3);
+            --pill-icon-bg: #f1f3f5;
+            
+            /* Polished Effects */
+            --shadow-sm: 0 2px 10px rgba(0, 0, 0, 0.04);
+            --shadow-md: 0 5px 15px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.07);
+            
+            /* Font Stack */
+            --font-heading: 'Poppins', 'Inter', sans-serif;
+            --font-body: 'Satoshi', 'Inter', sans-serif;
+        }
+
+        /* --- Keyframes for Effects --- */
+        @keyframes aurora-spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        @keyframes gradient-pan {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        /* [1] NEW: Keyframe for slick button intro */
+        @keyframes fadeInSlick {
+            from { opacity: 0; transform: translateX(-50%) translateY(20px); }
+            to { opacity: 1; transform: translateX(-50%) translateY(0); }
+        }
+        
+        .gradient-text {
+            background: linear-gradient(90deg, var(--brand-red), var(--brand-red-light), var(--brand-red));
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+            animation: gradient-pan 5s ease infinite;
+        }
+
+        /* --- Base Styles --- */
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: var(--font-body);
+            background-color: var(--bg-color);
+            color: var(--text-color-dark);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* --- Product Spotlight Section --- */
+        .product-spotlight {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 100px 0;
+            overflow-x: hidden;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .spotlight-header {
+            max-width: 1200px;
+            margin: 0 auto 50px auto;
+            padding: 0 4vw;
+            box-sizing: border-box;
+        }
+
+        .spotlight-header h2 {
+            font-family: var(--font-heading);
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-weight: 700;
+            color: var(--text-color-dark);
+            margin: 0 0 10px 0;
+            line-height: 1.1;
+        }
+
+        .learn-more-link {
+            display: inline-flex;
+            align-items: center;
+            color: var(--link-color);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.1rem;
+            margin-top: 10px;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+        .learn-more-link:hover { color: var(--brand-red-light); }
+        .learn-more-link svg {
+            margin-left: 8px;
+            width: 20px;
+            height: 20px;
+            fill: var(--link-color);
+            transition: fill 0.3s ease;
+        }
+        .learn-more-link:hover svg { fill: var(--brand-red-light); }
+
+        /* --- Main Wrapper (Desktop: 2-col, Mobile: 1-col) --- */
+        .spotlight-wrapper {
+            display: grid;
+            grid-template-columns: 1fr; /* Mobile-first */
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 4vw;
+            box-sizing: border-box;
+            gap: 40px;
+        }
+        
+        /* --- Image Gallery (Sticky Column) --- */
+        .spotlight-gallery {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .spotlight-gallery .image-container {
+            width: 100%;
+            position: -webkit-sticky;
+            position: sticky;
+            top: 100px;
+            background: var(--card-bg-color);
+            border-radius: 24px;
+            border: 1px solid var(--pill-border);
+            padding: 20px;
+            box-sizing: border-box;
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+            isolation: isolate;
+            position: relative;
+        }
+        
+        .spotlight-gallery .image-container::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 150%;
+            padding-bottom: 150%;
+            z-index: -1;
+            background: radial-gradient(
+                circle at center,
+                rgba(123, 2, 29, 0.15),
+                rgba(255, 193, 7, 0.1),
+                rgba(255, 255, 255, 0) 70%
+            );
+            transform-origin: center;
+            transform: translateX(-50%) translateY(-50%);
+            filter: blur(100px);
+            opacity: 0.8;
+            animation: aurora-spin 20s linear infinite;
+        }
+
+
+        .spotlight-gallery img {
+            width: 100%;
+            height: auto;
+            max-height: 60vh;
+            object-fit: contain;
+            display: block;
+            border-radius: 12px;
+            transition: opacity 0.3s ease;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* --- Features List (Scrolling Column) --- */
+        .spotlight-features {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .feature-item {
+            background: var(--pill-bg);
+            border: 1px solid var(--pill-border);
+            border-radius: 20px;
+            transition: background 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .feature-header {
+            background: transparent;
+            border-radius: 20px;
+            padding: 15px 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            width: 100%;
+            border: none;
+            text-align: left;
+            box-sizing: border-box;
+            color: inherit;
+            font: inherit;
+        }
+        
+        .feature-item:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateY(-3px);
+        }
+        
+        .feature-item.active {
+            box-shadow: var(--shadow-md);
+            border-color: var(--pill-border-active);
+        }
+
+        .plus-icon {
+            flex-shrink: 0;
+            width: 28px;
+            height: 28px;
+            background: var(--pill-icon-bg);
+            color: var(--text-color-dark);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: 400;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), background 0.3s, color 0.3s;
+        }
+        
+        .feature-item.active .plus-icon {
+            transform: rotate(45deg);
+            background: var(--brand-red);
+            color: white;
+        }
+        
+        .value-icon {
+            flex-shrink: 0;
+            width: 28px;
+            height: 28px;
+            background: var(--pill-icon-bg);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s, color 0.3s;
+        }
+        
+        .feature-item#featureValue .plus-icon { display: none; }
+        .feature-item:not(#featureValue) .value-icon { display: none; }
+
+        .feature-item.active .value-icon {
+            background: var(--brand-red);
+            color: white;
+        }
+        .value-icon svg {
+            width: 16px;
+            height: 16px;
+            fill: var(--text-color-dark);
+            transition: fill 0.3s;
+        }
+        .feature-item.active .value-icon svg {
+            fill: white;
+        }
+
+
+        .feature-title {
+            color: var(--text-color-dark);
+            font-family: var(--font-heading);
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin: 0;
+            padding: 0;
+            line-height: 1.2;
+        }
+
+        .feature-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+                        padding 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .feature-item.active .feature-content {
+            max-height: 300px;
+            padding: 10px 25px 25px 25px; 
+        }
+        
+        .feature-content p {
+            margin: 0;
+            color: var(--text-color-muted);
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+        
+        .feature-content p b {
+            color: var(--text-color-dark);
+            font-weight: 600;
+        }
+
+        /* --- Desktop & Tablet View (2 Columns) --- */
+        @media (min-width: 768px) {
+            .spotlight-wrapper {
+                /* This creates the 2-column layout: Image on Left, Pills on Right */
+                grid-template-columns: 1fr 1fr;
+            }
+            .spotlight-gallery img {
+                max-height: 70vh;
+            }
+        }
+        
+        /* --- Mobile View: Horizontal Scroll, All Open --- */
+        @media (max-width: 767px) {
+            .spotlight-wrapper {
+                /* On mobile, stack them. Gallery first, then pills. */
+                display: flex;
+                flex-direction: column;
+                padding: 0;
+                gap: 20px;
+            }
+            .spotlight-header { padding: 0 4vw; }
+            .spotlight-gallery { padding: 0 4vw; }
+            .spotlight-gallery .image-container {
+                /* Image container sticks to the top */
+                position: -webkit-sticky;
+                position: sticky;
+                top: 20px;
+                z-index: 1;
+            }
+            .spotlight-features {
+                /* Pills scroll horizontally below the image */
+                flex-direction: row;
+                overflow-x: auto;
+                gap: 15px;
+                z-index: 2;
+                position: relative;
+                padding: 10px 4vw;
+                -ms-overflow-style: none;
+                scrollbar-width: none;
+            }
+            .spotlight-features::-webkit-scrollbar { display: none; }
+            .feature-item {
+                flex-shrink: 0;
+                width: 80vw;
+                max-width: 320px;
+                background: var(--card-bg-color);
+                border: 1px solid var(--pill-border);
+                border-radius: 20px;
+                scroll-snap-align: center;
+                box-shadow: var(--shadow-md);
+            }
+            .spotlight-features { scroll-snap-type: x mandatory; }
+            .feature-header { background: transparent; border: none; cursor: default; }
+            .feature-content { max-height: 400px; overflow: visible; padding: 15px 25px 25px 25px; }
+            .plus-icon { transform: rotate(45deg); background: var(--brand-red); color: white; }
+            .value-icon { background: var(--brand-red); color: white; }
+            .value-icon svg { fill: white; }
+            .plus-icon, .value-icon { width: 24px; height: 24px; font-size: 18px; }
+        }
+        
+        
+        /* [2] UPDATED: LIQUID GLASS BUTTON & POPUP STYLES */
+        
+        /* The Floating Button */
+        #costBreakdownButton {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 100;
+            background: rgba(20, 20, 20, 0.7);
+            color: #f5f5f5;
+            backdrop-filter: blur(15px) saturate(180%);
+            -webkit-backdrop-filter: blur(15px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 99px;
+            padding: 10px 12px 10px 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: var(--font-body);
+            font-weight: 500;
+            font-size: 1rem;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            
+            /* [NEW] Slick "appear" animation */
+            opacity: 0; /* Start hidden */
+            animation: fadeInSlick 0.5s ease-out 1s forwards; /* 1s delay */
+        }
+        
+        #costBreakdownButton:hover {
+            transform: translateX(-50%) translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .plus-icon-apple {
+            width: 28px;
+            height: 28px;
+            background: #007aff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+        .plus-icon-apple svg {
+            width: 18px;
+            height: 18px;
+            fill: white;
+        }
+
+        /* Popup Overlay */
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            display: flex;
+            align-items: flex-end; /* [NEW] Align to bottom */
+            justify-content: center;
+            padding: 20px 20px 0 20px; /* Add padding for small screens */
+            box-sizing: border-box;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s ease;
+        }
+        .popup-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Popup Content Box */
+        .popup-content {
+            background: var(--card-bg-color);
+            border-radius: 20px 20px 0 0; /* [NEW] Rounded top corners */
+            padding: 30px 35px;
+            max-width: 500px; /* Increased max-width */
+            width: 100%;
+            box-shadow: var(--shadow-lg);
+            position: relative;
+            
+            /* [NEW] "Rise from bottom" animation */
+            transform: translateY(50px);
+            opacity: 0;
+            transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.4s ease;
+        }
+        .popup-overlay.active .popup-content {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        .popup-content h3 {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            margin: 0 0 10px 0;
+            color: var(--text-color-dark);
+        }
+        .popup-content p {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: var(--text-color-muted);
+            margin: 0 0 25px 0;
+        }
+
+        .popup-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 30px;
+            height: 30px;
+            background: #f1f3f5;
+            border: none;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            line-height: 1;
+            color: var(--text-color-muted);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+        .popup-close:hover {
+            background: #e9ecef;
+            color: var(--text-color-dark);
+        }
+        
+        /* [3] NEW: Cost Breakdown List with Images */
+        .cost-list {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 20px 0;
+            max-height: 35vh; /* Max height for scrolling */
+            overflow-y: auto;
+            border-top: 1px solid var(--pill-border);
+        }
+        .cost-list li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--pill-border);
+        }
+        
+        /* Left side: Image + Text */
+        .cost-list li > div {
+            display: flex;
+            align-items: center;
+        }
+        
+        .popup-ingredient-img {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            object-fit: cover;
+            margin-right: 12px;
+            background: var(--bg-color); /* Light background for transparent images */
+            border: 1px solid var(--pill-border);
+        }
+        
+        .cost-list li .ingredient-name {
+            font-size: 0.95rem;
+            color: var(--text-color-muted);
+            font-weight: 500;
+        }
+
+        /* Right side: Price */
+        .cost-list li .ingredient-price {
+            font-weight: 600;
+            color: var(--text-color-dark);
+            flex-shrink: 0;
+            padding-left: 15px;
+        }
+        
+        /* Total Section */
+        .cost-total {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .cost-total span {
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--text-color-muted);
+        }
+        .cost-total span:last-child {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--text-color-dark);
+        }
+        
+        .cost-final-price {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: #fff5f5;
+            border-radius: 12px;
+            border: 1px solid #ffe0e0;
+        }
+        .cost-final-price span {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-color-dark);
+        }
+        .cost-final-price span:last-child {
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: var(--brand-red);
+        }
+
+
+    </style>
+</head>
+<body>
+
+    <section class="product-spotlight">
+        
+        <div class="spotlight-header">
+            <h2>The <span class="gradient-text">EINNALAB</span> Formula.</h2>
+            <a href="https://einnalab.com/" class="learn-more-link" target="_blank">
+                Explore The Product
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="20" height="20">
+                    <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
+                </svg>
+            </a>
+        </div>
+        
+        <div class="spotlight-wrapper">
+
+            <div class="spotlight-gallery">
+                <div class="image-container">
+                    <img id="productImage" 
+                         src="https://einnalab.com/wp-content/uploads/2025/07/EiNNALAB-Deer-Placenta-30000mg-DarkRed-TRANSPARENT-Front-scaled-e1751113638955.png" 
+                         alt="EiNNALAB Deer Placenta 30000mg bottle">
+                </div>
+            </div>
+
+            <div class="spotlight-features" id="featuresList">
+                
+                <div class="feature-item active" id="featureValue" data-feature-id="value">
+                    <button class="feature-header" data-image="https://einnalab.com/wp-content/uploads/2025/07/EiNNALAB-Deer-Placenta-30000mg-DarkRed-TRANSPARENT-Front-scaled-e1751113638955.png">
+                        <span class="value-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path d="M10 2a4 4 0 00-4 4v1H5a1 1 0 00-1 1v10a1 1 0 001 1h10a1 1 0 001-1V8a1 1 0 00-1-1h-1V6a4 4 0 00-4-4zm-2 5V6a2 2 0 114 0v1H8z"/></svg>
+                        </span>
+                        <span class="plus-icon">+</span>
+                        <h3 class="feature-title">EINNALAB <span class="gradient-text">Deer Placenta 30,000MG</span></h3>
+                    </button>
+                    <div class="feature-content">
+                        <p>Purchased separately, the 13 premium ingredients in this formula could cost over <b>$482 USD</b>. Get the complete, synergistic blend for only <b>$140 USD</b>.</p>
+                    </div>
+                </div>
+                
+                <div class="feature-item" data-feature-id="marine-collagen">
+                    <button class="feature-header" data-image="https://einnalab.com/wp-content/uploads/2025/11/Marine-Collagen-Extract.png">
+                        <span class="value-icon"></span><span class="plus-icon">+</span>
+                        <h3 class="feature-title">NZ Marine Collagen</h3>
+                    </button>
+                    <div class="feature-content">
+                        <p>A key component for <b>skin elasticity and hydration</b>. Sourced from New Zealand for premium purity.</p>
+                    </div>
+                </div>
+
+                <div class="feature-item" data-feature-id="grape-seed">
+                    <button class="feature-header" data-image="https://einnalab.com/wp-content/uploads/2025/11/Grape-Seed.png">
+                        <span class="value-icon"></span><span class="plus-icon">+</span>
+                        <h3 class="feature-title">Grape Seed Extract</h3>
+                    </button>
+                    <div class="feature-content">
+                        <p>A concentrated source of antioxidants that help protect against <b>oxidative stress</b> and support circulation.</p>
+                    </div>
+                </div>
+                
+                <div class="feature-item" data-feature-id="turmeric">
+                    <button class="feature-header" data-image="https://einnalab.com/wp-content/uploads/2025/11/Tumeric.png">
+                        <span class="value-icon"></span><span class="plus-icon">+</span>
+                        <h3 class="feature-title">Turmeric Root Extract</h3>
+                    </button>
+                    <div class="feature-content">
+                        <p>A revered ancient spice known for its powerful antioxidant and <b>joint-supporting</b> benefits.</p>
+                    </div>
+                </div>
+                
+                <div class="feature-item" data-feature-id="aloe-vera">
+                    <button class="feature-header" data-image="https://einnalab.com/wp-content/uploads/2025/11/Aloe-Vera-scaled.png">
+                        <span class="value-icon"></span><span class="plus-icon">+</span>
+                        <h3 class="feature-title">Aloe Vera Extract</h3>
+                    </button>
+                    <div class="feature-content">
+                        <p>Celebrated for its soothing properties and its role in supporting <b>digestive health</b> and skin vitality.</p>
+                    </div>
+                </div>
+
+                <div class="feature-item" data-feature-id="evening-primrose">
+                    <button class="feature-header" data-image="https://einnalab.com/wp-content/uploads/2025/11/Evening-Primrose-Oil.png">
+                        <span class="value-icon"></span><span class="plus-icon">+</span>
+                        <h3 class="feature-title">Evening Primrose Oil</h3>
+                    </button>
+                    <div class="feature-content">
+                        <p>Valued for its GLA content, traditionally used to support <b>hormonal balance</b> and skin health.</p>
+                    </div>
+                </div>
+
+                <div class="feature-item" data-feature-id="avocado-oil">
+                    <button class="feature-header" data-image="https://einnalab.com/wp-content/uploads/2025/11/Avocado-Oil.png">
+                        <span class="value-icon"></span><span class="plus-icon">+</span>
+                        <h3 class="feature-title">Avocado Oil</h3>
+                    </button>
+                    <div class="feature-content">
+                        <p>Rich in healthy fats and nutrients, <b>Avocado Oil</b> supports cardiovascular health and skin nourishment.</p>
+                    </div>
+                </div>
+                
+                <div class="feature-item" data-feature-id="borage-oil">
+                    <button class="feature-header" data-image="https://einnalab.com/wp-content/uploads/2025/11/borage-oil.png">
+                        <span class="value-icon"></span><span class="plus-icon">+</span>
+                        <h3 class="feature-title">Borage Oil</h3>
+                    </button>
+                    <div class="feature-content">
+                        <p>Another rich source of GLA, <b>Borage Oil</b> complements Evening Primrose Oil in promoting skin vitality.</p>
+                    </div>
+                </div>
+                
+                <div class="feature-item" data-feature-id="lycopene">
+                    <button class="feature-header" data-image="https://einnalab.com/wp-content/uploads/2025/11/lycopene.png">
+                        <span class="value-icon"></span><span class="plus-icon">+</span>
+                        <h3 class="feature-title">Lycopene</h3>
+                    </button>
+                    <div class="feature-content">
+                        <p>This natural pigment, found in red fruits, is a potent antioxidant that aids in <b>cellular protection</b>.</p>
+                    </div>
+                </div>
+                
+                <div class="feature-item" data-feature-id="vitamin-e">
+                    <button class="feature-header" data-image="httpsfs://einnalab.com/wp-content/uploads/2025/11/Vitamin-E.png">
+                        <span class="value-icon"></span><span class="plus-icon">+</span>
+                        <h3 class="feature-title">Vitamin E</h3>
+                    </button>
+                    <div class="feature-content">
+                        <p>A powerful antioxidant that supports the immune system and contributes to <b>healthy, vibrant skin</b>.</p>
+                    </div>
+                </div>
+                
+                <div class="feature-item" data-feature-id="astaxanthin">
+                    <button class="feature-header" data-image="https://einnalab.com/wp-content/uploads/2025/11/lycopene.png">
+                        <span class="value-icon"></span><span class="plus-icon">+</span>
+                        <h3 class="feature-title">Astaxanthin</h3>
+                    </button>
+                    <div class="feature-content">
+                        <p>A potent antioxidant from microalgae, known for its ability to support <b>skin health</b> and eye function.</p>
+                    </div>
+                </div>
+                
+                <div class="feature-item" data-feature-id="flax-seed">
+                    <button class="feature-header" data-image="https.://einnalab.com/wp-content/uploads/2025/11/borage-oil.png">
+                        <span class="value-icon"></span><span class="plus-icon">+</span>
+                        <h3 class="feature-title">Flax Seed Oil</h3>
+                    </button>
+                    <div class="feature-content">
+                        <p>A prime source of <b>Omega-3 fatty acids</b>, supporting heart health and providing anti-inflammatory benefits.</p>
+                    </div>
+                </div>
+                
+                <div class="feature-item" data-feature-id="olive-oil">
+                    <button class="feature-header" data-image="httpss://einnalab.com/wp-content/uploads/2025/11/Avocado-Oil.png">
+                        <span class="value-icon"></span><span class="plus-icon">+</span>
+                        <h3 class="feature-title">Olive Oil</h3>
+                    </button>
+                    <div class="feature-content">
+                        <p>Rich in monounsaturated fats and antioxidants, <b>Olive Oil</b> is a cornerstone of cardiovascular health.</p>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <button id="costBreakdownButton">
+        <span>Cost Breakdown</span>
+        <div class="plus-icon-apple">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 11h-6V5a1 1 0 10-2 0v6H5a1 1 0 100 2h6v6a1 1 0 102 0v-6h6a1 1 0 100-2z"/></svg>
+        </div>
+    </button>
+
+    <div id="costPopup" class="popup-overlay">
+        <div class="popup-content">
+            <button id="popupCloseButton" class="popup-close">&times;</button>
+            <h3>The EiNNALAB Value Breakdown</h3>
+            <p>See how the cost of purchasing these 13 premium ingredients individually compares to our all-in-one formula.</p>
+            
+            <ul class="cost-list">
+                <li>
+                    <div>
+                        <img src="https://einnalab.com/wp-content/uploads/2025/07/EiNNALAB-Deer-Placenta-30000mg-DarkRed-TRANSPARENT-Front-scaled-e1751113638955.png" alt="Deer Placenta Extract" class="popup-ingredient-img">
+                        <span class="ingredient-name">Deer Placenta Extract</span>
+                    </div>
+                    <span class="ingredient-price">$140 USD</span>
+                </li>
+                <li>
+                    <div>
+                        <img src="https://einnalab.com/wp-content/uploads/2025/11/Grape-Seed.png" alt="Grape Seed Extract" class="popup-ingredient-img">
+                        <span class="ingredient-name">Grape Seed Extract</span>
+                    </div>
+                    <span class="ingredient-price">$15 USD</span>
+                </li>
+                <li>
+                    <div>
+                        <img src="https://einnalab.com/wp-content/uploads/2025/11/Tumeric.png" alt="Turmeric Root Extract" class="popup-ingredient-img">
+                        <span class="ingredient-name">Turmeric Root Extract</span>
+                    </div>
+                    <span class="ingredient-price">$35 USD</span>
+                </li>
+                <li>
+                    <div>
+                        <img src="https://einnalab.com/wp-content/uploads/2025/11/Aloe-Vera-scaled.png" alt="Aloe Vera Extract" class="popup-ingredient-img">
+                        <span class="ingredient-name">Aloe Vera Extract</span>
+                    </div>
+                    <span class="ingredient-price">$21 USD</span>
+                </li>
+                <li>
+                    <div>
+                        <img src="https://einnalab.com/wp-content/uploads/2025/11/Marine-Collagen-Extract.png" alt="NZ Marine Collagen Extract" class="popup-ingredient-img">
+                        <span class="ingredient-name">NZ Marine Collagen Extract</span>
+                    </div>
+                    <span class="ingredient-price">$50 USD</span>
+                </li>
+                <li>
+                    <div>
+                        <img src="https://einnalab.com/wp-content/uploads/2025/11/Evening-Primrose-Oil.png" alt="Evening Primrose Oil" class="popup-ingredient-img">
+                        <span class="ingredient-name">Evening Primrose Oil</span>
+                    </div>
+                    <span class="ingredient-price">$22 USD</span>
+                </li>
+                <li>
+                    <div>
+                        <img src="https://einnalab.com/wp-content/uploads/2025/11/Avocado-Oil.png" alt="Avocado Oil" class="popup-ingredient-img">
+                        <span class="ingredient-name">Avocado Oil</span>
+                    </div>
+                    <span class="ingredient-price">$27 USD</span>
+                </li>
+                <li>
+                    <div>
+                        <img src="https://einnalab.com/wp-content/uploads/2025/11/borage-oil.png" alt="Borage Oil" class="popup-ingredient-img">
+                        <span class="ingredient-name">Borage Oil</span>
+                    </div>
+                    <span class="ingredient-price">$33 USD</span>
+                </li>
+                <li>
+                    <div>
+                        <img src="https://einnalab.com/wp-content/uploads/2025/11/lycopene.png" alt="Lycopene" class="popup-ingredient-img">
+                        <span class="ingredient-name">Lycopene</span>
+                    </div>
+                    <span class="ingredient-price">$20 USD</span>
+                </li>
+                <li>
+                    <div>
+                        <img src="https://einnalab.com/wp-content/uploads/2025/11/Vitamin-E.png" alt="Vitamin E" class="popup-ingredient-img">
+                        <span class="ingredient-name">Vitamin E</span>
+                    </div>
+                    <span class="ingredient-price">$26 USD</span>
+                </li>
+                <li>
+                    <div>
+                        <img src="https://einnalab.com/wp-content/uploads/2025/11/lycopene.png" alt="Astaxanthin" class="popup-ingredient-img">
+                        <span class="ingredient-name">Astaxanthin</span>
+                    </div>
+                    <span class="ingredient-price">$27 USD</span>
+                </li>
+                <li>
+                    <div>
+                        <img src="https://einnalab.com/wp-content/uploads/2025/11/borage-oil.png" alt="Flax Seed Oil" class="popup-ingredient-img">
+                        <span class="ingredient-name">Flax Seed Oil</span>
+                    </div>
+                    <span class="ingredient-price">$26 USD</span>
+                </li>
+                <li>
+                    <div>
+                        <img src="https://einnalab.com/wp-content/uploads/2025/11/Avocado-Oil.png" alt="Olive Oil" class="popup-ingredient-img">
+                        <span class="ingredient-name">Olive Oil</span>
+                    </div>
+                    <span class="ingredient-price">$20 USD</span>
+                </li>
+            </ul>
+            <div class="cost-total">
+                <span>Total Individual Value</span>
+                <span>$482 USD</span>
+            </div>
+            <div class="cost-final-price">
+                <span>EiNNALAB Formula Price</span>
+                <span>$140 USD</span>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const mainProductImage = document.getElementById('productImage');
+            const featureItems = document.querySelectorAll('.feature-item');
+            const spotlightFeatures = document.getElementById('featuresList');
+            const defaultPill = document.getElementById('featureValue'); // The "home base" pill
+            
+            let currentImageSrc = mainProductImage.getAttribute('src');
+
+            function updateMainImage(newImageSrc, altText) {
+                if (!newImageSrc || currentImageSrc === newImageSrc) {
+                    return;
+                }
+                currentImageSrc = newImageSrc;
+                mainProductImage.style.opacity = 0;
+                setTimeout(() => {
+                    mainProductImage.setAttribute('src', newImageSrc);
+                    mainProductImage.setAttribute('alt', altText); 
+                    mainProductImage.style.opacity = 1;
+                }, 300);
+            }
+
+            function activatePill(itemToActivate) {
+                if (!itemToActivate || itemToActivate.classList.contains('active')) {
+                    return;
+                }
+                const featureTitle = itemToActivate.querySelector('.feature-title').textContent;
+                const newImageSrc = itemToActivate.querySelector('.feature-header').dataset.image;
+                let altText = `EiNNALAB ingredient: ${featureTitle}`;
+                
+                if (itemToActivate.id === 'featureValue') {
+                    altText = 'EiNNALAB Deer Placenta 30000mg bottle';
+                }
+                
+                featureItems.forEach(item => {
+                    item.classList.remove('active');
+                });
+
+                itemToActivate.classList.add('active');
+                updateMainImage(newImageSrc, altText);
+            }
+            
+            const mediaQuery = window.matchMedia('(min-width: 768px)');
+            
+            function setupInteractions(isDesktop) {
+                if (isDesktop) {
+                    // --- DESKTOP: Hover & "Home Base" Logic ---
+                    featureItems.forEach(item => {
+                        const header = item.querySelector('.feature-header');
+                        header.addEventListener('mouseenter', () => {
+                            activatePill(item);
+                        });
+                        if (item.id !== 'featureValue') {
+                            item.addEventListener('mouseleave', () => {
+                                activatePill(defaultPill);
+                            });
+                        }
+                    });
+                    activatePill(defaultPill);
+
+                } else {
+                    // --- MOBILE: Horizontal Scroll-Spy Logic ---
+                    let scrollTimer;
+                    let currentFeature = null;
+
+                    spotlightFeatures.addEventListener('scroll', () => {
+                        clearTimeout(scrollTimer);
+                        scrollTimer = setTimeout(() => {
+                            const containerRect = spotlightFeatures.getBoundingClientRect();
+                            const containerCenter = containerRect.left + containerRect.width / 2;
+                            let minDistance = Infinity;
+                            let closestItem = null;
+
+                            featureItems.forEach(item => {
+                                const itemRect = item.getBoundingClientRect();
+                                const itemCenter = itemRect.left + itemRect.row.width / 2;
+                                const distance = Math.abs(itemCenter - containerCenter);
+                                if (distance < minDistance) {
+                                    minDistance = distance;
+                                    closestItem = item;
+                                }
+                            });
+
+                            if (closestItem && closestItem !== currentFeature) {
+                                currentFeature = closestItem;
+                                const featureTitle = closestItem.querySelector('.feature-title').textContent;
+                                const newImageSrc = closestItem.querySelector('.feature-header').dataset.image;
+                                let altText = `EiNNALAB ingredient: ${featureTitle}`;
+                                if (closestItem.id === 'featureValue') {
+                                    altText = 'EiNNALAB Deer Placenta 30000mg bottle';
+                                }
+                                updateMainImage(newImageSrc, altText);
+                            }
+                        }, 100);
+                    });
+                    
+                    if (defaultPill) {
+                        const newImageSrc = defaultPill.querySelector('.feature-header').dataset.image;
+                        updateMainImage(newImageSrc, 'EiNNALAB Deer Placenta 30000mg bottle');
+                    }
+                }
+            }
+
+            // --- Initial Setup ---
+            setupInteractions(mediaQuery.matches);
+            
+            
+            // --- Popup Logic ---
+            const openButton = document.getElementById('costBreakdownButton');
+            const closeButton = document.getElementById('popupCloseButton');
+            const popup = document.getElementById('costPopup');
+
+            if (openButton && closeButton && popup) {
+                openButton.addEventListener('click', () => {
+                    popup.classList.add('active');
+                });
+                
+                closeButton.addEventListener('click', () => {
+                    popup.classList.remove('active');
+                });
+                
+                popup.addEventListener('click', (e) => {
+                    if (e.target === popup) {
+                        popup.classList.remove('active');
+                    }
+                });
+            }
+
+        });
+    </script>
+
+</body>
+</html>
