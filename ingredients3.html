@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Einnalab Deer Placenta - Ingredient Comparison</title>
+    
+    <!-- 1. Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- 2. Fonts (Poppins, Inter, Satoshi) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.cdnfonts.com/css/satoshi" rel="stylesheet">
+    
+    <!-- 3. Custom Styles & Animations -->
+    <style>
+        /* --- Root Variables --- */
+        :root {
+            --font-poppins: 'Poppins', sans-serif;
+            --font-inter: 'Inter', sans-serif;
+            --font-satoshi: 'Satoshi', sans-serif;
+            --color-brand: #7b021d;
+            --color-brand-light: #fdedf0;
+        }
+
+        /* --- Base & Typography --- */
+        body {
+            font-family: var(--font-inter);
+            background-color: #f8fafc;
+            background-image: radial-gradient(circle at top, #ffffff 0%, #f0f4f8 100%);
+            min-height: 100vh;
+        }
+        .font-poppins { font-family: var(--font-poppins); }
+        .font-satoshi { font-family: var(--font-satoshi); }
+
+        /* --- Colors --- */
+        .text-brand { color: var(--color-brand); }
+        .bg-brand { background-color: var(--color-brand); }
+        .border-brand { border-color: var(--color-brand); }
+        
+        .text-gradient {
+            background: linear-gradient(90deg, var(--color-brand), #c0022f);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+        }
+
+        /* --- "Liquid Glass" Card Styles --- */
+        .glass-card {
+            background-color: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            box-shadow: 0 8px 24px 0 rgba(0, 0, 0, 0.05);
+            border-radius: 1rem;
+        }
+        
+        .glass-card-brand {
+            background-color: rgba(253, 237, 240, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--color-brand);
+            box-shadow: 0 8px 24px 0 rgba(123, 2, 29, 0.1);
+            border-radius: 1rem;
+        }
+
+        /* --- Animations & Transitions --- */
+
+        /* Ingredient list hover/active effect */
+        .ingredient-item {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            /* Removed opacity: 0.7 for a cleaner, stable look */
+            box-shadow: 0 4px 15px -2px rgba(0, 0, 0, 0.05);
+            background-color: rgba(255, 255, 255, 0.5); /* Slightly visible */
+        }
+        .ingredient-item:hover {
+            opacity: 1;
+            /* Simple scale on hover for all devices */
+            transform: scale(1.03);
+            box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.1);
+        }
+        .ingredient-item.active {
+            background-color: var(--color-brand-light);
+            color: var(--color-brand);
+            opacity: 1;
+            box-shadow: 0 10px 20px -5px rgba(123, 2, 29, 0.15);
+            transform: scale(1.05); /* Active items are slightly larger */
+        }
+        
+        /* Desktop-specific transform - REMOVED translateX to prevent layout shift */
+        @media (min-width: 1024px) {
+            .ingredient-item:hover {
+                transform: scale(1.02); /* Simpler scale */
+            }
+            .ingredient-item.active {
+                background-color: var(--color-brand-light);
+                transform: scale(1.02);
+            }
+            .ingredient-item.active:hover {
+                 transform: scale(1.04);
+            }
+        }
+
+        /* 3D Tilt Effect (Smoother) */
+        .tilt-card {
+            transform-style: preserve-3d;
+            transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        /* Button Glow Animation */
+        .button-glow {
+            animation: pulse-shadow 2.5s infinite;
+        }
+        @keyframes pulse-shadow {
+            0% { box-shadow: 0 0 0 0 rgba(123, 2, 29, 0.7); }
+            70% { box-shadow: 0 0 0 12px rgba(123, 2, 29, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(123, 2, 29, 0); }
+        }
+        
+        /* Page Load Fade-in Animation */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in-up {
+            opacity: 0;
+            animation: fadeInUp 0.7s ease-out forwards;
+        }
+
+        /* Added ingredients list item animation */
+        @keyframes animate-fade-in {
+            from { opacity: 0; transform: translateX(-10px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        .animate-fade-in {
+            animation: animate-fade-in 0.3s ease-out forwards;
+        }
+        
+        /* Custom scrollbars */
+        .ingredient-scroll-y::-webkit-scrollbar { width: 6px; }
+        .ingredient-scroll-y::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
+        .ingredient-scroll-y::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 10px; }
+        .ingredient-scroll-y::-webkit-scrollbar-thumb:hover { background: #9ca3af; }
+
+        .ingredient-scroll-x::-webkit-scrollbar { height: 6px; }
+        .ingredient-scroll-x::-webkit-scrollbar-track { background: rgba(0,0,0,0.05); border-radius: 10px; }
+        .ingredient-scroll-x::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 10px; }
+        .ingredient-scroll-x::-webkit-scrollbar-thumb:hover { background: #9ca3af; }
+
+        .ingredient-scroll-x { scrollbar-width: thin; scrollbar-color: #d1d5db #f1f1f1; }
+        .ingredient-scroll-x::-webkit-scrollbar-track { background: transparent; }
+
+    </style>
+</head>
+<body class="antialiased">
+
+    <section class="w-full min-h-screen p-4 md:p-8 lg:p-12 overflow-x-hidden">
+        <div class="container mx-auto max-w-7xl">
+            
+            <header class="text-center mb-12 md:mb-16 fade-in-up">
+                <h1 class="font-poppins text-3xl md:text-5xl font-bold text-gray-900 mb-3">
+                    The Price of Perfection
+                </h1>
+                <p class="font-satoshi text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
+                    Click to build your own total and see how it compares to our all-in-one formula.
+                </p>
+            </header>
+
+            <!-- Main Content Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 md:gap-12">
+
+                <!-- Col 1: Ingredient List -->
+                <!-- Mobile: order-1 (first), horizontal scroll -->
+                <!-- Desktop: order-1 (first), vertical scroll -->
+                <div class="lg:col-span-1 glass-card p-6 fade-in-up lg:order-1 order-1" style="animation-delay: 0.4s;">
+                    <h3 class="font-poppins text-xl font-semibold text-gray-800 mb-4">
+                        13 Potent Ingredients
+                    </h3>
+                    
+                    <ul id="ingredient-list" class="
+                        flex flex-row space-x-4 lg:flex-col lg:space-x-0 lg:space-y-2 
+                        overflow-x-auto lg:overflow-x-hidden lg:overflow-y-auto 
+                        py-2 lg:py-0 pr-2 lg:pr-2
+                        max-h-none lg:h-[35rem] /* Standardized height for ~7 items */
+                        ingredient-scroll-x lg:ingredient-scroll-y
+                    ">
+                        <!-- Ingredient items will be injected by JS -->
+                    </ul>
+                </div>
+
+                <!-- Col 2: Summary Cards -->
+                <!-- Mobile: order-2 (second) -->
+                <!-- Desktop: order-2 (second) -->
+                <div class="lg:col-span-2 lg:order-2 order-2 fade-in-up" style="animation-delay: 0.2s;">
+                    <!-- This div will hold the two summary cards -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        
+                        <!-- Card 1: Our Product (High-Converting CTA) -->
+                        <!-- Mobile: order-2 (second) / Desktop: order-1 (first) -->
+                        <div class="glass-card-brand p-6 md:p-8 text-center tilt-card h-full flex flex-col justify-between order-2 md:order-1">
+                            <div>
+                                <h3 class="font-poppins text-lg font-semibold text-brand mb-3">
+                                    The All-in-One Solution
+                                </h3>
+                                
+                                <img src="https://einnalab.com/wp-content/uploads/2025/07/EiNNALAB-Deer-Placenta-30000mg-DarkRed-TRANSPARENT-Front-scaled-e1751113638955.png" 
+                                     alt="EiNNALAB Deer Placenta" 
+                                     class="w-32 h-32 object-contain mx-auto mb-3 drop-shadow-lg"
+                                     onerror="this.src='https://placehold.co/300x300/fdedf0/7b021d?text=Einnalab+Product'">
+                                
+                                <p class="font-poppins font-bold text-5xl md:text-6xl text-brand my-2">
+                                    $140
+                                </p>
+                                <p class="font-satoshi text-gray-700 text-sm mb-5">
+                                    Get the synergistic benefits of all 13 ingredients in one advanced formula.
+                                </p>
+                            </div>
+                            <button class="bg-brand text-white font-poppins font-semibold py-3 px-8 rounded-full shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl button-glow">
+                                Discover Einnalab
+                            </button>
+                        </div>
+
+                        <!-- Card 2: Total Cost -->
+                        <!-- Mobile: order-1 (first) / Desktop: order-2 (second) -->
+                        <div class="glass-card p-6 md:p-8 tilt-card h-full flex flex-col order-1 md:order-2">
+                            <h3 class="font-poppins text-lg font-semibold text-gray-700 mb-4 text-center">
+                                Your Ingredient Cost
+                            </h3>
+                            
+                            <!-- This section will show the *last hovered* item -->
+                            <div id="hovered-ingredient-display" class="h-24 flex items-center justify-center text-center text-gray-500 font-satoshi transition-opacity duration-300">
+                                <span id="hovered-placeholder" class="px-4">Hover (or tap) an ingredient to see it here.</span>
+                                <div id="hovered-content" class="hidden items-center transition-opacity duration-300 w-full px-4">
+                                    <img id="hovered-image" src="" alt="" class="w-16 h-16 object-contain mr-4 flex-shrink-0">
+                                    <div class="text-left">
+                                        <h4 id="hovered-name" class="font-poppins text-lg font-bold text-gray-900 leading-tight"></h4>
+                                        <p id="hovered-price" class="font-satoshi text-2xl font-medium text-brand"></p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <p class="font-satoshi text-xs text-gray-500 text-center -mt-4 mb-4">
+                                Click to <span class="font-bold text-red-600">remove</span> from total
+                            </p>
+
+                            <hr class="my-2 border-gray-200">
+                            
+                            <!-- This will list added ingredients -->
+                            <div class="flex-grow relative">
+                                 <h4 class="font-satoshi font-medium text-gray-800 text-center mb-2">
+                                     Added Ingredients
+                                 </h4>
+                                <ul id="added-ingredients-list" class="space-y-2 overflow-y-auto max-h-[200px] ingredient-scroll-y p-2">
+                                   <!-- JS will add items here -->
+                                </ul>
+                            </div>
+                            
+                            <hr class="mt-4 mb-2 border-gray-200">
+                            
+                            <div class="text-center mt-auto">
+                                <p class="font-satoshi text-gray-600 text-sm mb-2">
+                                    Your Running Total
+                                </p>
+                                <p class="font-poppins font-bold text-5xl md:text-6xl text-gradient" id="total-cost-counter">
+                                    $0
+                                </p>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // --- 1. Data ---
+            const ingredients = [
+                { name: 'Deer Placenta Extract', price: 140, image: 'https://einnalab.com/wp-content/uploads/2025/07/EiNNALAB-Deer-Placenta-30000mg-DarkRed-TRANSPARENT-Front-scaled-e1751113638955.png' },
+                { name: 'Grape Seed Extract', price: 15, image: 'https://einnalab.com/wp-content/uploads/2025/11/Grape-Seed.png' },
+                { name: 'Turmeric Root Extract', price: 35, image: 'https://einnalab.com/wp-content/uploads/2025/11/Tumeric.png' },
+                { name: 'Aloe Vera Extract', price: 21, image: 'https://einnalab.com/wp-content/uploads/2025/11/Aloe-Vera-scaled.png' },
+                { name: 'NZ Marine Collagen', price: 50, image: 'https://einnalab.com/wp-content/uploads/2025/11/Marine-Collagen-Extract.png' },
+                { name: 'Evening Primrose Oil', price: 22, image: 'https://einnalab.com/wp-content/uploads/2025/11/Evening-Primrose-Oil.png' },
+                { name: 'Avocado Oil', price: 27, image: 'https://einnalab.com/wp-content/uploads/2025/11/Avocado-Oil.png' },
+                { name: 'Borage Oil', price: 33, image: 'https://einnalab.com/wp-content/uploads/2025/11/borage-oil.png' },
+                { name: 'Lycopene', price: 20, image: 'https://einnalab.com/wp-content/uploads/2025/11/lycopene.png' },
+                { name: 'Vitamin E', price: 26, image: 'https://einnalab.com/wp-content/uploads/2025/11/Vitamin-E.png' },
+                { name: 'Astaxanthin', price: 27, image: 'https://placehold.co/400x400/f0f0f0/cccccc?text=Astaxanthin' },
+                { name: 'Flax Seed Oil', price: 26, image: 'https://placehold.co/400x400/f0f0f0/cccccc?text=Flax+Seed+Oil' },
+                { name: 'Olive Oil', price: 20, image: 'https://placehold.co/400x400/f0f0f0/cccccc?text=Olive+Oil' }
+            ];
+
+            // --- 2. Element References ---
+            const ingredientListEl = document.getElementById('ingredient-list');
+            const totalCostEl = document.getElementById('total-cost-counter');
+            const tiltCards = document.querySelectorAll('.tilt-card');
+            
+            const hoveredPlaceholderEl = document.getElementById('hovered-placeholder');
+            const hoveredContentEl = document.getElementById('hovered-content');
+            const hoveredImageEl = document.getElementById('hovered-image');
+            const hoveredNameEl = document.getElementById('hovered-name');
+            const hoveredPriceEl = document.getElementById('hovered-price');
+            const addedListEl = document.getElementById('added-ingredients-list');
+
+            // --- 3. State Variables ---
+            let currentTotal = 0;
+            let addedIngredients = new Set();
+
+            // --- 4. Populate Ingredient List ---
+            ingredientListEl.innerHTML = ingredients.map((item, index) => `
+                <li class="ingredient-item p-4 rounded-lg cursor-pointer border border-transparent 
+                           flex-shrink-0 w-64
+                           lg:w-full
+                           flex flex-row items-center" 
+                    data-index="${index}">
+                    
+                    <img src="${item.image}" alt="${item.name}" 
+                         class="w-10 h-10 object-contain mr-4 flex-shrink-0" 
+                         onerror="this.src='https://placehold.co/100x100/f0f0f0/cccccc?text=Img'">
+                    
+                    <div class="flex flex-row justify-between items-center w-full">
+                        <span class="font-satoshi font-medium text-gray-700 text-sm lg:text-base leading-tight">${item.name}</span>
+                        <span class="font-inter font-semibold text-gray-900 text-base lg:text-base ml-2">$${item.price}</span>
+                    </div>
+                </li>
+            `).join('');
+
+            const ingredientItems = document.querySelectorAll('.ingredient-item');
+
+            // --- 5. Helper Functions ---
+            
+            // Animates counter
+            function animateCounter(el, start, end, duration) {
+                let startTime = null;
+                const step = (timestamp) => {
+                    if (!startTime) startTime = timestamp;
+                    const progress = Math.min((timestamp - startTime) / duration, 1);
+                    const easeOutProgress = progress * (2 - progress);
+                    const currentVal = Math.floor(easeOutProgress * (end - start) + start);
+                    
+                    el.textContent = `$${currentVal}`;
+                    
+                    if (progress < 1) {
+                        window.requestAnimationFrame(step);
+                    } else {
+                        el.textContent = `$${end}`;
+                    }
+                };
+                window.requestAnimationFrame(step);
+            }
+
+            // Shows ingredient in the "hover" box
+            function showHoveredIngredient(item) {
+                const index = item.dataset.index;
+                const data = ingredients[index];
+                
+                hoveredPlaceholderEl.style.display = 'none';
+                hoveredContentEl.classList.remove('hidden');
+                hoveredContentEl.classList.add('flex');
+                
+                hoveredImageEl.src = data.image;
+                hoveredImageEl.alt = data.name;
+                hoveredNameEl.textContent = data.name;
+                hoveredPriceEl.textContent = `$${data.price}`;
+            }
+
+            // --- NEW: Refactored Add/Remove Logic ---
+
+            // Adds ingredient to total (if not already added)
+            function addIngredient(item) {
+                const index = item.dataset.index;
+                const data = ingredients[index];
+
+                if (addedIngredients.has(index)) {
+                    // Already added, do nothing on hover
+                    return; 
+                }
+
+                // Add it
+                addedIngredients.add(index);
+                const oldTotal = currentTotal;
+                currentTotal += data.price;
+                animateCounter(totalCostEl, oldTotal, currentTotal, 300);
+                item.classList.add('active');
+
+                // Add to list
+                const li = document.createElement('li');
+                li.className = 'flex justify-between items-center text-sm animate-fade-in';
+                li.dataset.name = data.name;
+                li.innerHTML = `
+                    <span class="text-gray-600">${data.name}</span>
+                    <span class="font-medium text-gray-800">$${data.price}</span>
+                `;
+                addedListEl.appendChild(li);
+                addedListEl.scrollTop = addedListEl.scrollHeight;
+            }
+
+            // Removes ingredient from total (if added)
+            function removeIngredient(item) {
+                const index = item.dataset.index;
+                const data = ingredients[index];
+
+                if (!addedIngredients.has(index)) {
+                    // Not added, do nothing on click
+                    return; 
+                }
+
+                // Remove it
+                addedIngredients.delete(index);
+                const oldTotal = currentTotal;
+                currentTotal -= data.price;
+                animateCounter(totalCostEl, oldTotal, currentTotal, 300);
+                item.classList.remove('active');
+                
+                // Remove from list
+                const itemToRemove = addedListEl.querySelector(`[data-name="${data.name}"]`);
+                if (itemToRemove) {
+                    itemToRemove.remove();
+                }
+            }
+            
+            // --- NEW: Set Default State Function ---
+            function setDefaultState() {
+                const preAddIndices = [1, 2, 4]; // Grape Seed, Turmeric, NZ Marine Collagen
+                
+                preAddIndices.forEach(index => {
+                    const item = ingredientItems[index];
+                    const data = ingredients[index];
+                    
+                    // Add to state
+                    addedIngredients.add(index.toString()); // Use string for consistency
+                    currentTotal += data.price;
+                    item.classList.add('active');
+
+                    // Add to list
+                    const li = document.createElement('li');
+                    li.className = 'flex justify-between items-center text-sm animate-fade-in';
+                    li.dataset.name = data.name;
+                    li.innerHTML = `
+                        <span class="text-gray-600">${data.name}</span>
+                        <span class="font-medium text-gray-800">$${data.price}</span>
+                    `;
+                    addedListEl.appendChild(li);
+                });
+                
+                // Set total cost without animation
+                totalCostEl.textContent = `$${currentTotal}`;
+                
+                // Show the last pre-added item in the hover box
+                showHoveredIngredient(ingredientItems[preAddIndices[preAddIndices.length - 1]]);
+                addedListEl.scrollTop = addedListEl.scrollHeight;
+            }
+
+
+            // --- 6. Event Listeners ---
+            ingredientItems.forEach(item => {
+                item.addEventListener('mouseenter', () => {
+                    // Show in hover box
+                    showHoveredIngredient(item);
+                    // ADD to total on hover
+                    addIngredient(item);
+                });
+                item.addEventListener('click', () => {
+                    // REMOVE from total on click
+                    removeIngredient(item);
+                });
+            });
+
+            // 3D Tilt Effect
+            tiltCards.forEach(card => {
+                card.addEventListener('mousemove', (e) => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left - rect.width / 2;
+                    const y = e.clientY - rect.top - rect.height / 2;
+                    
+                    const rotateX = (y / (rect.height / 2)) * -4;
+                    const rotateY = (x / (rect.width / 2)) * 4;
+                    
+                    card.style.transform = `perspective(1500px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.03)`;
+                });
+                
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = 'perspective(1500px) rotateX(0) rotateY(0) scale(1)';
+                });
+            });
+
+            // --- 7. Initialize Default State ---
+            setDefaultState();
+
+        });
+    </script>
+
+</body>
+</html>
