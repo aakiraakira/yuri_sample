@@ -91,6 +91,8 @@
             right: 0;
             transform: translate(30%, -50%);
             z-index: 10;
+            /* Added drop shadow */
+            filter: drop-shadow(0 10px 10px rgba(0,0,0,0.2));
         }
 
         .header-einnalab {
@@ -146,6 +148,23 @@
         .icon-check { color: var(--color-brand-check); }
         .icon-cross { color: var(--color-comp-cross); }
         
+        /* 3D Tilt Effect */
+        .tilt-card {
+            transform-style: preserve-3d;
+            transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        /* Scroll-Reveal Animation */
+        .collapsible-row {
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+        }
+        .collapsible-row.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
         /* Mobile Responsive */
         @media (max-width: 640px) {
             .comparison-column-header h3 {
@@ -198,7 +217,8 @@
             </header>
 
             <!-- Comparison Table Wrapper -->
-            <div class="glass-card p-0 fade-in-up" style="animation-delay: 0.2s;">
+            <!-- Added tilt-card class -->
+            <div class="glass-card tilt-card p-0 fade-in-up" style="animation-delay: 0.2s;">
                 <div class="grid grid-cols-2 w-full">
                     
                     <!-- === EINNALAB COLUMN === -->
@@ -213,25 +233,62 @@
                         
                         <!-- Body -->
                         <div class="comparison-column-body body-einnalab">
+                            <!-- Row 1 (Default Visible) -->
                             <div class="feature-item">
                                 <svg class="icon-check"><use xlink:href="#icon-check"></use></svg>
                                 <span>13-in-1 Synergistic Formula</span>
                             </div>
+                            <!-- Row 2 (Default Visible) -->
                             <div class="feature-item">
                                 <svg class="icon-check"><use xlink:href="#icon-check"></use></svg>
                                 <span>30,000mg Deer Placenta</span>
                             </div>
-                            <div class="feature-item collapsible-row hidden">
+                            <!-- Row 3 (Default Visible) -->
+                            <div class="feature-item">
                                 <svg class="icon-check"><use xlink:href="#icon-check"></use></svg>
                                 <span>High (Enteric Coated)</span>
                             </div>
-                            <div class="feature-item collapsible-row hidden">
+                            <!-- Row 4 (Default Visible) -->
+                            <div class="feature-item">
                                 <svg class="icon-check"><use xlink:href="#icon-check"></use></svg>
                                 <span>No Fillers or Binders</span>
                             </div>
+
+                            <!-- === Rows to Reveal === -->
+                            <!-- Row 5 (Hidden) -->
                             <div class="feature-item collapsible-row hidden">
                                 <svg class="icon-check"><use xlink:href="#icon-check"></use></svg>
                                 <span>$140 (All-in-One)</span>
+                            </div>
+                            <!-- Row 6 (Hidden) -->
+                            <div class="feature-item collapsible-row hidden">
+                                <svg class="icon-check"><use xlink:href="#icon-check"></use></svg>
+                                <span>Marine Collagen & Fucoidan</span>
+                            </div>
+                            <!-- Row 7 (Hidden) -->
+                            <div class="feature-item collapsible-row hidden">
+                                <svg class="icon-check"><use xlink:href="#icon-check"></use></svg>
+                                <span>Rich Antioxidants (Lycopene)</span>
+                            </div>
+                            <!-- Row 8 (Hidden) -->
+                            <div class="feature-item collapsible-row hidden">
+                                <svg class="icon-check"><use xlink:href="#icon-check"></use></svg>
+                                <span>Premium Oils (Avocado, Borage)</span>
+                            </div>
+                            <!-- Row 9 (Hidden) -->
+                            <div class="feature-item collapsible-row hidden">
+                                <svg class="icon-check"><use xlink:href="#icon-check"></use></svg>
+                                <span>Squalene & Vitamin E</span>
+                            </div>
+                            <!-- Row 10 (Hidden) -->
+                            <div class="feature-item collapsible-row hidden">
+                                <svg class="icon-check"><use xlink:href="#icon-check"></use></svg>
+                                <span>Turmeric & Aloe Vera</span>
+                            </div>
+                            <!-- Row 11 (Hidden) -->
+                            <div class="feature-item collapsible-row hidden">
+                                <svg class="icon-check"><use xlink:href="#icon-check"></use></svg>
+                                <span>Made in New Zealand</span>
                             </div>
                         </div>
                     </div>
@@ -248,37 +305,69 @@
                         
                         <!-- Body -->
                         <div class="comparison-column-body body-competitor">
+                            <!-- Row 1 (Default Visible) -->
                             <div class="feature-item">
                                 <svg class="icon-cross"><use xlink:href="#icon-cross"></use></svg>
                                 <span>1-3 Ingredients</span>
                             </div>
+                            <!-- Row 2 (Default Visible) -->
                             <div class="feature-item">
                                 <svg class="icon-cross"><use xlink:href="#icon-cross"></use></svg>
                                 <span>5,000mg - 10,000mg</span>
                             </div>
-                            <div class="feature-item collapsible-row hidden">
+                            <!-- Row 3 (Default Visible) -->
+                            <div class="feature-item">
                                 <svg class="icon-cross"><use xlink:href="#icon-cross"></use></svg>
                                 <span>Standard (Stomach Acid Loss)</span>
                             </div>
-                            <div class="feature-item collapsible-row hidden">
+                            <!-- Row 4 (Default Visible) -->
+                            <div class="feature-item">
                                 <svg class="icon-cross"><use xlink:href="#icon-cross"></use></svg>
                                 <span>Often Uses Fillers</span>
                             </div>
+
+                            <!-- === Rows to Reveal === -->
+                            <!-- Row 5 (Hidden) -->
                             <div class="feature-item collapsible-row hidden">
                                 <svg class="icon-cross"><use xlink:href="#icon-cross"></use></svg>
                                 <span>$400+ (If purchased separately)</span>
+                            </div>
+                            <!-- Row 6 (Hidden) -->
+                            <div class="feature-item collapsible-row hidden">
+                                <svg class="icon-cross"><use xlink:href="#icon-cross"></use></svg>
+                                <span>Missing or Low Doses</span>
+                            </div>
+                            <!-- Row 7 (Hidden) -->
+                            <div class="feature-item collapsible-row hidden">
+                                <svg class="icon-cross"><use xlink:href="#icon-cross"></use></svg>
+                                <span>Basic or No Antioxidants</span>
+                            </div>
+                            <!-- Row 8 (Hidden) -->
+                            <div class="feature-item collapsible-row hidden">
+                                <svg class="icon-cross"><use xlink:href="#icon-cross"></use></svg>
+                                <span>Uses Cheaper Carrier Oils</span>
+                            </div>
+                            <!-- Row 9 (Hidden) -->
+                            <div class="feature-item collapsible-row hidden">
+                                <svg class="icon-cross"><use xlink:href="#icon-cross"></use></svg>
+                                <span>Basic Vitamin Additives</span>
+                            </div>
+                            <!-- Row 10 (Hidden) -->
+                            <div class="feature-item collapsible-row hidden">
+                                <svg class="icon-cross"><use xlink:href="#icon-cross"></use></svg>
+                                <span>Separate Purchases</span>
+                            </div>
+                            <!-- Row 11 (Hidden) -->
+                            <div class="feature-item collapsible-row hidden">
+                                <svg class="icon-cross"><use xlink:href="#icon-cross"></use></svg>
+                                <span>Varying Manufacturing Standards</span>
                             </div>
                         </div>
                     </div>
 
                 </div><!-- .grid -->
                 
-                <!-- See More Button -->
-                <div class="text-center p-4 border-t border-gray-100">
-                    <button id="toggle-table-btn" class="font-poppins font-semibold text-sm text-gray-700 hover:text-brand-dark py-2 px-5 rounded-full border border-gray-300 hover:border-gray-400 transition-all duration-300">
-                        See More
-                    </button>
-                </div>
+                <!-- "See More" button removed -->
 
             </div><!-- .glass-card -->
 
@@ -287,20 +376,51 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const toggleBtn = document.getElementById('toggle-table-btn');
-            // Select all collapsible rows from *both* columns
-            const collapsibleRows = document.querySelectorAll('.collapsible-row'); 
-            let isExpanded = false;
 
-            if (toggleBtn) {
-                toggleBtn.addEventListener('click', () => {
-                    isExpanded = !isExpanded;
+            // --- 3D Tilt Effect ---
+            const tiltCard = document.querySelector('.tilt-card');
+            if (tiltCard) {
+                tiltCard.addEventListener('mousemove', (e) => {
+                    const rect = tiltCard.getBoundingClientRect();
+                    const x = e.clientX - rect.left - rect.width / 2;
+                    const y = e.clientY - rect.top - rect.height / 2;
                     
-                    collapsibleRows.forEach(row => {
-                        row.classList.toggle('hidden');
+                    const rotateX = (y / (rect.height / 2)) * -3;
+                    const rotateY = (x / (rect.width / 2)) * 3;
+                    
+                    tiltCard.style.transform = `perspective(2000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+                });
+                
+                tiltCard.addEventListener('mouseleave', () => {
+                    tiltCard.style.transform = 'perspective(2000px) rotateX(0) rotateY(0) scale(1)';
+                });
+            }
+
+            // --- Scroll-to-Reveal Effect ---
+            const hiddenRows = document.querySelectorAll('.collapsible-row.hidden');
+            
+            if (hiddenRows.length > 0) {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach((entry, index) => {
+                        if (entry.isIntersecting) {
+                            // Add a staggered delay to each row
+                            setTimeout(() => {
+                                entry.target.classList.add('is-visible');
+                                entry.target.classList.remove('hidden');
+                            }, index * 100); // 100ms delay between each row
+                            
+                            // Stop observing this row once it's visible
+                            observer.unobserve(entry.target);
+                        }
                     });
-                    
-                    toggleBtn.textContent = isExpanded ? 'See Less' : 'See More';
+                }, {
+                    root: null, // viewport
+                    threshold: 0.1, // 10% visible
+                    rootMargin: '-50px' // Start animation a bit before it's fully in view
+                });
+
+                hiddenRows.forEach(row => {
+                    observer.observe(row);
                 });
             }
         });
