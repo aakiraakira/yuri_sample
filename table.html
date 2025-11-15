@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Einnalab vs. Competitor Comparison</title>
+    
+    <!-- 1. Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- 2. Fonts (Poppins, Inter, Satoshi) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.cdnfonts.com/css/satoshi" rel="stylesheet">
+    
+    <!-- 3. Custom Styles & Animations -->
+    <style>
+        /* --- Root Variables --- */
+        :root {
+            --font-poppins: 'Poppins', sans-serif;
+            --font-inter: 'Inter', sans-serif;
+            --font-satoshi: 'Satoshi', sans-serif;
+            
+            /* Einnalab Colors (from request) */
+            --color-brand-dark: #7b021d;
+            --color-brand-light: #fdedf0;
+            --color-brand-check: #7b021d; /* Red check from screenshot */
+
+            /* Competitor Colors (from screenshot) */
+            --color-comp-dark: #024731; /* Dark green */
+            --color-comp-light: #e8f3e8; /* Light green */
+            --color-comp-cross: #6b7280; /* Gray X from screenshot */
+        }
+
+        /* --- Base & Typography --- */
+        body {
+            font-family: var(--font-inter);
+            background-color: #f8fafc;
+            background-image: radial-gradient(circle at top, #ffffff 0%, #f0f4f8 100%);
+            min-height: 100vh;
+        }
+        .font-poppins { font-family: var(--font-poppins); }
+        .font-satoshi { font-family: var(--font-satoshi); }
+
+        /* --- "Liquid Glass" Card Style --- */
+        .glass-card {
+            background-color: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            box-shadow: 0 8px 24px 0 rgba(0, 0, 0, 0.05);
+            border-radius: 1rem;
+            overflow: visible; /* Allow bottles to protrude */
+        }
+        
+        /* --- Page Load Fade-in Animation --- */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in-up {
+            opacity: 0;
+            animation: fadeInUp 0.7s ease-out forwards;
+        }
+        
+        /* --- NEW Comparison Structure --- */
+        .comparison-column-header {
+            padding: 1.5rem;
+            color: white;
+            position: relative;
+            min-height: 100px;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .comparison-column-header h3 {
+            font-family: var(--font-poppins);
+            font-weight: 600;
+            font-size: 1.25rem; /* 20px */
+            line-height: 1.75rem; /* 28px */
+        }
+        
+        .comparison-column-header img {
+            width: 120px;
+            height: 120px;
+            object-fit: contain;
+            position: absolute;
+            top: 50%;
+            right: 0;
+            transform: translate(30%, -50%);
+            z-index: 10;
+        }
+
+        .header-einnalab {
+            background-color: var(--color-brand-dark);
+            border-radius: 0.75rem 0 0 0;
+        }
+        
+        .header-competitor {
+            background-color: var(--color-comp-dark);
+            border-radius: 0 0.75rem 0 0;
+        }
+
+        .comparison-column-body {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .feature-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem 1.25rem;
+            font-family: var(--font-satoshi);
+            font-weight: 500;
+            min-height: 80px; /* Ensures rows are aligned */
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        /* Remove last border */
+        .comparison-column-body .feature-item:last-child {
+            border-bottom: 0;
+        }
+
+        .body-einnalab {
+            background-color: var(--color-brand-light);
+            color: #374151;
+            border-right: 1px solid #e5e7eb;
+            border-radius: 0 0 0 0.75rem;
+        }
+        
+        .body-competitor {
+            background-color: var(--color-comp-light);
+            color: #374151;
+            border-radius: 0 0 0.75rem 0;
+        }
+
+        .icon-check, .icon-cross {
+            width: 1.5rem;
+            height: 1.5rem;
+            flex-shrink: 0;
+            margin-right: 0.75rem;
+        }
+        
+        .icon-check { color: var(--color-brand-check); }
+        .icon-cross { color: var(--color-comp-cross); }
+        
+        /* Mobile Responsive */
+        @media (max-width: 640px) {
+            .comparison-column-header h3 {
+                font-size: 1rem; /* 16px */
+            }
+            .comparison-column-header img {
+                width: 80px;
+                height: 80px;
+                transform: translate(20%, -50%);
+            }
+            .feature-item {
+                padding: 1rem 0.75rem;
+                font-size: 0.875rem; /* 14px */
+                line-height: 1.25rem; /* 20px */
+                min-height: 90px;
+            }
+            .icon-check, .icon-cross {
+                width: 1.25rem;
+                height: 1.25rem;
+            }
+        }
+
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- SVG Icons for Table -->
+    <svg class="hidden">
+        <!-- Red Check (from screenshot) -->
+        <symbol id="icon-check" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+        </symbol>
+        <!-- Gray X (from screenshot) -->
+        <symbol id="icon-cross" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+        </symbol>
+    </svg>
+
+    <!-- Section 1: Comparison Table -->
+    <section class="w-full min-h-screen p-4 md:p-8 lg:p-12 overflow-x-hidden">
+        <div class="container mx-auto max-w-7xl">
+            
+            <header class="text-center mb-12 md:mb-16 fade-in-up">
+                <h1 class="font-poppins text-3xl md:text-5xl font-bold text-gray-900 mb-3">
+                    The Einnalab Difference
+                </h1>
+                <p class="font-satoshi text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
+                    See how our advanced formula stacks up against typical market alternatives.
+                </p>
+            </header>
+
+            <!-- Comparison Table Wrapper -->
+            <div class="glass-card p-0 fade-in-up" style="animation-delay: 0.2s;">
+                <div class="grid grid-cols-2 w-full">
+                    
+                    <!-- === EINNALAB COLUMN === -->
+                    <div class="flex flex-col">
+                        <!-- Header -->
+                        <div class="comparison-column-header header-einnalab">
+                            <h3>Einnalab</h3>
+                            <img src="https://einnalab.com/wp-content/uploads/2025/07/EiNNALAB-Deer-Placenta-30000mg-DarkRed-TRANSPARENT-Front-scaled-e1751113638955.png" 
+                                 alt="Einnalab"
+                                 onerror="this.src='https://placehold.co/100x100/fdedf0/7b021d?text=E'">
+                        </div>
+                        
+                        <!-- Body -->
+                        <div class="comparison-column-body body-einnalab">
+                            <div class="feature-item">
+                                <svg class="icon-check"><use xlink:href="#icon-check"></use></svg>
+                                <span>13-in-1 Synergistic Formula</span>
+                            </div>
+                            <div class="feature-item">
+                                <svg class="icon-check"><use xlink:href="#icon-check"></use></svg>
+                                <span>30,000mg Deer Placenta</span>
+                            </div>
+                            <div class="feature-item collapsible-row hidden">
+                                <svg class="icon-check"><use xlink:href="#icon-check"></use></svg>
+                                <span>High (Enteric Coated)</span>
+                            </div>
+                            <div class="feature-item collapsible-row hidden">
+                                <svg class="icon-check"><use xlink:href="#icon-check"></use></svg>
+                                <span>No Fillers or Binders</span>
+                            </div>
+                            <div class="feature-item collapsible-row hidden">
+                                <svg class="icon-check"><use xlink:href="#icon-check"></use></svg>
+                                <span>$140 (All-in-One)</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- === COMPETITOR COLUMN === -->
+                    <div class="flex flex-col">
+                        <!-- Header -->
+                        <div class="comparison-column-header header-competitor">
+                            <h3>Competitors</h3>
+                            <img src="https://www.freeiconspng.com/uploads/clear-glass-bottle-without-lid-simple-png-image-7.png" 
+                                 alt="Competitor"
+                                 onerror="this.src='https://placehold.co/100x100/e8f3e8/024731?text=C'">
+                        </div>
+                        
+                        <!-- Body -->
+                        <div class="comparison-column-body body-competitor">
+                            <div class="feature-item">
+                                <svg class="icon-cross"><use xlink:href="#icon-cross"></use></svg>
+                                <span>1-3 Ingredients</span>
+                            </div>
+                            <div class="feature-item">
+                                <svg class="icon-cross"><use xlink:href="#icon-cross"></use></svg>
+                                <span>5,000mg - 10,000mg</span>
+                            </div>
+                            <div class="feature-item collapsible-row hidden">
+                                <svg class="icon-cross"><use xlink:href="#icon-cross"></use></svg>
+                                <span>Standard (Stomach Acid Loss)</span>
+                            </div>
+                            <div class="feature-item collapsible-row hidden">
+                                <svg class="icon-cross"><use xlink:href="#icon-cross"></use></svg>
+                                <span>Often Uses Fillers</span>
+                            </div>
+                            <div class="feature-item collapsible-row hidden">
+                                <svg class="icon-cross"><use xlink:href="#icon-cross"></use></svg>
+                                <span>$400+ (If purchased separately)</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div><!-- .grid -->
+                
+                <!-- See More Button -->
+                <div class="text-center p-4 border-t border-gray-100">
+                    <button id="toggle-table-btn" class="font-poppins font-semibold text-sm text-gray-700 hover:text-brand-dark py-2 px-5 rounded-full border border-gray-300 hover:border-gray-400 transition-all duration-300">
+                        See More
+                    </button>
+                </div>
+
+            </div><!-- .glass-card -->
+
+        </div>
+    </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const toggleBtn = document.getElementById('toggle-table-btn');
+            // Select all collapsible rows from *both* columns
+            const collapsibleRows = document.querySelectorAll('.collapsible-row'); 
+            let isExpanded = false;
+
+            if (toggleBtn) {
+                toggleBtn.addEventListener('click', () => {
+                    isExpanded = !isExpanded;
+                    
+                    collapsibleRows.forEach(row => {
+                        row.classList.toggle('hidden');
+                    });
+                    
+                    toggleBtn.textContent = isExpanded ? 'See Less' : 'See More';
+                });
+            }
+        });
+    </script>
+
+</body>
+</html>
