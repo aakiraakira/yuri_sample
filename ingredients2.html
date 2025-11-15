@@ -51,10 +51,16 @@
             100% { background-position: 0% 50%; }
         }
         
-        /* [1] NEW: Keyframe for slick button intro */
+        /* [1] Keyframe for slick button intro */
         @keyframes fadeInSlick {
             from { opacity: 0; transform: translateX(-50%) translateY(20px); }
             to { opacity: 1; transform: translateX(-50%) translateY(0); }
+        }
+        
+        /* Keyframe for cost list animation */
+        @keyframes fadeInGrow {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
         }
         
         .gradient-text {
@@ -88,9 +94,10 @@
             z-index: 10;
         }
         
+        /* [UPDATED] Header margin */
         .spotlight-header {
             max-width: 1200px;
-            margin: 0 auto 50px auto;
+            margin: 0 auto 30px auto; /* [CHANGE] Was 50px */
             padding: 0 4vw;
             box-sizing: border-box;
         }
@@ -141,15 +148,16 @@
             width: 100%;
             height: 100%;
             display: flex;
-            align-items: center;
+            align-items: flex-start; /* Aligns card to the top of the column */
             justify-content: center;
         }
         
+        /* [UPDATED] Sticky position */
         .spotlight-gallery .image-container {
             width: 100%;
             position: -webkit-sticky;
             position: sticky;
-            top: 100px;
+            top: 20px; /* [CHANGE] Was 100px. Sticks card higher. */
             background: var(--card-bg-color);
             border-radius: 24px;
             border: 1px solid var(--pill-border);
@@ -207,7 +215,7 @@
             background: var(--pill-bg);
             border: 1px solid var(--pill-border);
             border-radius: 20px;
-            transition: background 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            transition: background 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
             box-shadow: var(--shadow-sm);
         }
 
@@ -332,6 +340,28 @@
             .spotlight-gallery img {
                 max-height: 70vh;
             }
+            
+            /* Make features column scrollable on desktop */
+            .spotlight-features {
+                max-height: 70vh; /* Match the image max-height */
+                overflow-y: auto;
+                padding-right: 10px; /* Space for scrollbar */
+                
+                /* Nice scrollbar (Firefox) */
+                scrollbar-width: thin;
+                scrollbar-color: #adb5bd transparent;
+            }
+            /* Nice scrollbar (Webkit) */
+            .spotlight-features::-webkit-scrollbar {
+                width: 6px;
+            }
+            .spotlight-features::-webkit-scrollbar-track {
+                background: transparent;
+            }
+            .spotlight-features::-webkit-scrollbar-thumb {
+                background-color: #adb5bd; /* A bit darker than muted text */
+                border-radius: 3px;
+            }
         }
         
         /* --- Mobile View: Horizontal Scroll, All Open --- */
@@ -384,7 +414,7 @@
         }
         
         
-        /* [2] UPDATED: LIQUID GLASS BUTTON & POPUP STYLES */
+        /* [2] LIQUID GLASS BUTTON & POPUP STYLES */
         
         /* The Floating Button */
         #costBreakdownButton {
@@ -409,7 +439,7 @@
             cursor: pointer;
             box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
             
-            /* [NEW] Slick "appear" animation */
+            /* Slick "appear" animation */
             opacity: 0; /* Start hidden */
             animation: fadeInSlick 0.5s ease-out 1s forwards; /* 1s delay */
         }
@@ -447,7 +477,7 @@
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             display: flex;
-            align-items: flex-end; /* [NEW] Align to bottom */
+            align-items: flex-end; /* Align to bottom */
             justify-content: center;
             padding: 20px 20px 0 20px; /* Add padding for small screens */
             box-sizing: border-box;
@@ -463,14 +493,14 @@
         /* Popup Content Box */
         .popup-content {
             background: var(--card-bg-color);
-            border-radius: 20px 20px 0 0; /* [NEW] Rounded top corners */
+            border-radius: 20px 20px 0 0; /* Rounded top corners */
             padding: 30px 35px;
             max-width: 500px; /* Increased max-width */
             width: 100%;
             box-shadow: var(--shadow-lg);
             position: relative;
             
-            /* [NEW] "Rise from bottom" animation */
+            /* "Rise from bottom" animation */
             transform: translateY(50px);
             opacity: 0;
             transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.4s ease;
@@ -516,7 +546,7 @@
             color: var(--text-color-dark);
         }
         
-        /* [3] NEW: Cost Breakdown List with Images */
+        /* [3] Cost Breakdown List with Images */
         .cost-list {
             list-style: none;
             padding: 0;
@@ -524,7 +554,14 @@
             max-height: 35vh; /* Max height for scrolling */
             overflow-y: auto;
             border-top: 1px solid var(--pill-border);
+            opacity: 0; /* Start hidden for animation */
         }
+        
+        /* Animate cost list when popup is active */
+        .popup-overlay.active .cost-list {
+            animation: fadeInGrow 0.5s ease-out 0.3s forwards; /* 0.3s delay */
+        }
+        
         .cost-list li {
             display: flex;
             justify-content: space-between;
@@ -601,7 +638,6 @@
             color: var(--brand-red);
         }
 
-
     </style>
 </head>
 <body>
@@ -654,7 +690,7 @@
                 </div>
 
                 <div class="feature-item" data-feature-id="grape-seed">
-                    <button class="feature-header" data-image="https://einnalab.com/wp-content/uploads/2025/11/Grape-Seed.png">
+                    <button class="feature-header" data-image="httpsimg://einnalab.com/wp-content/uploads/2025/11/Grape-Seed.png">
                         <span class="value-icon"></span><span class="plus-icon">+</span>
                         <h3 class="feature-title">Grape Seed Extract</h3>
                     </button>
@@ -724,7 +760,7 @@
                 </div>
                 
                 <div class="feature-item" data-feature-id="vitamin-e">
-                    <button class="feature-header" data-image="httpsfs://einnalab.com/wp-content/uploads/2025/11/Vitamin-E.png">
+                    <button class="feature-header" data-image="https://einnalab.com/wp-content/uploads/2025/11/Vitamin-E.png">
                         <span class="value-icon"></span><span class="plus-icon">+</span>
                         <h3 class="feature-title">Vitamin E</h3>
                     </button>
@@ -744,7 +780,7 @@
                 </div>
                 
                 <div class="feature-item" data-feature-id="flax-seed">
-                    <button class="feature-header" data-image="https.://einnalab.com/wp-content/uploads/2025/11/borage-oil.png">
+                    <button class="feature-header" data-image="https://einnalab.com/wp-content/uploads/2025/11/borage-oil.png">
                         <span class="value-icon"></span><span class="plus-icon">+</span>
                         <h3 class="feature-title">Flax Seed Oil</h3>
                     </button>
@@ -754,7 +790,7 @@
                 </div>
                 
                 <div class="feature-item" data-feature-id="olive-oil">
-                    <button class="feature-header" data-image="httpss://einnalab.com/wp-content/uploads/2025/11/Avocado-Oil.png">
+                    <button class="feature-header" data-image="https://einnalab.com/wp-content/uploads/2025/11/Avocado-Oil.png">
                         <span class="value-icon"></span><span class="plus-icon">+</span>
                         <h3 class="feature-title">Olive Oil</h3>
                     </button>
@@ -791,80 +827,80 @@
                 </li>
                 <li>
                     <div>
+                        <img src="https://einnalab.com/wp-content/uploads/2025/11/Marine-Collagen-Extract.png" alt="Marine Collagen" class="popup-ingredient-img">
+                        <span class="ingredient-name">NZ Marine Collagen</span>
+                    </div>
+                    <span class="ingredient-price">$45 USD</span>
+                </li>
+                <li>
+                    <div>
                         <img src="https://einnalab.com/wp-content/uploads/2025/11/Grape-Seed.png" alt="Grape Seed Extract" class="popup-ingredient-img">
                         <span class="ingredient-name">Grape Seed Extract</span>
                     </div>
-                    <span class="ingredient-price">$15 USD</span>
+                    <span class="ingredient-price">$30 USD</span>
                 </li>
                 <li>
                     <div>
                         <img src="https://einnalab.com/wp-content/uploads/2025/11/Tumeric.png" alt="Turmeric Root Extract" class="popup-ingredient-img">
                         <span class="ingredient-name">Turmeric Root Extract</span>
                     </div>
-                    <span class="ingredient-price">$35 USD</span>
+                    <span class="ingredient-price">$25 USD</span>
                 </li>
                 <li>
                     <div>
                         <img src="https://einnalab.com/wp-content/uploads/2025/11/Aloe-Vera-scaled.png" alt="Aloe Vera Extract" class="popup-ingredient-img">
                         <span class="ingredient-name">Aloe Vera Extract</span>
                     </div>
-                    <span class="ingredient-price">$21 USD</span>
+                    <span class="ingredient-price">$20 USD</span>
                 </li>
                 <li>
                     <div>
-                        <img src="https://einnalab.com/wp-content/uploads/2025/11/Marine-Collagen-Extract.png" alt="NZ Marine Collagen Extract" class="popup-ingredient-img">
-                        <span class="ingredient-name">NZ Marine Collagen Extract</span>
-                    </div>
-                    <span class="ingredient-price">$50 USD</span>
-                </li>
-                <li>
-                    <div>
-                        <img src="https://einnalab.com/wp-content/uploads/2025/11/Evening-Primrose-Oil.png" alt="Evening Primrose Oil" class="popup-ingredient-img">
+                        <img src="httpswww.google.com/search?q=evening+primrose+oil+image&tbm=isch&ved=2ahUKEwiw0q2i6sWGAxWJkYgKHUj3C1UQ2-cCegQIABAA&oq=evening+primrose+oil+image&gs_lp=EgNpbWciGWV2ZW5pbmcgcHJpbXJvc2Ugb2lsIGltYWdlMgUQABiABDIGEAAYCBgeMgYQABgIGB4yBhAAGAgYHmCYDVC8EWDJFnAAeACQAQCYAYwBoAGvCqoBAzAuObgBA8gBAPgBAYoCC2d3cy13aXotaW1nwgIEECMYJ8ICBhAAGAcYHsICBhAAGAUYHsICBRAAGLEDwgIIEAAYgAQYxAfCAgYQABgEGEPCAggQABgIGB4YDcICBBAAGB6IBgE&sclient=img&ei=iO5ZZveZBYmjoATP7q-oBQ&bih=931&biw=1920&rlz=1C1CHBF_enSG1012SG1012#imgrc=gT4-b-4N4h8TMM" alt="Evening Primrose Oil" class="popup-ingredient-img">
                         <span class="ingredient-name">Evening Primrose Oil</span>
                     </div>
-                    <span class="ingredient-price">$22 USD</span>
+                    <span class="ingredient-price">$28 USD</span>
                 </li>
                 <li>
                     <div>
                         <img src="https://einnalab.com/wp-content/uploads/2025/11/Avocado-Oil.png" alt="Avocado Oil" class="popup-ingredient-img">
                         <span class="ingredient-name">Avocado Oil</span>
                     </div>
-                    <span class="ingredient-price">$27 USD</span>
+                    <span class="ingredient-price">$22 USD</span>
                 </li>
                 <li>
                     <div>
                         <img src="https://einnalab.com/wp-content/uploads/2025/11/borage-oil.png" alt="Borage Oil" class="popup-ingredient-img">
                         <span class="ingredient-name">Borage Oil</span>
                     </div>
-                    <span class="ingredient-price">$33 USD</span>
+                    <span class="ingredient-price">$30 USD</span>
                 </li>
                 <li>
                     <div>
                         <img src="https://einnalab.com/wp-content/uploads/2025/11/lycopene.png" alt="Lycopene" class="popup-ingredient-img">
                         <span class="ingredient-name">Lycopene</span>
                     </div>
-                    <span class="ingredient-price">$20 USD</span>
+                    <span class="ingredient-price">$35 USD</span>
                 </li>
                 <li>
                     <div>
                         <img src="https://einnalab.com/wp-content/uploads/2025/11/Vitamin-E.png" alt="Vitamin E" class="popup-ingredient-img">
                         <span class="ingredient-name">Vitamin E</span>
                     </div>
-                    <span class="ingredient-price">$26 USD</span>
+                    <span class="ingredient-price">$18 USD</span>
                 </li>
                 <li>
                     <div>
                         <img src="https://einnalab.com/wp-content/uploads/2025/11/lycopene.png" alt="Astaxanthin" class="popup-ingredient-img">
                         <span class="ingredient-name">Astaxanthin</span>
                     </div>
-                    <span class="ingredient-price">$27 USD</span>
+                    <span class="ingredient-price">$42 USD</span>
                 </li>
                 <li>
                     <div>
                         <img src="https://einnalab.com/wp-content/uploads/2025/11/borage-oil.png" alt="Flax Seed Oil" class="popup-ingredient-img">
                         <span class="ingredient-name">Flax Seed Oil</span>
                     </div>
-                    <span class="ingredient-price">$26 USD</span>
+                    <span class="ingredient-price">$15 USD</span>
                 </li>
                 <li>
                     <div>
@@ -874,126 +910,150 @@
                     <span class="ingredient-price">$20 USD</span>
                 </li>
             </ul>
+            
             <div class="cost-total">
-                <span>Total Individual Value</span>
+                <span>Individual Cost Total:</span>
                 <span>$482 USD</span>
             </div>
+            
             <div class="cost-final-price">
-                <span>EiNNALAB Formula Price</span>
+                <span>Our All-in-One Price:</span>
                 <span>$140 USD</span>
             </div>
+            
         </div>
     </div>
 
-
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const mainProductImage = document.getElementById('productImage');
+            const featuresList = document.getElementById('featuresList');
             const featureItems = document.querySelectorAll('.feature-item');
-            const spotlightFeatures = document.getElementById('featuresList');
-            const defaultPill = document.getElementById('featureValue'); // The "home base" pill
-            
-            let currentImageSrc = mainProductImage.getAttribute('src');
+            const productImage = document.getElementById('productImage');
+            let isClick = false; // Flag to prevent scroll/hover/click conflict
+            let clickTimer = null;
 
-            function updateMainImage(newImageSrc, altText) {
-                if (!newImageSrc || currentImageSrc === newImageSrc) {
-                    return;
-                }
-                currentImageSrc = newImageSrc;
-                mainProductImage.style.opacity = 0;
+            // --- Image Update Function ---
+            function updateImage(src) {
+                // Check if src is valid and not already the current image
+                if (!src || productImage.src.includes(src.split('/').pop())) return; 
+                
+                productImage.style.opacity = '0.5';
                 setTimeout(() => {
-                    mainProductImage.setAttribute('src', newImageSrc);
-                    mainProductImage.setAttribute('alt', altText); 
-                    mainProductImage.style.opacity = 1;
-                }, 300);
+                    productImage.src = src;
+                    productImage.style.opacity = '1';
+                }, 150); // half of the 0.3s transition
             }
-
-            function activatePill(itemToActivate) {
+            
+            // --- Helper function to activate an item ---
+            function activateItem(itemToActivate) {
                 if (!itemToActivate || itemToActivate.classList.contains('active')) {
-                    return;
+                    return; // Do nothing if it's already active
                 }
-                const featureTitle = itemToActivate.querySelector('.feature-title').textContent;
-                const newImageSrc = itemToActivate.querySelector('.feature-header').dataset.image;
-                let altText = `EiNNALAB ingredient: ${featureTitle}`;
-                
-                if (itemToActivate.id === 'featureValue') {
-                    altText = 'EiNNALAB Deer Placenta 30000mg bottle';
-                }
-                
-                featureItems.forEach(item => {
-                    item.classList.remove('active');
-                });
 
+                // Set flag to tell observer to ignore this change
+                isClick = true; 
+                clearTimeout(clickTimer);
+                clickTimer = setTimeout(() => { isClick = false; }, 1000); 
+
+                // Deactivate all items
+                featureItems.forEach(item => item.classList.remove('active'));
+                
+                // Activate the new one
                 itemToActivate.classList.add('active');
-                updateMainImage(newImageSrc, altText);
+                const header = itemToActivate.querySelector('.feature-header');
+                if (header) {
+                    updateImage(header.dataset.image);
+                }
             }
-            
-            const mediaQuery = window.matchMedia('(min-width: 768px)');
-            
-            function setupInteractions(isDesktop) {
-                if (isDesktop) {
-                    // --- DESKTOP: Hover & "Home Base" Logic ---
-                    featureItems.forEach(item => {
-                        const header = item.querySelector('.feature-header');
-                        header.addEventListener('mouseenter', () => {
-                            activatePill(item);
-                        });
-                        if (item.id !== 'featureValue') {
-                            item.addEventListener('mouseleave', () => {
-                                activatePill(defaultPill);
-                            });
-                        }
-                    });
-                    activatePill(defaultPill);
 
-                } else {
-                    // --- MOBILE: Horizontal Scroll-Spy Logic ---
-                    let scrollTimer;
-                    let currentFeature = null;
 
-                    spotlightFeatures.addEventListener('scroll', () => {
-                        clearTimeout(scrollTimer);
-                        scrollTimer = setTimeout(() => {
-                            const containerRect = spotlightFeatures.getBoundingClientRect();
-                            const containerCenter = containerRect.left + containerRect.width / 2;
-                            let minDistance = Infinity;
-                            let closestItem = null;
+            // --- 1. Click Handler (for Accordion on Desktop) ---
+            featuresList.addEventListener('click', (e) => {
+                // Only run on desktop (accordion is disabled on mobile)
+                if (window.innerWidth < 768) return; 
 
-                            featureItems.forEach(item => {
-                                const itemRect = item.getBoundingClientRect();
-                                const itemCenter = itemRect.left + itemRect.row.width / 2;
-                                const distance = Math.abs(itemCenter - containerCenter);
-                                if (distance < minDistance) {
-                                    minDistance = distance;
-                                    closestItem = item;
-                                }
-                            });
-
-                            if (closestItem && closestItem !== currentFeature) {
-                                currentFeature = closestItem;
-                                const featureTitle = closestItem.querySelector('.feature-title').textContent;
-                                const newImageSrc = closestItem.querySelector('.feature-header').dataset.image;
-                                let altText = `EiNNALAB ingredient: ${featureTitle}`;
-                                if (closestItem.id === 'featureValue') {
-                                    altText = 'EiNNALAB Deer Placenta 30000mg bottle';
-                                }
-                                updateMainImage(newImageSrc, altText);
-                            }
-                        }, 100);
-                    });
+                const header = e.target.closest('.feature-header');
+                if (!header) return;
+                
+                const itemToToggle = header.closest('.feature-item');
+                if (!itemToToggle) return;
+                
+                const wasActive = itemToToggle.classList.contains('active');
+                
+                // Deactivate all items
+                featureItems.forEach(item => item.classList.remove('active'));
+                
+                // Activate the clicked one (if it wasn't already active)
+                if (!wasActive) {
+                    itemToToggle.classList.add('active');
+                    updateImage(header.dataset.image);
                     
-                    if (defaultPill) {
-                        const newImageSrc = defaultPill.querySelector('.feature-header').dataset.image;
-                        updateMainImage(newImageSrc, 'EiNNALAB Deer Placenta 30000mg bottle');
+                    // Set flag to tell observer to ignore this change
+                    isClick = true;
+                    clearTimeout(clickTimer);
+                    clickTimer = setTimeout(() => { isClick = false; }, 1000); 
+                } else {
+                    // If clicking an active one, close it and RE-activate the FIRST item
+                    const firstItem = document.getElementById('featureValue');
+                    firstItem.classList.add('active');
+                    updateImage(firstItem.querySelector('.feature-header').dataset.image);
+                }
+            });
+
+            // --- 2. Intersection Observer (for Scrolling Image Change on Desktop) ---
+            const observerOptions = {
+                root: null, // Use the viewport
+                // [UPDATED] Trigger line is 30px from top, to match new sticky position
+                rootMargin: '-30px 0px -70% 0px', 
+                threshold: 0
+            };
+
+            const observerCallback = (entries) => {
+                // Don't run if user just clicked/hovered or if on mobile
+                if (isClick || window.innerWidth < 768) return; 
+
+                // Find the topmost visible entry in our trigger zone
+                let topmostVisibleEntry = null;
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        if (!topmostVisibleEntry || entry.boundingClientRect.top < topmostVisibleEntry.boundingClientRect.top) {
+                            topmostVisibleEntry = entry;
+                        }
+                    }
+                });
+                
+                if (topmostVisibleEntry) {
+                    const itemToActivate = topmostVisibleEntry.target;
+                    
+                    // Only update if it's not already the active one
+                    if (!itemToActivate.classList.contains('active')) {
+                        featureItems.forEach(item => item.classList.remove('active'));
+                        itemToActivate.classList.add('active');
+                        updateImage(itemToActivate.querySelector('.feature-header').dataset.image);
                     }
                 }
+            };
+            
+            // Only run this scroll-spying observer on desktop
+            if (window.innerWidth >= 768) {
+                const observer = new IntersectionObserver(observerCallback, observerOptions);
+                featureItems.forEach(item => observer.observe(item));
             }
 
-            // --- Initial Setup ---
-            setupInteractions(mediaQuery.matches);
-            
-            
-            // --- Popup Logic ---
+            // --- [UPDATED] 3. Hover-to-Activate Logic ---
+            featuresList.addEventListener('mouseover', (e) => {
+                if (window.innerWidth < 768) return; // Only on desktop
+                const header = e.target.closest('.feature-header');
+                if (!header) return;
+                
+                const itemToActivate = header.closest('.feature-item');
+                
+                // Use the helper function to activate the item
+                activateItem(itemToActivate);
+            });
+
+
+            // --- 4. Popup Logic ---
             const openButton = document.getElementById('costBreakdownButton');
             const closeButton = document.getElementById('popupCloseButton');
             const popup = document.getElementById('costPopup');
@@ -1002,18 +1062,18 @@
                 openButton.addEventListener('click', () => {
                     popup.classList.add('active');
                 });
-                
+
                 closeButton.addEventListener('click', () => {
                     popup.classList.remove('active');
                 });
-                
+
+                // Close popup by clicking on the overlay background
                 popup.addEventListener('click', (e) => {
                     if (e.target === popup) {
                         popup.classList.remove('active');
                     }
                 });
             }
-
         });
     </script>
 
