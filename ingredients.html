@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Einnalab Deer Placenta - Ingredient Comparison</title>
+    
+    <!-- 1. Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- 2. Fonts (Poppins, Inter, Satoshi) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.cdnfonts.com/css/satoshi" rel="stylesheet">
+    
+    <!-- 3. Custom Styles & Animations -->
+    <style>
+        /* Define custom fonts for Tailwind */
+        :root {
+            --font-poppins: 'Poppins', sans-serif;
+            --font-inter: 'Inter', sans-serif;
+            --font-satoshi: 'Satoshi', sans-serif;
+            --color-brand: #7b021d;
+            --color-brand-light: #fdedf0;
+        }
+
+        body {
+            font-family: var(--font-inter);
+            background-color: #f8fafc; /* Bright theme bg */
+        }
+
+        .font-poppins { font-family: var(--font-poppins); }
+        .font-satoshi { font-family: var(--font-satoshi); }
+
+        /* Custom accent color */
+        .text-brand { color: var(--color-brand); }
+        .bg-brand { background-color: var(--color-brand); }
+        .bg-brand-light { background-color: var(--color-brand-light); }
+        .border-brand { border-color: var(--color-brand); }
+        
+        /* Gradient text */
+        .text-gradient {
+            background: linear-gradient(90deg, var(--color-brand), #c0022f);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+        }
+
+        /* Ingredient list hover effect */
+        .ingredient-item {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .ingredient-item:hover,
+        .ingredient-item.active {
+            background-color: white;
+            color: var(--color-brand);
+            transform: translateX(10px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Active ingredient image transition */
+        #active-ingredient-image {
+            transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+        }
+        #active-ingredient-image.loading {
+            transform: scale(0.95);
+            opacity: 0.5;
+        }
+
+        /* 3D Tilt Effect */
+        .tilt-card {
+            transform-style: preserve-3d;
+            transition: transform 0.1s linear;
+        }
+
+        /* Button Glow Animation */
+        .button-glow {
+            animation: pulse-shadow 2s infinite;
+        }
+        @keyframes pulse-shadow {
+            0% {
+                box-shadow: 0 0 0 0 rgba(123, 2, 29, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 12px rgba(123, 2, 29, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(123, 2, 29, 0);
+            }
+        }
+        
+        /* Custom scrollbar for ingredient list */
+        .ingredient-scroll::-webkit-scrollbar {
+            width: 6px;
+        }
+        .ingredient-scroll::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        .ingredient-scroll::-webkit-scrollbar-thumb {
+            background: #d1d5db;
+            border-radius: 10px;
+        }
+        .ingredient-scroll::-webkit-scrollbar-thumb:hover {
+            background: #9ca3af;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <section class="w-full min-h-screen p-4 md:p-8 lg:p-12">
+        <div class="container mx-auto max-w-7xl">
+            
+            <!-- Header -->
+            <header class="text-center mb-12 md:mb-16">
+                <h1 class="font-poppins text-3xl md:text-5xl font-bold text-gray-900 mb-3">
+                    The Price of Perfection
+                </h1>
+                <p class="font-satoshi text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
+                    See how the cost of 13 individual ingredients compares to one synergistic formula.
+                </p>
+            </header>
+
+            <!-- Main Content Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 md:gap-12">
+
+                <!-- Col 1: Ingredient List -->
+                <div class="lg:col-span-1 bg-white/60 backdrop-blur-sm rounded-2xl shadow-sm border border-gray-100 p-6">
+                    <h3 class="font-poppins text-xl font-semibold text-gray-800 mb-4">
+                        13 Potent Ingredients
+                    </h3>
+                    <ul id="ingredient-list" class="space-y-2 h-[400px] md:h-[500px] lg:h-[600px] overflow-y-auto pr-2 ingredient-scroll">
+                        <!-- Ingredient items will be injected by JS -->
+                    </ul>
+                </div>
+
+                <!-- Col 2: Active Ingredient & Summary -->
+                <div class="lg:col-span-2">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+                        <!-- Active Ingredient Display -->
+                        <div id="active-ingredient-card" class="bg-white rounded-2xl shadow-lg p-6 md:p-8 flex flex-col items-center justify-center text-center min-h-[300px] md:min-h-0 tilt-card">
+                            <!-- Placeholder -->
+                            <div id="ingredient-placeholder" class="text-center">
+                                <svg class="w-16 h-16 text-gray-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                <p class="font-satoshi text-gray-500">
+                                    Hover over an ingredient to see its details.
+                                </p>
+                            </div>
+                            
+                            <!-- Active Content (hidden by default) -->
+                            <div id="ingredient-content" class="hidden flex flex-col items-center">
+                                <img id="active-ingredient-image" src="" alt="" class="w-40 h-40 md:w-56 md:h-56 object-contain mb-5" 
+                                     onerror="this.src='https://placehold.co/400x400/eeeeee/cccccc?text=Image+Error'">
+                                <h4 id="active-ingredient-name" class="font-poppins text-2xl font-bold text-gray-900"></h4>
+                                <p id="active-ingredient-price" class="font-satoshi text-3xl font-medium text-brand mt-2"></p>
+                            </div>
+                        </div>
+
+                        <!-- Summary Cards -->
+                        <div class="space-y-8">
+                            
+                            <!-- Card 1: Total Cost -->
+                            <div class="bg-white rounded-2xl shadow-lg p-6 md:p-8 text-center tilt-card">
+                                <h3 class="font-poppins text-lg font-semibold text-gray-700 mb-2">
+                                    Cost of Individual Ingredients
+                                </h3>
+                                <p class="font-poppins font-bold text-5xl md:text-6xl text-gradient my-3" id="total-cost-counter">
+                                    $0
+                                </p>
+                                <p class="font-satoshi text-gray-600 text-sm">
+                                    Estimated cost to purchase all 13 ingredients separately.
+                                </p>
+                            </div>
+                            
+                            <!-- Card 2: Our Product -->
+                            <div class="bg-brand-light border-2 border-brand rounded-2xl shadow-lg p-6 md:p-8 text-center tilt-card">
+                                <h3 class="font-poppins text-lg font-semibold text-brand mb-3">
+                                    The All-in-One Solution
+                                </h3>
+                                
+                                <img src="https://einnalab.com/wp-content/uploads/2025/07/EiNNALAB-Deer-Placenta-30000mg-DarkRed-TRANSPARENT-Front-scaled-e1751113638955.png" 
+                                     alt="EiNNALAB Deer Placenta" 
+                                     class="w-32 h-32 object-contain mx-auto mb-3 drop-shadow-lg"
+                                     onerror="this.src='https://placehold.co/300x300/fdedf0/7b021d?text=Einnalab+Product'">
+                                
+                                <p class="font-poppins font-bold text-5xl md:text-6xl text-brand my-2">
+                                    $140
+                                </p>
+                                <p class="font-satoshi text-gray-700 text-sm mb-5">
+                                    Get the synergistic benefits of all 13 ingredients in one advanced formula.
+                                </p>
+                                <button class="bg-brand text-white font-poppins font-semibold py-3 px-8 rounded-full shadow-lg transition-transform duration-300 hover:scale-105 button-glow">
+                                    Discover Einnalab
+                                </button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // --- 1. Data ---
+            const ingredients = [
+                { name: 'Deer Placenta Extract', price: 140, image: 'https://einnalab.com/wp-content/uploads/2025/07/EiNNALAB-Deer-Placenta-30000mg-DarkRed-TRANSPARENT-Front-scaled-e1751113638955.png' },
+                { name: 'Grape Seed Extract', price: 15, image: 'https://einnalab.com/wp-content/uploads/2025/11/Grape-Seed.png' },
+                { name: 'Turmeric Root Extract', price: 35, image: 'https://einnalab.com/wp-content/uploads/2025/11/Tumeric.png' },
+                { name: 'Aloe Vera Extract', price: 21, image: 'https://einnalab.com/wp-content/uploads/2025/11/Aloe-Vera-scaled.png' },
+                { name: 'NZ Marine Collagen', price: 50, image: 'https://einnalab.com/wp-content/uploads/2025/11/Marine-Collagen-Extract.png' },
+                { name: 'Evening Primrose Oil', price: 22, image: 'https://einnalab.com/wp-content/uploads/2025/11/Evening-Primrose-Oil.png' },
+                { name: 'Avocado Oil', price: 27, image: 'https://einnalab.com/wp-content/uploads/2025/11/Avocado-Oil.png' },
+                { name: 'Borage Oil', price: 33, image: 'https://einnalab.com/wp-content/uploads/2025/11/borage-oil.png' },
+                { name: 'Lycopene', price: 20, image: 'https://einnalab.com/wp-content/uploads/2025/11/lycopene.png' },
+                { name: 'Vitamin E', price: 26, image: 'https://einnalab.com/wp-content/uploads/2025/11/Vitamin-E.png' },
+                { name: 'Astaxanthin', price: 27, image: 'https://placehold.co/400x400/eeeeee/cccccc?text=Astaxanthin' },
+                { name: 'Flax Seed Oil', price: 26, image: 'https://placehold.co/400x400/eeeeee/cccccc?text=Flax+Seed+Oil' },
+                { name: 'Olive Oil', price: 20, image: 'https://placehold.co/400x400/eeeeee/cccccc?text=Olive+Oil' }
+            ];
+
+            const totalCost = ingredients.reduce((sum, item) => sum + item.price, 0);
+
+            // --- 2. Element References ---
+            const ingredientListEl = document.getElementById('ingredient-list');
+            const placeholderEl = document.getElementById('ingredient-placeholder');
+            const contentEl = document.getElementById('ingredient-content');
+            const activeImageEl = document.getElementById('active-ingredient-image');
+            const activeNameEl = document.getElementById('active-ingredient-name');
+            const activePriceEl = document.getElementById('active-ingredient-price');
+            const totalCostEl = document.getElementById('total-cost-counter');
+            const tiltCards = document.querySelectorAll('.tilt-card');
+
+            // --- 3. Populate Ingredient List ---
+            ingredientListEl.innerHTML = ingredients.map((item, index) => `
+                <li class="ingredient-item p-4 rounded-lg cursor-pointer border border-transparent" data-index="${index}">
+                    <div class="flex justify-between items-center">
+                        <span class="font-satoshi font-medium text-gray-700">${item.name}</span>
+                        <span class="font-inter font-semibold text-gray-900">$${item.price}</span>
+                    </div>
+                </li>
+            `).join('');
+
+            const ingredientItems = document.querySelectorAll('.ingredient-item');
+
+            // --- 4. Event Listener for Hover ---
+            let activeItem = null;
+            ingredientItems.forEach(item => {
+                item.addEventListener('mouseenter', () => {
+                    if (activeItem) {
+                        activeItem.classList.remove('active');
+                    }
+                    activeItem = item;
+                    item.classList.add('active');
+                    
+                    const index = item.dataset.index;
+                    const data = ingredients[index];
+
+                    // Show content, hide placeholder
+                    placeholderEl.style.display = 'none';
+                    contentEl.style.display = 'flex';
+
+                    // Add loading state for image
+                    activeImageEl.classList.add('loading');
+                    
+                    // Preload image
+                    const img = new Image();
+                    img.src = data.image;
+                    img.onload = () => {
+                        activeImageEl.src = img.src;
+                        activeImageEl.alt = data.name;
+                        activeImageEl.classList.remove('loading');
+                    };
+                    img.onerror = () => {
+                        // Handle image loading error, e.g., show placeholder
+                        activeImageEl.src = `https://placehold.co/400x400/eeeeee/cccccc?text=${data.name.replace(' ', '+')}`;
+                        activeImageEl.alt = data.name;
+                        activeImageEl.classList.remove('loading');
+                    };
+
+                    activeNameEl.textContent = data.name;
+                    activePriceEl.textContent = `$${data.price}`;
+                });
+            });
+
+            // --- 5. Animate Total Cost Counter ---
+            function animateCounter(el, start, end, duration) {
+                let startTime = null;
+                const step = (timestamp) => {
+                    if (!startTime) startTime = timestamp;
+                    const progress = Math.min((timestamp - startTime) / duration, 1);
+                    const currentVal = Math.floor(progress * (end - start) + start);
+                    el.textContent = `$${currentVal}`;
+                    if (progress < 1) {
+                        window.requestAnimationFrame(step);
+                    } else {
+                        el.textContent = `$${end}`; // Ensure final value is exact
+                    }
+                };
+                window.requestAnimationFrame(step);
+            }
+            
+            // Start counter animation
+            animateCounter(totalCostEl, 0, totalCost, 2000);
+
+            // --- 6. 3D Tilt Effect ---
+            tiltCards.forEach(card => {
+                card.addEventListener('mousemove', (e) => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left - rect.width / 2;
+                    const y = e.clientY - rect.top - rect.height / 2;
+                    
+                    const rotateX = (y / (rect.height / 2)) * -5; // Max 5deg tilt
+                    const rotateY = (x / (rect.width / 2)) * 5;  // Max 5deg tilt
+                    
+                    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+                });
+                
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
+                });
+            });
+
+        });
+    </script>
+
+</body>
+</html>
