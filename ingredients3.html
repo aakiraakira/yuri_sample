@@ -165,11 +165,15 @@
                     The Price of Perfection
                 </h1>
                 <p class="font-satoshi text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
-                    Click to build your own total and see how it compares to our all-in-one formula.
+                    Hover (or tap) to build your total and see how it compares to our all-in-one formula.
                 </p>
             </header>
 
             <!-- Main Content Grid -->
+            <!-- 
+                Desktop Layout (lg): 3 columns (Ingredients | Cost | Solution)
+                Mobile Layout (default): 1 column (Ingredients -> Cost -> Solution)
+            -->
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 md:gap-12">
 
                 <!-- Col 1: Ingredient List -->
@@ -191,41 +195,19 @@
                     </ul>
                 </div>
 
-                <!-- Col 2: Summary Cards -->
+                <!-- Col 2 & 3: Summary Cards Wrapper -->
+                <!-- This wrapper holds the two cards and the "OR" circle -->
                 <!-- Mobile: order-2 (second) -->
                 <!-- Desktop: order-2 (second) -->
                 <div class="lg:col-span-2 lg:order-2 order-2 fade-in-up" style="animation-delay: 0.2s;">
-                    <!-- This div will hold the two summary cards -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    
+                    <!-- Desktop: Grid for Cost, OR, Solution -->
+                    <!-- Mobile: Simple grid (flex-col) for Cost -> Solution -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 lg:gap-8 relative">
                         
-                        <!-- Card 1: Our Product (High-Converting CTA) -->
-                        <!-- Mobile: order-2 (second) / Desktop: order-1 (first) -->
-                        <div class="glass-card-brand p-6 md:p-8 text-center tilt-card h-full flex flex-col justify-between order-2 md:order-1">
-                            <div>
-                                <h3 class="font-poppins text-lg font-semibold text-brand mb-3">
-                                    The All-in-One Solution
-                                </h3>
-                                
-                                <img src="https://einnalab.com/wp-content/uploads/2025/07/EiNNALAB-Deer-Placenta-30000mg-DarkRed-TRANSPARENT-Front-scaled-e1751113638955.png" 
-                                     alt="EiNNALAB Deer Placenta" 
-                                     class="w-32 h-32 object-contain mx-auto mb-3 drop-shadow-lg"
-                                     onerror="this.src='https://placehold.co/300x300/fdedf0/7b021d?text=Einnalab+Product'">
-                                
-                                <p class="font-poppins font-bold text-5xl md:text-6xl text-brand my-2">
-                                    $140
-                                </p>
-                                <p class="font-satoshi text-gray-700 text-sm mb-5">
-                                    Get the synergistic benefits of all 13 ingredients in one advanced formula.
-                                </p>
-                            </div>
-                            <button class="bg-brand text-white font-poppins font-semibold py-3 px-8 rounded-full shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl button-glow">
-                                Discover Einnalab
-                            </button>
-                        </div>
-
-                        <!-- Card 2: Total Cost -->
-                        <!-- Mobile: order-1 (first) / Desktop: order-2 (second) -->
-                        <div class="glass-card p-6 md:p-8 tilt-card h-full flex flex-col order-1 md:order-2">
+                        <!-- Mobile: "Your Ingredient Cost" card -->
+                        <!-- Desktop: "Your Ingredient Cost" card -->
+                        <div class="glass-card p-6 md:p-8 tilt-card h-full flex flex-col order-1 lg:order-1 mb-8 lg:mb-0">
                             <h3 class="font-poppins text-lg font-semibold text-gray-700 mb-4 text-center">
                                 Your Ingredient Cost
                             </h3>
@@ -250,11 +232,11 @@
                             
                             <!-- This will list added ingredients -->
                             <div class="flex-grow relative">
-                                 <h4 class="font-satoshi font-medium text-gray-800 text-center mb-2">
-                                     Added Ingredients
-                                 </h4>
+                                <h4 class="font-satoshi font-medium text-gray-800 text-center mb-2">
+                                    Added Ingredients
+                                </h4>
                                 <ul id="added-ingredients-list" class="space-y-2 overflow-y-auto max-h-[200px] ingredient-scroll-y p-2">
-                                   <!-- JS will add items here -->
+                                    <!-- JS will add items here -->
                                 </ul>
                             </div>
                             
@@ -268,6 +250,38 @@
                                     $0
                                 </p>
                             </div>
+                        </div>
+
+                        <!-- "OR" Circle (Desktop Only) -->
+                        <div class="hidden lg:flex absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 
+                                    w-20 h-20 bg-white rounded-full shadow-lg 
+                                    items-center justify-center z-10">
+                            <span class="font-poppins text-2xl font-bold text-gray-500">OR</span>
+                        </div>
+
+                        <!-- Mobile: "All-in-One Solution" card -->
+                        <!-- Desktop: "All-in-One Solution" card -->
+                        <div class="glass-card-brand p-6 md:p-8 text-center tilt-card h-full flex flex-col justify-between order-2 lg:order-2">
+                            <div>
+                                <h3 class="font-poppins text-lg font-semibold text-brand mb-3">
+                                    The All-in-One Solution
+                                </h3>
+                                
+                                <img src="https://einnalab.com/wp-content/uploads/2025/07/EiNNALAB-Deer-Placenta-30000mg-DarkRed-TRANSPARENT-Front-scaled-e1751113638955.png" 
+                                     alt="EiNNALAB Deer Placenta" 
+                                     class="w-32 h-32 object-contain mx-auto mb-3 drop-shadow-lg"
+                                     onerror="this.src='https://placehold.co/300x300/fdedf0/7b021d?text=Einnalab+Product'">
+                                
+                                <p class="font-poppins font-bold text-5xl md:text-6xl text-brand my-2">
+                                    $140
+                                </p>
+                                <p class="font-satoshi text-gray-700 text-sm mb-5">
+                                    Get the synergistic benefits of all 13 ingredients in one advanced formula.
+                                </p>
+                            </div>
+                            <button class="bg-brand text-white font-poppins font-semibold py-3 px-8 rounded-full shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl button-glow">
+                                Discover Einnalab
+                            </button>
                         </div>
                         
                     </div>
