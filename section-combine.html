@@ -1,0 +1,1954 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The EiNNALAB Deer Placenta Formula | Incredible Value</title>
+    <meta name="description" content="Discover the advanced EiNNALAB formula. 13+ premium ingredients like NZ Marine Collagen in one blend, offering over $482 in value for just $140.">
+    
+    <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            /* Bright Theme Color Palette */
+            --bg-color: #f8f9fa;
+            --card-bg-color: #ffffff;
+            --text-color-dark: #212529;
+            --text-color-muted: #6c757d;
+            --brand-red: #7b021d;
+            --brand-red-light: #c9184a;
+            --link-color: var(--brand-red);
+            
+            /* Bright Theme Pill Colors */
+            --pill-bg: #ffffff;
+            --pill-bg-active: #ffffff;
+            --pill-border: #e9ecef;
+            --pill-border-active: rgba(123, 2, 29, 0.3);
+            --pill-icon-bg: #f1f3f5;
+            
+            /* Polished Effects */
+            --shadow-sm: 0 2px 10px rgba(0, 0, 0, 0.04);
+            --shadow-md: 0 5px 15px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.07);
+            
+            /* Font Stack */
+            --font-heading: 'Poppins', 'Inter', sans-serif;
+            --font-body: 'Satoshi', 'Inter', sans-serif;
+        }
+
+        /* --- Keyframes for Effects --- */
+        @keyframes aurora-spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        @keyframes gradient-pan {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        /* [1] Keyframe for slick button intro */
+        @keyframes fadeInSlick {
+            from { opacity: 0; transform: translateX(-50%) translateY(20px); }
+            to { opacity: 1; transform: translateX(-50%) translateY(0); }
+        }
+        
+        /* Keyframe for cost list animation */
+        @keyframes fadeInGrow {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        
+        .gradient-text {
+            background: linear-gradient(90deg, var(--brand-red), var(--brand-red-light), var(--brand-red));
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+            animation: gradient-pan 5s ease infinite;
+        }
+
+        /* --- Base Styles --- */
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: var(--font-body);
+            background-color: var(--bg-color);
+            color: var(--text-color-dark);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* --- Product Spotlight Section --- */
+        .product-spotlight {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 100px 0;
+            overflow-x: hidden;
+            position: relative;
+            z-index: 10;
+        }
+        
+        /* Header margin */
+        .spotlight-header {
+            max-width: 1200px;
+            margin: 0 auto 30px auto; /* Was 50px */
+            padding: 0 4vw;
+            box-sizing: border-box;
+        }
+
+        .spotlight-header h2 {
+            font-family: var(--font-heading);
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-weight: 700;
+            color: var(--text-color-dark);
+            margin: 0 0 10px 0;
+            line-height: 1.1;
+        }
+
+        .learn-more-link {
+            display: inline-flex;
+            align-items: center;
+            color: var(--link-color);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.1rem;
+            margin-top: 10px;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+        .learn-more-link:hover { color: var(--brand-red-light); }
+        .learn-more-link svg {
+            margin-left: 8px;
+            width: 20px;
+            height: 20px;
+            fill: var(--link-color);
+            transition: fill 0.3s ease;
+        }
+        .learn-more-link:hover svg { fill: var(--brand-red-light); }
+
+        /* --- Main Wrapper (Desktop: 2-col, Mobile: 1-col) --- */
+        .spotlight-wrapper {
+            display: grid;
+            grid-template-columns: 1fr; /* Mobile-first */
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 4vw;
+            box-sizing: border-box;
+            gap: 40px;
+        }
+        
+        /* --- [FIXED] Image Gallery (Sticky Column) --- */
+        .spotlight-gallery {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: flex-start; /* Aligns card to the top of the column */
+            justify-content: center;
+            box-sizing: border-box; /* [FIX] Added this to fix mobile padding issue */
+        }
+        
+        /* Sticky position */
+        .spotlight-gallery .image-container {
+            width: 100%;
+            position: -webkit-sticky;
+            position: sticky;
+            top: 20px; /* Was 100px. Sticks card higher. */
+            background: var(--card-bg-color);
+            border-radius: 24px;
+            border: 1px solid var(--pill-border);
+            padding: 20px;
+            box-sizing: border-box;
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+            isolation: isolate;
+            position: relative;
+        }
+        
+        .spotlight-gallery .image-container::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 150%;
+            padding-bottom: 150%;
+            z-index: -1;
+            background: radial-gradient(
+                circle at center,
+                rgba(123, 2, 29, 0.15),
+                rgba(255, 193, 7, 0.1),
+                rgba(255, 255, 255, 0) 70%
+            );
+            transform-origin: center;
+            transform: translateX(-50%) translateY(-50%);
+            filter: blur(100px);
+            opacity: 0.8;
+            animation: aurora-spin 20s linear infinite;
+        }
+
+
+        .spotlight-gallery img {
+            width: 100%;
+            height: auto;
+            max-height: 60vh;
+            object-fit: contain;
+            display: block;
+            border-radius: 12px;
+            transition: opacity 0.3s ease;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* --- Features List (Scrolling Column) --- */
+        .spotlight-features {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .feature-item {
+            background: var(--pill-bg);
+            border: 1px solid var(--pill-border);
+            border-radius: 20px;
+            transition: background 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .feature-header {
+            background: transparent;
+            border-radius: 20px;
+            padding: 15px 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            width: 100%;
+            border: none;
+            text-align: left;
+            box-sizing: border-box;
+            color: inherit;
+            font: inherit;
+        }
+        
+        .feature-item:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateY(-3px);
+        }
+        
+        .feature-item.active {
+            box-shadow: var(--shadow-md);
+            border-color: var(--pill-border-active);
+        }
+
+        .plus-icon {
+            flex-shrink: 0;
+            width: 28px;
+            height: 28px;
+            background: var(--pill-icon-bg);
+            color: var(--text-color-dark);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: 400;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), background 0.3s, color 0.3s;
+        }
+        
+        .feature-item.active .plus-icon {
+            transform: rotate(45deg);
+            background: var(--brand-red);
+            color: white;
+        }
+        
+        .value-icon {
+            flex-shrink: 0;
+            width: 28px;
+            height: 28px;
+            background: var(--pill-icon-bg);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s, color 0.3s;
+        }
+        
+        .feature-item#featureValue .plus-icon { display: none; }
+        .feature-item:not(#featureValue) .value-icon { display: none; }
+
+        .feature-item.active .value-icon {
+            background: var(--brand-red);
+            color: white;
+        }
+        .value-icon svg {
+            width: 16px;
+            height: 16px;
+            fill: var(--text-color-dark);
+            transition: fill 0.3s;
+        }
+        .feature-item.active .value-icon svg {
+            fill: white;
+        }
+
+
+        .feature-title {
+            color: var(--text-color-dark);
+            font-family: var(--font-heading);
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin: 0;
+            padding: 0;
+            line-height: 1.2;
+        }
+
+        .feature-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+                        padding 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .feature-item.active .feature-content {
+            max-height: 300px;
+            padding: 10px 25px 25px 25px; 
+        }
+        
+        .feature-content p {
+            margin: 0;
+            color: var(--text-color-muted);
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+        
+        .feature-content p b {
+            color: var(--text-color-dark);
+            font-weight: 600;
+        }
+
+        /* --- Desktop & Tablet View (2 Columns) --- */
+        @media (min-width: 768px) {
+            .spotlight-wrapper {
+                /* This creates the 2-column layout: Image on Left, Pills on Right */
+                grid-template-columns: 1fr 1fr;
+            }
+            .spotlight-gallery img {
+                max-height: 70vh;
+            }
+            
+            /* Make features column scrollable on desktop */
+            .spotlight-features {
+                max-height: 70vh; /* Match the image max-height */
+                overflow-y: auto;
+                padding-right: 10px; /* Space for scrollbar */
+                
+                /* Nice scrollbar (Firefox) */
+                scrollbar-width: thin;
+                scrollbar-color: #adb5bd transparent;
+            }
+            /* Nice scrollbar (Webkit) */
+            .spotlight-features::-webkit-scrollbar {
+                width: 6px;
+            }
+            .spotlight-features::-webkit-scrollbar-track {
+                background: transparent;
+            }
+            .spotlight-features::-webkit-scrollbar-thumb {
+                background-color: #adb5bd; /* A bit darker than muted text */
+                border-radius: 3px;
+            }
+        }
+        
+        /* --- Mobile View: Horizontal Scroll, All Open --- */
+        @media (max-width: 767px) {
+            .spotlight-wrapper {
+                /* On mobile, stack them. Gallery first, then pills. */
+                display: flex;
+                flex-direction: column;
+                padding: 0;
+                gap: 20px;
+            }
+            .spotlight-header { padding: 0 4vw; }
+            .spotlight-gallery { padding: 0 4vw; } /* This padding now works due to box-sizing */
+            .spotlight-gallery .image-container {
+                /* Image container sticks to the top */
+                position: -webkit-sticky;
+                position: sticky;
+                top: 20px;
+                z-index: 1;
+            }
+            .spotlight-features {
+                /* Pills scroll horizontally below the image */
+                flex-direction: row;
+                overflow-x: auto;
+                gap: 15px;
+                z-index: 2;
+                position: relative;
+                padding: 10px 4vw;
+                -ms-overflow-style: none;
+                scrollbar-width: none;
+            }
+            .spotlight-features::-webkit-scrollbar { display: none; }
+            .feature-item {
+                flex-shrink: 0;
+                width: 80vw;
+                max-width: 320px;
+                background: var(--card-bg-color);
+                border: 1px solid var(--pill-border);
+                border-radius: 20px;
+                scroll-snap-align: center;
+                box-shadow: var(--shadow-md);
+            }
+            .spotlight-features { scroll-snap-type: x mandatory; }
+            .feature-header { background: transparent; border: none; cursor: default; }
+            .feature-content { max-height: 400px; overflow: visible; padding: 15px 25px 25px 25px; }
+            .plus-icon { transform: rotate(45deg); background: var(--brand-red); color: white; }
+            .value-icon { background: var(--brand-red); color: white; }
+            .value-icon svg { fill: white; }
+            .plus-icon, .value-icon { width: 24px; height: 24px; font-size: 18px; }
+        }
+        
+        
+        /* [2] LIQUID GLASS BUTTON & POPUP STYLES */
+        
+        /* The Floating Button */
+        #costBreakdownButton {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 100;
+            background: rgba(20, 20, 20, 0.7);
+            color: #f5f5f5;
+            backdrop-filter: blur(15px) saturate(180%);
+            -webkit-backdrop-filter: blur(15px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 99px;
+            padding: 10px 12px 10px 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: var(--font-body);
+            font-weight: 500;
+            font-size: 1rem;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            
+            /* Slick "appear" animation */
+            opacity: 0; /* Start hidden */
+            animation: fadeInSlick 0.5s ease-out 1s forwards; /* 1s delay */
+        }
+        
+        #costBreakdownButton:hover {
+            transform: translateX(-50%) translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .plus-icon-apple {
+            width: 28px;
+            height: 28px;
+            background: #007aff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+        .plus-icon-apple svg {
+            width: 18px;
+            height: 18px;
+            fill: white;
+        }
+
+        /* Popup Overlay */
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            display: flex;
+            align-items: flex-end; /* Align to bottom */
+            justify-content: center;
+            padding: 20px 20px 0 20px; /* Add padding for small screens */
+            box-sizing: border-box;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s ease;
+        }
+        .popup-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Popup Content Box */
+        .popup-content {
+            background: var(--card-bg-color);
+            border-radius: 20px 20px 0 0; /* Rounded top corners */
+            padding: 30px 35px;
+            max-width: 500px; /* Increased max-width */
+            width: 100%;
+            box-shadow: var(--shadow-lg);
+            position: relative;
+            
+            /* "Rise from bottom" animation */
+            transform: translateY(50px);
+            opacity: 0;
+            transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.4s ease;
+        }
+        .popup-overlay.active .popup-content {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        .popup-content h3 {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            margin: 0 0 10px 0;
+            color: var(--text-color-dark);
+        }
+        .popup-content p {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: var(--text-color-muted);
+            margin: 0 0 25px 0;
+        }
+
+        .popup-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 30px;
+            height: 30px;
+            background: #f1f3f5;
+            border: none;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            line-height: 1;
+            color: var(--text-color-muted);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+        .popup-close:hover {
+            background: #e9ecef;
+            color: var(--text-color-dark);
+        }
+        
+        /* [3] Cost Breakdown List with Images */
+        .cost-list {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 20px 0;
+            max-height: 35vh; /* Max height for scrolling */
+            overflow-y: auto;
+            border-top: 1px solid var(--pill-border);
+            opacity: 0; /* Start hidden for animation */
+        }
+        
+        /* Animate cost list when popup is active */
+        .popup-overlay.active .cost-list {
+            animation: fadeInGrow 0.5s ease-out 0.3s forwards; /* 0.3s delay */
+        }
+        
+        .cost-list li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--pill-border);
+        }
+        
+        /* Left side: Image + Text */
+        .cost-list li > div {
+            display: flex;
+            align-items: center;
+        }
+        
+        .popup-ingredient-img {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            object-fit: cover;
+            margin-right: 12px;
+            background: var(--bg-color); /* Light background for transparent images */
+            border: 1px solid var(--pill-border);
+        }
+        
+        .cost-list li .ingredient-name {
+            font-size: 0.95rem;
+            color: var(--text-color-muted);
+            font-weight: 500;
+        }
+
+        /* Right side: Price */
+        .cost-list li .ingredient-price {
+            font-weight: 600;
+            color: var(--text-color-dark);
+            flex-shrink: 0;
+            padding-left: 15px;
+        }
+        
+        /* Total Section */
+        .cost-total {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .cost-total span {
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--text-color-muted);
+        }
+        .cost-total span:last-child {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--text-color-dark);
+        }
+        
+        .cost-final-price {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: #fff5f5;
+            border-radius: 12px;
+            border: 1px solid #ffe0e0;
+        }
+        .cost-final-price span {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-color-dark);
+        }
+        .cost-final-price span:last-child {
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: var(--brand-red);
+        }
+
+    </style>
+</head>
+<body>
+
+    <section class="product-spotlight">
+        
+        <div class="spotlight-header">
+            <h2>The <span class="gradient-text">EINNALAB</span> Formula.</h2>
+            <a href="https://einnalab.com/" class="learn-more-link" target="_blank">
+                Explore The Product
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="20" height="20">
+                    <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
+                </svg>
+            </a>
+        </div>
+        
+        <div class="spotlight-wrapper">
+
+            <div class="spotlight-gallery">
+                <div class="image-container">
+                    <img id="productImage" 
+                         src="https://einnalab.com/wp-content/uploads/2025/07/EiNNALAB-Deer-Placenta-30000mg-DarkRed-TRANSPARENT-Front-scaled-e1751113638955.png" 
+                         alt="EiNNALAB Deer Placenta 30000mg bottle">
+                </div>
+            </div>
+
+            <div class="spotlight-features" id="featuresList">
+                
+                <div class="feature-item active" id="featureValue" data-feature-id="value">
+                    <button class="feature-header" data-image="https://einnalab.com/wp-content/uploads/2025/07/EiNNALAB-Deer-Placenta-30000mg-DarkRed-TRANSPARENT-Front-scaled-e1751113638955.png">
+                        <span class="value-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path d="M10 2a4 4 0 00-4 4v1H5a1 1 0 00-1 1v10a1 1 0 001 1h10a1 1 0 001-1V8a1 1 0 00-1-1h-1V6a4 4 0 00-4-4zm-2 5V6a2 2 0 114 0v1H8z"/></svg>
+                        </span>
+                        <span class="plus-icon">+</span>
+                        <h3 class="feature-title">EINNALAB <span class="gradient-text">Deer Placenta 30,000MG</span></h3>
+                    </button>
+                    <div class="feature-content">
+                        <p>Purchased separately, the 13 premium ingredients in this formula could cost over <b>$482 USD</b>. Get the complete, synergistic blend for only <b>$140 USD</b>.</p>
+                    </div>
+                </div>
+                
+                <div class="feature-item" data-feature-id="marine-collagen">
+                    <button class="feature-header" data-image="https://einnalab.com/wp-content/uploads/2025/11/Marine-Collagen-Extract.png">
+                        <span class="value-icon"></span><span class="plus-icon">+</span>
+                        <h3 class="feature-title">NZ Marine Collagen</h3>
+                    </button>
+                    <div class="feature-content">
+                        <p>A key component for <b>skin elasticity and hydration</b>. Sourced from New Zealand for premium purity.</p>
+                    </div>
+                </div>
+
+                <div class="feature-item" data-feature-id="grape-seed">
+                    <button class="feature-header" data-image="https://einnalab.com/wp-content/uploads/2025/11/Grape-Seed.png">
+                        <span class="value-icon"></span><span class="plus-icon">+</span>
+                        <h3 class="feature-title">Grape Seed Extract</h3>
+                    </button>
+                    <div class="feature-content">
+                        <p>A concentrated source of antioxidants that help protect against <b>oxidative stress</b> and support circulation.</p>
+                    </div>
+                </div>
+                
+                <div class="feature-item" data-feature-id="turmeric">
+                    <button class="feature-header" data-image="https://einnalab.com/wp-content/uploads/2025/11/Tumeric.png">
+                        <span class="value-icon"></span><span class="plus-icon">+</span>
+                        <h3 class="feature-title">Turmeric Root Extract</h3>
+                    </button>
+                    <div class="feature-content">
+                        <p>A revered ancient spice known for its powerful antioxidant and <b>joint-supporting</b> benefits.</p>
+                    </div>
+                </div>
+                
+                <div class="feature-item" data-feature-id="aloe-vera">
+                    <button class="feature-header" data-image="https://einnalab.com/wp-content/uploads/2025/11/Aloe-Vera-scaled.png">
+                        <span class="value-icon"></span><span class="plus-icon">+</span>
+                        <h3 class="feature-title">Aloe Vera Extract</h3>
+                    </button>
+                    <div class="feature-content">
+                        <p>Celebrated for its soothing properties and its role in supporting <b>digestive health</b> and skin vitality.</p>
+                    </div>
+                </div>
+
+                <div class="feature-item" data-feature-id="evening-primrose">
+                    <button class="feature-header" data-image="https://einnalab.com/wp-content/uploads/2025/11/Evening-Primrose-Oil.png">
+                        <span class="value-icon"></span><span class="plus-icon">+</span>
+                        <h3 class="feature-title">Evening Primrose Oil</h3>
+                    </button>
+                    <div class="feature-content">
+                        <p>Valued for its GLA content, traditionally used to support <b>hormonal balance</b> and skin health.</p>
+                    </div>
+                </div>
+
+                <div class="feature-item" data-feature-id="avocado-oil">
+                    <button class="feature-header" data-image="https://einnalab.com/wp-content/uploads/2025/11/Avocado-Oil.png">
+                        <span class="value-icon"></span><span class="plus-icon">+</span>
+                        <h3 class="feature-title">Avocado Oil</h3>
+                    </button>
+                    <div class="feature-content">
+                        <p>Rich in healthy fats and nutrients, <b>Avocado Oil</b> supports cardiovascular health and skin nourishment.</p>
+                    </div>
+                </div>
+                
+                <div class="feature-item" data-feature-id="borage-oil">
+                    <button class="feature-header" data-image="https://einnalab.com/wp-content/uploads/2025/11/borage-oil.png">
+                        <span class="value-icon"></span><span class="plus-icon">+</span>
+                        <h3 class="feature-title">Borage Oil</h3>
+                    </button>
+                    <div class="feature-content">
+                        <p>Another rich source of GLA, <b>Borage Oil</b> complements Evening Primrose Oil in promoting skin vitality.</p>
+                    </div>
+                </div>
+                
+                <div class="feature-item" data-feature-id="lycopene">
+                    <button class="feature-header" data-image="https://einnalab.com/wp-content/uploads/2025/11/lycopene.png">
+                        <span class="value-icon"></span><span class="plus-icon">+</span>
+                        <h3 class="feature-title">Lycopene</h3>
+                    </button>
+                    <div class="feature-content">
+                        <p>This natural pigment, found in red fruits, is a potent antioxidant that aids in <b>cellular protection</b>.</p>
+                    </div>
+                </div>
+                
+                <div class="feature-item" data-feature-id="vitamin-e">
+                    <button class="feature-header" data-image="httpshttps://einnalab.com/wp-content/uploads/2025/11/Vitamin-E.png">
+                        <span class="value-icon"></span><span class="plus-icon">+</span>
+                        <h3 class="feature-title">Vitamin E</h3>
+                    </button>
+                    <div class="feature-content">
+                        <p>A powerful antioxidant that supports the immune system and contributes to <b>healthy, vibrant skin</b>.</p>
+                    </div>
+                </div>
+                
+                <div class="feature-item" data-feature-id="astaxanthin">
+                    <button class="feature-header" data-image="https://einnalab.com/wp-content/uploads/2025/11/lycopene.png">
+                        <span class="value-icon"></span><span class="plus-icon">+</span>
+                        <h3 class="feature-title">Astaxanthin</h3>
+                    </button>
+                    <div class="feature-content">
+                        <p>A potent antioxidant from microalgae, known for its ability to support <b>skin health</b> and eye function.</p>
+                    </div>
+                </div>
+                
+                <div class="feature-item" data-feature-id="flax-seed">
+                    <button class="feature-header" data-image="https://einnalab.com/wp-content/uploads/2025/11/borage-oil.png">
+                        <span class="value-icon"></span><span class="plus-icon">+</span>
+                        <h3 class="feature-title">Flax Seed Oil</h3>
+                    </button>
+                    <div class="feature-content">
+                        <p>A prime source of <b>Omega-3 fatty acids</b>, supporting heart health and providing anti-inflammatory benefits.</p>
+                    </div>
+                </div>
+                
+                <div class="feature-item" data-feature-id="olive-oil">
+                    <button class="feature-header" data-image="https://einnalab.com/wp-content/uploads/2025/11/Avocado-Oil.png">
+                        <span class="value-icon"></span><span class="plus-icon">+</span>
+                        <h3 class="feature-title">Olive Oil</h3>
+                    </button>
+                    <div class="feature-content">
+                        <p>Rich in monounsaturated fats and antioxidants, <b>Olive Oil</b> is a cornerstone of cardiovascular health.</p>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <button id="costBreakdownButton">
+        <span>Cost Breakdown</span>
+        <div class="plus-icon-apple">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 11h-6V5a1 1 0 10-2 0v6H5a1 1 0 100 2h6v6a1 1 0 102 0v-6h6a1 1 0 100-2z"/></svg>
+        </div>
+    </button>
+
+    <div id="costPopup" class="popup-overlay">
+        <div class="popup-content">
+            <button id="popupCloseButton" class="popup-close">&times;</button>
+            <h3>The EiNNALAB Value Breakdown</h3>
+            <p>See how the cost of purchasing these 13 premium ingredients individually compares to our all-in-one formula.</p>
+            
+            <ul class="cost-list">
+                <li>
+                    <div>
+                        <img src="https://einnalab.com/wp-content/uploads/2025/07/EiNNALAB-Deer-Placenta-30000mg-DarkRed-TRANSPARENT-Front-scaled-e1751113638955.png" alt="Deer Placenta Extract" class="popup-ingredient-img">
+                        <span class="ingredient-name">Deer Placenta Extract</span>
+                    </div>
+                    <span class="ingredient-price">$140 USD</span>
+                </li>
+                <li>
+                    <div>
+                        <img src="https://einnalab.com/wp-content/uploads/2025/11/Marine-Collagen-Extract.png" alt="Marine Collagen" class="popup-ingredient-img">
+                        <span class="ingredient-name">NZ Marine Collagen</span>
+                    </div>
+                    <span class="ingredient-price">$45 USD</span>
+                </li>
+                <li>
+                    <div>
+                        <img src="https://einnalab.com/wp-content/uploads/2025/11/Grape-Seed.png" alt="Grape Seed Extract" class="popup-ingredient-img">
+                        <span class="ingredient-name">Grape Seed Extract</span>
+                    </div>
+                    <span class="ingredient-price">$30 USD</span>
+                </li>
+                <li>
+                    <div>
+                        <img src="https://einnalab.com/wp-content/uploads/2025/11/Tumeric.png" alt="Turmeric Root Extract" class="popup-ingredient-img">
+                        <span class="ingredient-name">Turmeric Root Extract</span>
+                    </div>
+                    <span class="ingredient-price">$25 USD</span>
+                </li>
+                <li>
+                    <div>
+                        <img src="https://einnalab.com/wp-content/uploads/2025/11/Aloe-Vera-scaled.png" alt="Aloe Vera Extract" class="popup-ingredient-img">
+                        <span class="ingredient-name">Aloe Vera Extract</span>
+                    </div>
+                    <span class="ingredient-price">$20 USD</span>
+                </li>
+                <li>
+                    <div>
+                        <img src="https://einnalab.com/wp-content/uploads/2025/11/Evening-Primrose-Oil.png" alt="Evening Primrose Oil" class="popup-ingredient-img">
+                        <span class="ingredient-name">Evening Primrose Oil</span>
+                    </div>
+                    <span class="ingredient-price">$28 USD</span>
+                </li>
+                <li>
+                    <div>
+                        <img src="https://einnalab.com/wp-content/uploads/2025/11/Avocado-Oil.png" alt="Avocado Oil" class="popup-ingredient-img">
+                        <span class="ingredient-name">Avocado Oil</span>
+                    </div>
+                    <span class="ingredient-price">$22 USD</span>
+                </li>
+                <li>
+                    <div>
+                        <img src="https://einnalab.com/wp-content/uploads/2025/11/borage-oil.png" alt="Borage Oil" class="popup-ingredient-img">
+                        <span class="ingredient-name">Borage Oil</span>
+                    </div>
+                    <span class="ingredient-price">$30 USD</span>
+                </li>
+                <li>
+                    <div>
+                        <img src="https://einnalab.com/wp-content/uploads/2025/11/lycopene.png" alt="Lycopene" class="popup-ingredient-img">
+                        <span class="ingredient-name">Lycopene</span>
+                    </div>
+                    <span class="ingredient-price">$35 USD</span>
+                </li>
+                <li>
+                    <div>
+                        <img src="https://einnalab.com/wp-content/uploads/2025/11/Vitamin-E.png" alt="Vitamin E" class="popup-ingredient-img">
+                        <span class="ingredient-name">Vitamin E</span>
+                    </div>
+                    <span class="ingredient-price">$18 USD</span>
+                </li>
+                <li>
+                    <div>
+                        <img src="https://einnalab.com/wp-content/uploads/2025/11/lycopene.png" alt="Astaxanthin" class="popup-ingredient-img">
+                        <span class="ingredient-name">Astaxanthin</span>
+                    </div>
+                    <span class="ingredient-price">$42 USD</span>
+                </li>
+                <li>
+                    <div>
+                        <img src="https://einnalab.com/wp-content/uploads/2025/11/borage-oil.png" alt="Flax Seed Oil" class="popup-ingredient-img">
+                        <span class="ingredient-name">Flax Seed Oil</span>
+                    </div>
+                    <span class="ingredient-price">$15 USD</span>
+                </li>
+                <li>
+                    <div>
+                        <img src="https://einnalab.com/wp-content/uploads/2025/11/Avocado-Oil.png" alt="Olive Oil" class="popup-ingredient-img">
+                        <span class="ingredient-name">Olive Oil</span>
+                    </div>
+                    <span class="ingredient-price">$20 USD</span>
+                </li>
+            </ul>
+            
+            <div class="cost-total">
+                <span>Individual Cost Total:</span>
+                <span>$482 USD</span>
+            </div>
+            
+            <div class="cost-final-price">
+                <span>Our All-in-One Price:</span>
+                <span>$140 USD</span>
+            </div>
+            
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const featuresList = document.getElementById('featuresList');
+            const featureItems = document.querySelectorAll('.feature-item');
+            const productImage = document.getElementById('productImage');
+            let isClick = false; // Flag to prevent scroll/hover/click conflict
+            let clickTimer = null;
+
+            // --- Image Update Function ---
+            function updateImage(src) {
+                // Check if src is valid and not already the current image
+                if (!src || productImage.src.includes(src.split('/').pop())) return; 
+                
+                productImage.style.opacity = '0.5';
+                setTimeout(() => {
+                    productImage.src = src;
+                    productImage.style.opacity = '1';
+                }, 150); // half of the 0.3s transition
+            }
+            
+            // --- Helper function to activate an item ---
+            function activateItem(itemToActivate) {
+                if (!itemToActivate || itemToActivate.classList.contains('active')) {
+                    return; // Do nothing if it's already active
+                }
+
+                // Set flag to tell observer to ignore this change
+                isClick = true; 
+                clearTimeout(clickTimer);
+                clickTimer = setTimeout(() => { isClick = false; }, 1000); 
+
+                // Deactivate all items
+                featureItems.forEach(item => item.classList.remove('active'));
+                
+                // Activate the new one
+                itemToActivate.classList.add('active');
+                const header = itemToActivate.querySelector('.feature-header');
+                if (header) {
+                    updateImage(header.dataset.image);
+                }
+            }
+
+
+            // --- 1. Click Handler (for Accordion on Desktop) ---
+            featuresList.addEventListener('click', (e) => {
+                // Only run on desktop (accordion is disabled on mobile)
+                if (window.innerWidth < 768) return; 
+
+                const header = e.target.closest('.feature-header');
+                if (!header) return;
+                
+                const itemToToggle = header.closest('.feature-item');
+                if (!itemToToggle) return;
+                
+                const wasActive = itemToToggle.classList.contains('active');
+                
+                // Deactivate all items
+                featureItems.forEach(item => item.classList.remove('active'));
+                
+                // Activate the clicked one (if it wasn't already active)
+                if (!wasActive) {
+                    itemToToggle.classList.add('active');
+                    updateImage(header.dataset.image);
+                    
+                    // Set flag to tell observer to ignore this change
+                    isClick = true;
+                    clearTimeout(clickTimer);
+                    clickTimer = setTimeout(() => { isClick = false; }, 1000); 
+                } else {
+                    // If clicking an active one, close it and RE-activate the FIRST item
+                    const firstItem = document.getElementById('featureValue');
+                    firstItem.classList.add('active');
+                    updateImage(firstItem.querySelector('.feature-header').dataset.image);
+                }
+            });
+
+            
+            // --- DESKTOP-ONLY OBSERVERS ---
+            if (window.innerWidth >= 768) {
+                // --- 2. Intersection Observer (for Scrolling Image Change on Desktop) ---
+                const observerOptions = {
+                    root: null, // Use the viewport
+                    // Trigger line is 30px from top, to match new sticky position
+                    rootMargin: '-30px 0px -70% 0px', 
+                    threshold: 0
+                };
+
+                const observerCallback = (entries) => {
+                    // Don't run if user just clicked/hovered
+                    if (isClick) return; 
+
+                    // Find the topmost visible entry in our trigger zone
+                    let topmostVisibleEntry = null;
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            if (!topmostVisibleEntry || entry.boundingClientRect.top < topmostVisibleEntry.boundingClientRect.top) {
+                                topmostVisibleEntry = entry;
+                            }
+                        }
+                    });
+                    
+                    if (topmostVisibleEntry) {
+                        const itemToActivate = topmostVisibleEntry.target;
+                        
+                        // Only update if it's not already the active one
+                        if (!itemToActivate.classList.contains('active')) {
+                            featureItems.forEach(item => item.classList.remove('active'));
+                            itemToActivate.classList.add('active');
+                            updateImage(itemToActivate.querySelector('.feature-header').dataset.image);
+                        }
+                    }
+                };
+                
+                const observer = new IntersectionObserver(observerCallback, observerOptions);
+                featureItems.forEach(item => observer.observe(item));
+
+                // --- 3. Hover-to-Activate Logic (Desktop Only) ---
+                featuresList.addEventListener('mouseover', (e) => {
+                    const header = e.target.closest('.feature-header');
+                    if (!header) return;
+                    
+                    const itemToActivate = header.closest('.feature-item');
+                    
+                    // Use the helper function to activate the item
+                    activateItem(itemToActivate);
+                });
+            }
+
+            // --- 4. MOBILE-ONLY HORIZONTAL SCROLL OBSERVER ---
+            if (window.innerWidth < 768) {
+                const scrollContainer = document.getElementById('featuresList');
+                let currentMobileActive = null; // Track the current item to avoid refiring
+
+                const mobileObserverOptions = {
+                    root: scrollContainer, // The horizontal scroller is the root
+                    rootMargin: '0px',
+                    threshold: 0.75 // Trigger when 75% of the item is visible
+                };
+
+                const mobileObserverCallback = (entries) => {
+                    entries.forEach(entry => {
+                        // Check if item is intersecting and is at least 75% visible
+                        if (entry.isIntersecting && entry.intersectionRatio >= 0.75) {
+                            
+                            // Only update if it's a new item
+                            if (entry.target !== currentMobileActive) { 
+                                const header = entry.target.querySelector('.feature-header');
+                                if (header) {
+                                    updateImage(header.dataset.image);
+                                    currentMobileActive = entry.target; // Set this as the new active item
+                                }
+                            }
+                        }
+                    });
+                };
+
+                const mobileObserver = new IntersectionObserver(mobileObserverCallback, mobileObserverOptions);
+                
+                // Observe all feature items
+                featureItems.forEach(item => {
+                    mobileObserver.observe(item);
+                });
+            }
+
+
+            // --- 5. Popup Logic ---
+            const openButton = document.getElementById('costBreakdownButton');
+            const closeButton = document.getElementById('popupCloseButton');
+            const popup = document.getElementById('costPopup');
+
+            if (openButton && closeButton && popup) {
+                openButton.addEventListener('click', () => {
+                    popup.classList.add('active');
+                });
+
+                closeButton.addEventListener('click', () => {
+                    popup.classList.remove('active');
+                });
+
+                // Close popup by clicking on the overlay background
+                popup.addEventListener('click', (e) => {
+                    if (e.target === popup) {
+                        popup.classList.remove('active');
+                    }
+                });
+            }
+        });
+    </script>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Deer Placenta Animation</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&family=Poppins:wght@500;600&display=swap" rel="stylesheet">
+  
+  <style>
+    /* --- KEYFRAMES FOR ANIMATIONS --- */
+    @keyframes dot-wave {
+      0% { background-position: 0 0; }
+      100% { background-position: 6px 0; } /* 6px = 3px dot + 3px gap */
+    }
+  
+    html, body {
+      height: 100%;
+      margin: 0;
+      background-image: url('https://wallpapers.com/images/featured/blank-white-background-xbsfzsltjksfompa.jpg');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+      position: relative; 
+    }
+
+    /* --- "Liquid Glass" Style (Polished) --- */
+    .glass-container {
+      border-radius: 25px;
+      overflow: hidden;
+      background: rgba(0, 0, 0, 0.3); 
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    /* ---------- LAYOUT WRAPPER (FULLSCREEN) ---------- */
+    .main-wrapper {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      min-height: 100vh;
+      padding: 2rem;
+      box-sizing: border-box;
+      position: relative;
+      z-index: 1;
+    }
+    
+    /* This is the main glass container */
+    .layout-container {
+      display: flex;
+      flex-direction: row;
+      width: 100%;
+      max-width: 1200px; /* Original width */
+      min-height: 600px; 
+      padding: 3.5rem;
+      gap: 3rem; 
+      box-sizing: border-box; 
+    }
+
+    /* ---------- LEFT COLUMN (TEXT) ---------- */
+    .left-content-column {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      /* --- CHANGE: Moved content to the top --- */
+      justify-content: flex-start;
+      padding-top: 4rem;
+    }
+    
+    .tech-label {
+      font-size: 0.75rem;
+      /* --- CHANGE: Lighter font weight --- */
+      font-weight: 400;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: #fff; 
+      opacity: 0.9;
+      margin-bottom: 0.5rem;
+    }
+
+    .text-header h1 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 2.5rem;
+      /* --- CHANGE: Lighter font weight --- */
+      font-weight: 500; 
+      margin-bottom: 1.5rem;
+      line-height: 1.2;
+      color: #fff;
+    }
+
+    .text-header p {
+      font-size: 1.05rem;
+      line-height: 1.7;
+      color: #eee;
+      max-width: 45ch;
+      margin-bottom: 1.5rem;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+    }
+
+    .disclaimer {
+      font-size: 0.75rem;
+      line-height: 1.5;
+      color: #ccc;
+      margin-top: 1.5rem;
+      max-width: 45ch;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+    }
+
+    /* ---------- STAT BOX (Polished) ---------- */
+    .stat-box-container {
+      padding: 1rem 1.25rem;
+      text-align: left;
+      border-radius: 15px;
+      background: rgba(0, 0, 0, 0.25);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 1rem;
+      max-width: 400px;
+      margin-top: 1.5rem; /* Added margin for spacing from text */
+    }
+    
+    .stat-box-label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #c00000;
+      background: rgba(255, 255, 255, 0.9);
+      padding: 0.3rem 0.5rem;
+      border-radius: 5px;
+    }
+
+    .stat-box-text p {
+      font-size: 1rem;
+      color: #eee;
+      margin: 0;
+      line-height: 1.3;
+      font-weight: 500;
+    }
+    
+    .stat-box-value {
+      display: flex;
+      /* --- CHANGE: Align center for icon --- */
+      align-items: center;
+      /* --- CHANGE: Increased gap for icon --- */
+      gap: 0.5rem;
+      margin-left: auto;
+    }
+    
+    .stat-box-value span#counter {
+      font-size: 2.5rem;
+      font-weight: 800;
+      line-height: 1;
+      /* --- CHANGE: Color to white --- */
+      color: #ffffff;
+    }
+    
+    .stat-box-value span.multiplier-unit {
+      font-size: 1.75rem;
+      font-weight: 700;
+      /* --- CHANGE: Color to white --- */
+      color: #ffffff;
+    }
+
+    /* --- NEW: Up arrow icon styles --- */
+    .up-arrow-icon {
+      width: 24px;
+      height: 24px;
+      background-color: #ffffff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      flex-shrink: 0; /* Prevent shrinking */
+    }
+    
+    .up-arrow-icon::after {
+      content: '';
+      width: 0;
+      height: 0;
+      border-left: 6px solid transparent;
+      border-right: 6px solid transparent;
+      border-bottom: 8px solid #c00000; /* Red color from label */
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -60%); /* Center and shift up */
+    }
+
+
+    /* ---------- RIGHT COLUMN (ANIMATION) ---------- */
+    .right-content-column {
+      flex: 1.4;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .animation-container {
+      position: relative; 
+      min-height: 400px; 
+      width: 200px;
+      margin: 0 auto;
+    }
+
+    #scene {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      background: transparent;
+      pointer-events: none;
+    }
+    
+    /* ---------- ANIMATION LABELS (DESKTOP) ---------- */
+    .label-group {
+      position: absolute; /* Absolute on desktop */
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      width: 200px;
+    }
+    
+    /* Staggered vertical position */
+    #label-outer {
+      top: 25%;
+      right: 0;
+      flex-direction: row; 
+      text-align: left;
+    }
+    
+    #label-inner {
+      top: 65%; /* Lower */
+      left: 0;
+      flex-direction: row-reverse; 
+      text-align: right;
+    }
+    
+    .label-line-desktop {
+      /* UPDATED: Hide the old dashed line */
+      display: none;
+    }
+    
+    /* This line is for mobile, but we now show it everywhere */
+    .label-line-mobile {
+      /* UPDATED: Show this line style by default */
+      display: block;
+      width: 100%;
+      /* --- CHANGE: Made line thicker --- */
+      height: 2px;
+      /* --- CHANGE: Made line solid white --- */
+      background-color: #fff; /* Solid line */
+      /* --- CHANGE: Increased bottom margin for spacing --- */
+      margin: 0.75rem 0 1.25rem 0; 
+      position: relative; /* For the dot */
+    }
+    
+    .label-line-mobile::after {
+      content: '';
+      position: absolute;
+      right: 0;
+      top: 50%;
+      /* --- CHANGE: Made dot slightly larger --- */
+      width: 6px; /* Dot size */
+      height: 6px; /* Dot size */
+      /* --- CHANGE: Made dot solid white --- */
+      background-color: #fff; /* Dot color */
+      border-radius: 50%;
+      transform: translateY(-50%);
+    }
+
+    .label-text h3 {
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: #fff;
+      margin: 0 0 0.25rem 0;
+    }
+    
+    .label-text p {
+      font-size: 0.8rem;
+      line-height: 1.5;
+      color: #ccc;
+      margin: 0;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+    }
+
+
+    /* ========================================================= */
+    /* ---------- Mobile Optimization (CORRECTED LAYOUT) ---------- */
+    /* ========================================================= */
+    @media (max-width: 900px) {
+      .main-wrapper {
+        padding: 1rem;
+        min-height: 100vh;
+      }
+      
+      .layout-container {
+        flex-direction: column; /* Glass box is single column */
+        padding: 2rem 1.5rem;
+        gap: 1.5rem; /* Gap between header, anim, stat box */
+        min-height: 0;
+        width: 100%;
+        max-width: 100%;
+      }
+
+      .left-content-column {
+        flex: none;
+        display: contents; 
+        /* Reset padding for mobile */
+        padding-top: 0;
+      }
+      
+      .text-header {
+        order: 1; 
+        text-align: left; 
+      }
+
+      .text-header h1 {
+        font-size: 2.1rem;
+        line-height: 1.25;
+      }
+      
+      .text-header p {
+        max-width: 100%;
+      }
+
+      .stat-box-container {
+        order: 3; 
+        max-width: 100%;
+        margin-top: 1.5rem;
+        flex-direction: row;
+        align-items: center;
+      }
+      
+      .stat-box-label {
+        font-size: 0.9rem;
+        padding: 0.5rem 0.8rem;
+      }
+      
+      .stat-box-text p {
+        text-align: left; 
+      }
+      
+      .stat-box-value { margin-left: auto; }
+      
+      .disclaimer { 
+        order: 4; 
+        margin: 1rem 0 0 0; 
+        text-align: left; 
+      }
+
+
+      /* --- Mobile Animation Area (GRID LAYOUT) --- */
+      .right-content-column {
+        flex: none;
+        order: 2; 
+        position: static;
+        
+        display: grid;
+        grid-template-columns: 1fr 1fr; /* Left half | Right half */
+        grid-template-rows: auto auto; /* Two rows, content height */
+        gap: 1rem 0.5rem; 
+        align-items: center;
+        min-height: 350px;
+      }
+
+      .animation-container {
+        grid-column: 2; /* Right half */
+        grid-row: 1 / span 2; /* Span both rows */
+        position: relative;
+        width: 100%; 
+        min-height: 350px;
+        margin: 0;
+      }
+
+      .label-group {
+        position: static; 
+        display: flex;
+        flex-direction: column; 
+        width: 100%;
+        gap: 0;
+        grid-column: 1; /* Left half */
+      }
+      
+      #label-outer {
+        grid-row: 1;
+        align-self: end; 
+        /* UPDATED: Removed border and padding */
+      }
+      
+      #label-inner {
+        grid-row: 2;
+        align-self: start; 
+        /* UPDATED: Removed padding-top */
+      }
+
+      .label-line-desktop {
+        display: none; /* This is redundant now but safe */
+      }
+      
+      /* --- UPDATED: Mobile line style --- */
+      .label-line-mobile {
+        /* CSS changes are now applied globally, so no override needed here */
+        /* 'display: block' is now the default, no change needed */
+      }
+      
+      /* (No changes needed to ::after pseudo-element) */
+      /* --- End of update --- */
+      
+      .label-text {
+        order: 1; 
+        text-align: left;
+      }
+      
+      .label-text h3 {
+        margin-bottom: 0; 
+      }
+      
+      .label-text p {
+        margin-top: 0; 
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="main-wrapper">
+
+    <main class="layout-container glass-container">
+      
+      <div class="left-content-column">
+        <div class="text-header">
+          <span class="tech-label">REJUVENATION TECHNOLOGY</span>
+          <h1>The Power of Deer Placenta</h1>
+        </div>
+        
+        <div class="stat-box-container">
+          <div class="stat-box-text">
+            <p class="label">Cellular Regeneration</p>
+          </div>
+          <div class="stat-box-value">
+            <!-- --- CHANGE: Moved icon before text --- -->
+            <div class="up-arrow-icon"></div>
+            <span id="counter">0</span><span class="multiplier-unit">X</span>
+          </div>
+        </div>
+
+        <p class="disclaimer">*Based on the known properties of deer placenta growth factors and their role in cellular support.</p>
+      </div>
+  
+      <div class="right-content-column">
+        
+        <div class="label-group" id="label-outer">
+          <div class="label-text">
+            <div class="label-line-mobile"></div>
+            <h3>OUTER CAPSULE - FOR YOU</h3>
+            <p><br>Shields probiotics from stomach acid in the digestive tract.</p>
+          </div>
+        </div>
+
+        <div class="animation-container">
+          <div id="scene"></div>
+        </div>
+        
+        <div class="label-group" id="label-inner">
+          <div class="label-text">
+            <div class="label-line-mobile"></div>
+            <h3>INNER CAPSULE - FOR YOUR MICROBIOME</h3>
+            <p><br>Delivers 24 live strains of probiotics to the colon, where they're needed most.</p>
+          </div>
+        </div>
+      </div>
+  
+    </main>
+
+  </div> 
+  
+  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+  <script>
+  (() => {
+    // Counter animation logic
+    const counterElement = document.getElementById('counter');
+    let animationStarted = false;
+
+    const animateCounter = () => {
+      let currentNumber = 0;
+      const targetNumber = 30;
+      const duration = 2000; // 2 seconds
+      const interval = 50; // milliseconds
+
+      const increment = targetNumber / (duration / interval);
+
+      const timer = setInterval(() => {
+        currentNumber += increment;
+        if (currentNumber >= targetNumber) {
+          currentNumber = targetNumber;
+          clearInterval(timer);
+        }
+        counterElement.textContent = Math.floor(currentNumber);
+      }, interval);
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && !animationStarted) {
+          animateCounter();
+          animationStarted = true;
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.5 });
+
+    observer.observe(counterElement);
+
+    // =================================================================
+    // START: ANIMATION CODE (Unchanged)
+    // =================================================================
+
+    // ---------- Renderer ----------
+    const host = document.getElementById('scene');
+    const scene = new THREE.Scene();
+
+    const renderer = new THREE.WebGLRenderer({ antialias:true, alpha:true, powerPreference:'high-performance' });
+    renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+    renderer.setSize(host.clientWidth, host.clientHeight); // MOD: Use host size
+    renderer.setClearColor(0x000000, 0);
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.15;
+    renderer.physicallyCorrectLights = true;
+    host.appendChild(renderer.domElement);
+
+    // ---------- Camera ----------
+    const camera = new THREE.PerspectiveCamera(28, host.clientWidth/host.clientHeight, 0.1, 200); // MOD: Use host aspect
+    scene.add(camera);
+    
+    // --- CHANGE: Smaller margin to "zoom in" ---
+    function fitCameraToHeight(worldHeight, margin=0.95){
+      const h = worldHeight*margin;
+      const dist = (h*0.5)/Math.tan(THREE.MathUtils.degToRad(camera.fov*0.5));
+      camera.position.set(0, 0.25, dist);
+      camera.lookAt(0,0,0);
+      camera.updateProjectionMatrix();
+    }
+    
+    // ---------- Lights ----------
+    scene.add(new THREE.HemisphereLight(0xffffff, 0x141414, 0.7));
+    const key = new THREE.DirectionalLight(0xffffff, 1.25); key.position.set(2.6,3.8,6.3); scene.add(key);
+    const fill= new THREE.DirectionalLight(0xffffff, 0.55); fill.position.set(-3.6,1.2,3.4); scene.add(fill);
+    const rim = new THREE.DirectionalLight(0xffffff, 0.75); rim.position.set(-2.2,2.0,-5.6); scene.add(rim);
+
+    // ---------- Materials (EVEN BRIGHTER RED + 10% LESS TRANSPARENT) ----------
+    const RED_TOP    = 0xff3333; 
+    const RED_BOTTOM = 0xee2222; 
+    const RED_INNER  = 0xaa1a1a; 
+
+    function layeredMat(hex, extra={}) {
+      return new THREE.MeshPhysicalMaterial({
+        color: hex,
+        roughness: 0.2,
+        metalness: 0.0,
+        transparent: true,
+        opacity: 0.44,       
+        transmission: 0.0,
+        ior: 1.45,
+        clearcoat: 0.6,
+        clearcoatRoughness: 0.18,
+        reflectivity: 0.45,
+        side: THREE.DoubleSide,
+        depthWrite: false,    
+        ...extra
+      });
+    }
+    const matTopOuter = layeredMat(RED_TOP);
+    const matBotOuter = layeredMat(RED_BOTTOM);
+    const matInner    = layeredMat(RED_INNER, { opacity: 0.50 }); 
+
+    // ---------- Capsule geometry (hollow + rounded lips + NO overlap) ----------
+    const rTop = 1.20;     
+    const rBot = 1.20;     
+    const wall = 0.08;     
+    const halfCyl = 2.0;
+    const openDistance = 2.8;
+    const sleeveDepth = 0.0; 
+
+    const topGroup = new THREE.Group();
+    const botGroup = new THREE.Group();
+    botGroup.renderOrder = 0;
+    topGroup.renderOrder = 1;
+    scene.add(topGroup, botGroup);
+
+    const segs = 80;
+
+    // Top outer/inner + rounded lip
+    const topOuterCyl = new THREE.Mesh(new THREE.CylinderGeometry(rTop, rTop, halfCyl, segs, 1, true), matTopOuter);
+    topOuterCyl.position.y = halfCyl/2; topGroup.add(topOuterCyl);
+    const topOuterHem = new THREE.Mesh(new THREE.SphereGeometry(rTop, segs, 48, 0, Math.PI*2, 0, Math.PI/2), matTopOuter);
+    topOuterHem.position.y = halfCyl; topGroup.add(topOuterHem);
+    const topInnerCyl = new THREE.Mesh(new THREE.CylinderGeometry(rTop-wall, rTop-wall, halfCyl, segs, 1, true), matInner);
+    topInnerCyl.position.y = halfCyl/2; topGroup.add(topInnerCyl);
+    const topInnerHem = new THREE.Mesh(new THREE.SphereGeometry(rTop-wall, segs, 48, 0, Math.PI*2, 0, Math.PI/2), matInner);
+    topInnerHem.position.y = halfCyl; topGroup.add(topInnerHem);
+    
+    const lipTop = new THREE.Mesh(new THREE.TorusGeometry(rTop - wall*0.5, wall*0.46, 14, 88), matTopOuter); 
+    lipTop.rotation.x = Math.PI/2; lipTop.position.y = 0.0 + 0.001; topGroup.add(lipTop);
+
+    // Bottom outer/inner + rounded lip
+    const botOuterCyl = new THREE.Mesh(new THREE.CylinderGeometry(rBot, rBot, halfCyl, segs, 1, true), matBotOuter);
+    botOuterCyl.position.y = -halfCyl/2; botGroup.add(botOuterCyl);
+    const botOuterHem = new THREE.Mesh(new THREE.SphereGeometry(rBot, segs, 48, 0, Math.PI*2, Math.PI/2, Math.PI/2), matBotOuter);
+    botOuterHem.position.y = -halfCyl; botGroup.add(botOuterHem);
+    const botInnerCyl = new THREE.Mesh(new THREE.CylinderGeometry(rBot-wall, rBot-wall, halfCyl, segs, 1, true), matInner);
+    botInnerCyl.position.y = -halfCyl/2; botGroup.add(botInnerCyl);
+    const botInnerHem = new THREE.Mesh(new THREE.SphereGeometry(rBot-wall, segs, 48, 0, Math.PI*2, Math.PI/2, Math.PI/2), matInner);
+    botInnerHem.position.y = -halfCyl; botGroup.add(botInnerHem);
+    
+    const lipBot = new THREE.Mesh(new THREE.TorusGeometry(rBot - wall*0.5, wall*0.46, 14, 88), matBotOuter);
+    lipBot.rotation.x = Math.PI/2; lipBot.position.y = -0.0 - 0.001; botGroup.add(lipBot);
+
+    // Start CLOSED in flush pose (no overlap)
+    topGroup.position.y = -sleeveDepth/2;
+    botGroup.position.y =  sleeveDepth/2;
+
+    // Fit camera
+    const totalHeight = (halfCyl*2 + rTop*2) + openDistance*2 + 2.0;
+
+    function onResize() {
+      const width = host.clientWidth;
+      const height = host.clientHeight;
+
+      if (width === 0 || height === 0) return;
+
+      camera.aspect = width / height;
+      camera.updateProjectionMatrix();
+      renderer.setSize(width, height);
+      fitCameraToHeight(totalHeight);
+    }
+    
+    new ResizeObserver(onResize).observe(host);
+    onResize(); // Initial call to fit to container
+
+    // ---------- Particles (swirl + return) ----------
+    const particleCount = 12000;
+    const pGeo = new THREE.BufferGeometry();
+    const positions = new Float32Array(particleCount*3);
+    const velocities = new Float32Array(particleCount*3);
+    const life = new Float32Array(particleCount);
+
+    for (let i=0;i<particleCount;i++){
+      positions[i*3] = positions[i*3+1] = positions[i*3+2] = 0;
+      velocities[i*3] = velocities[i*3+1] = velocities[i*3+2] = 0;
+      life[i] = 1; // dead
+    }
+
+    pGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    pGeo.setAttribute('aLife', new THREE.BufferAttribute(life, 1));
+
+    const pMat = new THREE.PointsMaterial({
+      color: 0x7A1C1C, 
+      size: 0.05,
+      sizeAttenuation: true,
+      transparent: true,
+      opacity: 0.95,
+      depthWrite: false
+    });
+
+    const points = new THREE.Points(pGeo, pMat);
+    scene.add(points);
+
+    function spawnBurst(count, radius=0.06, speed=2.0){
+      let spawned = 0;
+      for (let i=0;i<particleCount && spawned<count;i++){
+        if (life[i] >= 1){
+          const u = Math.random(), v = Math.random();
+          const theta = 2*Math.PI*u;
+          const phi = Math.acos(2*v - 1);
+          const rr = radius*Math.cbrt(Math.random());
+          const x = rr*Math.sin(phi)*Math.cos(theta);
+          const y = rr*Math.cos(phi);
+          const z = rr*Math.sin(phi)*Math.sin(theta);
+          const dir = new THREE.Vector3(x, y*0.42, z).normalize();
+
+          positions[i*3]   = x;
+          positions[i*3+1] = y;
+          positions[i*3+2] = z;
+
+          const vmag = speed*(0.7+Math.random()*0.9);
+          velocities[i*3]   = dir.x*vmag;
+          velocities[i*3+1] = dir.y*vmag;
+          velocities[i*3+2] = dir.z*vmag;
+
+          life[i] = 0; spawned++;
+        }
+      }
+      pGeo.attributes.position.needsUpdate = true;
+      pGeo.attributes.aLife.needsUpdate = true;
+    }
+
+    // ---------- Timeline ----------
+    let playing = false, t = 0;
+
+    const openDelay = 0.8;
+    const openTime  = 2.2;  
+    const flowTime  = 3.0;  
+    const suckTime  = 2.2;  
+    const closeTime = 2.2;  
+    const totalTime = openDelay + openTime + flowTime + suckTime + closeTime + 0.5;
+
+    const smooth = x => (x<=0?0:x>=1?1:(x*x*x*(x*(x*6-15)+10))); // quintic
+
+    function reset(){
+      t = 0;
+      topGroup.position.y = -sleeveDepth/2;
+      botGroup.position.y =  sleeveDepth/2; 
+
+      for (let i=0;i<particleCount;i++){
+        life[i]=1;
+        velocities[i*3]=velocities[i*3+1]=velocities[i*3+2]=0;
+      }
+      pGeo.attributes.aLife.needsUpdate = true;
+      playing = false;
+    }
+    function play(){ reset(); playing = true; }
+
+    setTimeout(play, 400);
+
+    // ---------- Loop ----------
+    let last = performance.now();
+    function loop(now){
+      requestAnimationFrame(loop);
+      const dt = Math.min((now-last)/1000, 0.033);
+      last = now;
+
+      if (playing){
+        t += dt;
+
+        const tOpenStart = openDelay;
+        const tOpenEnd   = tOpenStart + openTime;
+        const tFlowEnd   = tOpenEnd + flowTime;
+        const tSuckEnd   = tFlowEnd + suckTime;
+        const tCloseEnd  = tSuckEnd + closeTime;
+
+        if (t >= tOpenStart){
+          const kO = smooth(Math.min((t - tOpenStart)/openTime, 1));
+          topGroup.position.y = (-sleeveDepth/2) + kO*(openDistance + sleeveDepth/2);
+          botGroup.position.y = ( sleeveDepth/2) - kO*(openDistance + sleeveDepth/2);
+        }
+
+        if (t > tOpenStart + 0.2 && t < tFlowEnd){
+          spawnBurst(520);
+        }
+
+        if (t > tFlowEnd){
+          const kC = smooth(Math.min((t - tFlowEnd)/closeTime, 1));
+          topGroup.position.y = openDistance*(1-kC) - (sleeveDepth/2)*kC;
+          botGroup.position.y = -openDistance*(1-kC) + (sleeveDepth/2)*kC;
+        }
+
+        if (t >= tCloseEnd || t >= totalTime) {
+          play(); // Auto-replay
+        }
+      }
+
+      // Particle dynamics — (Unchanged)
+      const drag = 0.986;
+      const inFlow   = (t > openDelay) && (t < (openDelay+openTime+flowTime));
+      const suction  = (t >= (openDelay+openTime+flowTime));
+      const swirlGain = inFlow ? 1.15 : 0.55;
+      const suctionGain = suction ? 2.6 : 0.0;
+
+      for (let i=0;i<particleCount;i++){
+        if (life[i] < 1){
+          const ix = i*3;
+          let x=positions[ix], y=positions[ix+1], z=positions[ix+2];
+
+          const rXZ = Math.max(0.0001, Math.hypot(x,z));
+          const tx = (-z / rXZ);
+          const tz = ( x / rXZ);
+          const swirl = swirlGain*(0.85 + 0.15*Math.random());
+          velocities[ix]   += tx*swirl*dt;
+          velocities[ix+2] += tz*swirl*dt;
+          velocities[ix+1] += -0.24*dt;
+
+          if (suction){
+            const toX=-x, toY=-y, toZ=-z;
+            const dist = Math.max(0.0001, Math.hypot(toX,toY,toZ));
+            const s = suctionGain*dt;
+            velocities[ix]   += (toX/dist)*s;
+            velocities[ix+1] += (toY/dist)*s;
+            velocities[ix+2] += (toZ/dist)*s;
+
+            if (dist < 0.12){ 
+              life[i] = 1;
+              velocities[ix]=velocities[ix+1]=velocities[ix+2]=0;
+              continue;
+            }
+          }
+
+          positions[ix]   += velocities[ix]*dt;
+          positions[ix+1] += velocities[ix+1]*dt;
+          positions[ix+2] += velocities[ix+2]*dt;
+          velocities[ix]   += (Math.random()-0.5)*0.06*dt;
+          velocities[ix+1] += (Math.random()-0.5)*0.05*dt; 
+          velocities[ix+2] += (Math.random()-0.5)*0.06*dt;
+          velocities[ix]*=drag; velocities[ix+1]*=drag; velocities[ix+2]*=drag;
+
+          if (!suction){ life[i] += dt*0.18; if (life[i] >= 1) life[i]=1; } 
+        }
+      }
+      pGeo.attributes.position.needsUpdate = true;
+
+      renderer.render(scene, camera);
+    }
+    loop(performance.now());
+    
+    // =================================================================
+    // END: ANIMATION CODE
+    // =================================================================
+
+  })();
+  </script>
+</body>
+</html>
