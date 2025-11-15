@@ -72,7 +72,6 @@
         /* Ingredient list hover/active effect */
         .ingredient-item {
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            /* Removed opacity: 0.7 for a cleaner, stable look */
             box-shadow: 0 4px 15px -2px rgba(0, 0, 0, 0.05);
             background-color: rgba(255, 255, 255, 0.5); /* Slightly visible */
         }
@@ -90,7 +89,6 @@
             transform: scale(1.05); /* Active items are slightly larger */
         }
         
-        /* Desktop-specific transform - REMOVED translateX to prevent layout shift */
         @media (min-width: 1024px) {
             .ingredient-item:hover {
                 transform: scale(1.02); /* Simpler scale */
@@ -109,6 +107,14 @@
             transform-style: preserve-3d;
             transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
+        /* 3D effect for child elements */
+        .tilt-child {
+             transform: translateZ(20px);
+        }
+        .tilt-child-lg {
+             transform: translateZ(40px);
+        }
+
 
         /* Button Glow Animation */
         .button-glow {
@@ -165,7 +171,7 @@
                     The Price of Perfection
                 </h1>
                 <p class="font-satoshi text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
-                    Hover (or tap) to build your total and see how it compares to our all-in-one formula.
+                    Build your total and see how it compares to our all-in-one formula.
                 </p>
             </header>
 
@@ -188,7 +194,7 @@
                         flex flex-row space-x-4 lg:flex-col lg:space-x-0 lg:space-y-2 
                         overflow-x-auto lg:overflow-x-hidden lg:overflow-y-auto 
                         py-2 lg:py-0 pr-2 lg:pr-2
-                        max-h-none lg:h-[35rem] /* Standardized height for ~7 items */
+                        max-h-none lg:h-[30rem] /* Standardized height for ~6 items */
                         ingredient-scroll-x lg:ingredient-scroll-y
                     ">
                         <!-- Ingredient items will be injected by JS -->
@@ -208,12 +214,12 @@
                         <!-- Mobile: "Your Ingredient Cost" card -->
                         <!-- Desktop: "Your Ingredient Cost" card -->
                         <div class="glass-card p-6 md:p-8 tilt-card h-full flex flex-col order-1 lg:order-1 mb-8 lg:mb-0">
-                            <h3 class="font-poppins text-lg font-semibold text-gray-700 mb-4 text-center">
+                            <h3 class="font-poppins text-lg font-semibold text-gray-700 mb-4 text-center tilt-child">
                                 Your Ingredient Cost
                             </h3>
                             
                             <!-- This section will show the *last hovered* item -->
-                            <div id="hovered-ingredient-display" class="h-24 flex items-center justify-center text-center text-gray-500 font-satoshi transition-opacity duration-300">
+                            <div id="hovered-ingredient-display" class="h-24 flex items-center justify-center text-center text-gray-500 font-satoshi transition-opacity duration-300 tilt-child">
                                 <span id="hovered-placeholder" class="px-4">Hover (or tap) an ingredient to see it here.</span>
                                 <div id="hovered-content" class="hidden items-center transition-opacity duration-300 w-full px-4">
                                     <img id="hovered-image" src="" alt="" class="w-16 h-16 object-contain mr-4 flex-shrink-0">
@@ -224,14 +230,15 @@
                                 </div>
                             </div>
                             
-                            <p class="font-satoshi text-xs text-gray-500 text-center -mt-4 mb-4">
-                                Click to <span class="font-bold text-red-600">remove</span> from total
+                            <p class="font-satoshi text-xs text-gray-500 text-center -mt-4 mb-4 tilt-child">
+                                <span class="hidden lg:inline">Hover to add, Click to remove</span>
+                                <span class="lg:hidden">Tap to add/remove from total</span>
                             </p>
 
                             <hr class="my-2 border-gray-200">
                             
                             <!-- This will list added ingredients -->
-                            <div class="flex-grow relative">
+                            <div class="flex-grow relative tilt-child">
                                 <h4 class="font-satoshi font-medium text-gray-800 text-center mb-2">
                                     Added Ingredients
                                 </h4>
@@ -242,7 +249,7 @@
                             
                             <hr class="mt-4 mb-2 border-gray-200">
                             
-                            <div class="text-center mt-auto">
+                            <div class="text-center mt-auto tilt-child">
                                 <p class="font-satoshi text-gray-600 text-sm mb-2">
                                     Your Running Total
                                 </p>
@@ -263,23 +270,23 @@
                         <!-- Desktop: "All-in-One Solution" card -->
                         <div class="glass-card-brand p-6 md:p-8 text-center tilt-card h-full flex flex-col justify-between order-2 lg:order-2">
                             <div>
-                                <h3 class="font-poppins text-lg font-semibold text-brand mb-3">
+                                <h3 class="font-poppins text-lg font-semibold text-brand mb-3 tilt-child">
                                     The All-in-One Solution
                                 </h3>
                                 
                                 <img src="https://einnalab.com/wp-content/uploads/2025/07/EiNNALAB-Deer-Placenta-30000mg-DarkRed-TRANSPARENT-Front-scaled-e1751113638955.png" 
                                      alt="EiNNALAB Deer Placenta" 
-                                     class="w-32 h-32 object-contain mx-auto mb-3 drop-shadow-lg"
+                                     class="w-32 md:w-36 lg:w-40 h-auto object-contain mx-auto mb-3 drop-shadow-xl tilt-child-lg"
                                      onerror="this.src='https://placehold.co/300x300/fdedf0/7b021d?text=Einnalab+Product'">
                                 
-                                <p class="font-poppins font-bold text-5xl md:text-6xl text-brand my-2">
+                                <p class="font-poppins font-bold text-5xl md:text-6xl text-brand my-2 tilt-child-lg">
                                     $140
                                 </p>
-                                <p class="font-satoshi text-gray-700 text-sm mb-5">
+                                <p class="font-satoshi text-gray-700 text-sm mb-5 tilt-child">
                                     Get the synergistic benefits of all 13 ingredients in one advanced formula.
                                 </p>
                             </div>
-                            <button class="bg-brand text-white font-poppins font-semibold py-3 px-8 rounded-full shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl button-glow">
+                            <button class="bg-brand text-white font-poppins font-semibold py-3 px-8 rounded-full shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl button-glow tilt-child">
                                 Discover Einnalab
                             </button>
                         </div>
@@ -326,6 +333,9 @@
             // --- 3. State Variables ---
             let currentTotal = 0;
             let addedIngredients = new Set();
+            // Detect touch device
+            const isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+
 
             // --- 4. Populate Ingredient List ---
             ingredientListEl.innerHTML = ingredients.map((item, index) => `
@@ -385,17 +395,14 @@
                 hoveredPriceEl.textContent = `$${data.price}`;
             }
 
-            // --- NEW: Refactored Add/Remove Logic ---
+            // --- NEW INTERACTION FUNCTIONS ---
 
-            // Adds ingredient to total (if not already added)
+            // ADD ingredient to total
             function addIngredient(item) {
                 const index = item.dataset.index;
                 const data = ingredients[index];
 
-                if (addedIngredients.has(index)) {
-                    // Already added, do nothing on hover
-                    return; 
-                }
+                if (addedIngredients.has(index)) return; // Already added
 
                 // Add it
                 addedIngredients.add(index);
@@ -416,15 +423,12 @@
                 addedListEl.scrollTop = addedListEl.scrollHeight;
             }
 
-            // Removes ingredient from total (if added)
+            // REMOVE ingredient from total
             function removeIngredient(item) {
                 const index = item.dataset.index;
                 const data = ingredients[index];
 
-                if (!addedIngredients.has(index)) {
-                    // Not added, do nothing on click
-                    return; 
-                }
+                if (!addedIngredients.has(index)) return; // Not in list
 
                 // Remove it
                 addedIngredients.delete(index);
@@ -439,17 +443,29 @@
                     itemToRemove.remove();
                 }
             }
+
+            // TOGGLE ingredient (for mobile)
+            function toggleIngredient(item) {
+                const index = item.dataset.index;
+                if (addedIngredients.has(index)) {
+                    removeIngredient(item);
+                } else {
+                    addIngredient(item);
+                }
+            }
             
-            // --- NEW: Set Default State Function ---
+            // --- Set Default State Function ---
             function setDefaultState() {
-                const preAddIndices = [1, 2, 4]; // Grape Seed, Turmeric, NZ Marine Collagen
+                // Pre-add Deer Placenta (0), Grape Seed (1), Turmeric (2)
+                const preAddIndices = [0, 1, 2]; 
                 
-                preAddIndices.forEach(index => {
+                preAddIndices.forEach(indexStr => {
+                    const index = indexStr.toString();
                     const item = ingredientItems[index];
                     const data = ingredients[index];
                     
                     // Add to state
-                    addedIngredients.add(index.toString()); // Use string for consistency
+                    addedIngredients.add(index);
                     currentTotal += data.price;
                     item.classList.add('active');
 
@@ -475,16 +491,29 @@
 
             // --- 6. Event Listeners ---
             ingredientItems.forEach(item => {
-                item.addEventListener('mouseenter', () => {
-                    // Show in hover box
-                    showHoveredIngredient(item);
-                    // ADD to total on hover
-                    addIngredient(item);
-                });
-                item.addEventListener('click', () => {
-                    // REMOVE from total on click
-                    removeIngredient(item);
-                });
+                
+                if (isTouchDevice) {
+                    // --- MOBILE (Touch) BEHAVIOR ---
+                    item.addEventListener('click', () => {
+                        // Show in hover box on tap
+                        showHoveredIngredient(item);
+                        // Toggle (add/remove) on tap
+                        toggleIngredient(item);
+                    });
+                } else {
+                    // --- DESKTOP (Mouse) BEHAVIOR ---
+                    item.addEventListener('mouseenter', () => {
+                        // Show in hover box
+                        showHoveredIngredient(item);
+                        // Add to total
+                        addIngredient(item);
+                    });
+                    
+                    item.addEventListener('click', () => {
+                        // Remove from total on click
+                        removeIngredient(item);
+                    });
+                }
             });
 
             // 3D Tilt Effect
@@ -494,8 +523,8 @@
                     const x = e.clientX - rect.left - rect.width / 2;
                     const y = e.clientY - rect.top - rect.height / 2;
                     
-                    const rotateX = (y / (rect.height / 2)) * -4;
-                    const rotateY = (x / (rect.width / 2)) * 4;
+                    const rotateX = (y / (rect.height / 2)) * -4; // Max 4 deg rotation
+                    const rotateY = (x / (rect.width / 2)) * 4;  // Max 4 deg rotation
                     
                     card.style.transform = `perspective(1500px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.03)`;
                 });
