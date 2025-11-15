@@ -143,13 +143,14 @@
             gap: 40px;
         }
         
-        /* --- Image Gallery (Sticky Column) --- */
+        /* --- [FIXED] Image Gallery (Sticky Column) --- */
         .spotlight-gallery {
             width: 100%;
             height: 100%;
             display: flex;
             align-items: flex-start; /* Aligns card to the top of the column */
             justify-content: center;
+            box-sizing: border-box; /* [FIX] Added this to fix mobile padding issue */
         }
         
         /* Sticky position */
@@ -374,7 +375,7 @@
                 gap: 20px;
             }
             .spotlight-header { padding: 0 4vw; }
-            .spotlight-gallery { padding: 0 4vw; }
+            .spotlight-gallery { padding: 0 4vw; } /* This padding now works due to box-sizing */
             .spotlight-gallery .image-container {
                 /* Image container sticks to the top */
                 position: -webkit-sticky;
@@ -710,7 +711,7 @@
                 </div>
                 
                 <div class="feature-item" data-feature-id="aloe-vera">
-                    <button class="feature-header" data-image="https-://einnalab.com/wp-content/uploads/2025/11/Aloe-Vera-scaled.png">
+                    <button class="feature-header" data-image="https://einnalab.com/wp-content/uploads/2025/11/Aloe-Vera-scaled.png">
                         <span class="value-icon"></span><span class="plus-icon">+</span>
                         <h3 class="feature-title">Aloe Vera Extract</h3>
                     </button>
@@ -740,7 +741,7 @@
                 </div>
                 
                 <div class="feature-item" data-feature-id="borage-oil">
-                    <button class="feature-header" data-image="https-://einnalab.com/wp-content/uploads/2025/11/borage-oil.png">
+                    <button class="feature-header" data-image="https://einnalab.com/wp-content/uploads/2025/11/borage-oil.png">
                         <span class="value-icon"></span><span class="plus-icon">+</span>
                         <h3 class="feature-title">Borage Oil</h3>
                     </button>
@@ -750,7 +751,7 @@
                 </div>
                 
                 <div class="feature-item" data-feature-id="lycopene">
-                    <button class="feature-header" data-image="https-://einnalab.com/wp-content/uploads/2025/11/lycopene.png">
+                    <button class="feature-header" data-image="https://einnalab.com/wp-content/uploads/2025/11/lycopene.png">
                         <span class="value-icon"></span><span class="plus-icon">+</span>
                         <h3 class="feature-title">Lycopene</h3>
                     </button>
@@ -760,7 +761,7 @@
                 </div>
                 
                 <div class="feature-item" data-feature-id="vitamin-e">
-                    <button class="feature-header" data-image="https://einnalab.com/wp-content/uploads/2025/11/Vitamin-E.png">
+                    <button class="feature-header" data-image="httpshttps://einnalab.com/wp-content/uploads/2025/11/Vitamin-E.png">
                         <span class="value-icon"></span><span class="plus-icon">+</span>
                         <h3 class="feature-title">Vitamin E</h3>
                     </button>
@@ -780,7 +781,7 @@
                 </div>
                 
                 <div class="feature-item" data-feature-id="flax-seed">
-                    <button class="feature-header" data-image="https-://einnalab.com/wp-content/uploads/2025/11/borage-oil.png">
+                    <button class="feature-header" data-image="https://einnalab.com/wp-content/uploads/2025/11/borage-oil.png">
                         <span class="value-icon"></span><span class="plus-icon">+</span>
                         <h3 class="feature-title">Flax Seed Oil</h3>
                     </button>
@@ -790,7 +791,7 @@
                 </div>
                 
                 <div class="feature-item" data-feature-id="olive-oil">
-                    <button class="feature-header" data-image="https-://einnalab.com/wp-content/uploads/2025/11/Avocado-Oil.png">
+                    <button class="feature-header" data-image="https://einnalab.com/wp-content/uploads/2025/11/Avocado-Oil.png">
                         <span class="value-icon"></span><span class="plus-icon">+</span>
                         <h3 class="feature-title">Olive Oil</h3>
                     </button>
@@ -862,28 +863,28 @@
                 </li>
                 <li>
                     <div>
-                        <img src="https-://einnalab.com/wp-content/uploads/2025/11/Avocado-Oil.png" alt="Avocado Oil" class="popup-ingredient-img">
+                        <img src="https://einnalab.com/wp-content/uploads/2025/11/Avocado-Oil.png" alt="Avocado Oil" class="popup-ingredient-img">
                         <span class="ingredient-name">Avocado Oil</span>
                     </div>
                     <span class="ingredient-price">$22 USD</span>
                 </li>
                 <li>
                     <div>
-                        <img src="https-://einnalab.com/wp-content/uploads/2025/11/borage-oil.png" alt="Borage Oil" class="popup-ingredient-img">
+                        <img src="https://einnalab.com/wp-content/uploads/2025/11/borage-oil.png" alt="Borage Oil" class="popup-ingredient-img">
                         <span class="ingredient-name">Borage Oil</span>
                     </div>
                     <span class="ingredient-price">$30 USD</span>
                 </li>
                 <li>
                     <div>
-                        <img src="https-://einnalab.com/wp-content/uploads/2025/11/lycopene.png" alt="Lycopene" class="popup-ingredient-img">
+                        <img src="https://einnalab.com/wp-content/uploads/2025/11/lycopene.png" alt="Lycopene" class="popup-ingredient-img">
                         <span class="ingredient-name">Lycopene</span>
                     </div>
                     <span class="ingredient-price">$35 USD</span>
                 </li>
                 <li>
                     <div>
-                        <img src="https-://einnalab.com/wp-content/uploads/2025/11/Vitamin-E.png" alt="Vitamin E" class="popup-ingredient-img">
+                        <img src="https://einnalab.com/wp-content/uploads/2025/11/Vitamin-E.png" alt="Vitamin E" class="popup-ingredient-img">
                         <span class="ingredient-name">Vitamin E</span>
                     </div>
                     <span class="ingredient-price">$18 USD</span>
@@ -904,7 +905,7 @@
                 </li>
                 <li>
                     <div>
-                        <img src="https-://einnalab.com/wp-content/uploads/2025/11/Avocado-Oil.png" alt="Olive Oil" class="popup-ingredient-img">
+                        <img src="https://einnalab.com/wp-content/uploads/2025/11/Avocado-Oil.png" alt="Olive Oil" class="popup-ingredient-img">
                         <span class="ingredient-name">Olive Oil</span>
                     </div>
                     <span class="ingredient-price">$20 USD</span>
@@ -1052,7 +1053,7 @@
                 });
             }
 
-            // --- [NEW] 4. MOBILE-ONLY HORIZONTAL SCROLL OBSERVER ---
+            // --- 4. MOBILE-ONLY HORIZONTAL SCROLL OBSERVER ---
             if (window.innerWidth < 768) {
                 const scrollContainer = document.getElementById('featuresList');
                 let currentMobileActive = null; // Track the current item to avoid refiring
